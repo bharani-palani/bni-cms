@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import AwsFactory from './AwsFactory';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
+import Ban from '../../../images/ban.svg';
+import Spinner from '../../../images/spinner-1.svg';
 
 const Video = props => {
   const { videoRoot, style, className, optionalAttr } = props;
@@ -37,7 +39,7 @@ function SignedUrl(props) {
       .then(link => {
         setUrl(link);
       })
-      .catch(() => setUrl(require('../../../images/ban.svg')));
+      .catch(() => setUrl(Ban));
   };
 
   useEffect(() => {
@@ -53,7 +55,7 @@ function SignedUrl(props) {
           <LazyLoadImage
             {...optionalAttr}
             className={className}
-            placeholderSrc={require('../../../images/spinner-1.svg')}
+            placeholderSrc={Spinner}
             src={url}
             alt={url}
             key={1}
