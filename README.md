@@ -9,6 +9,12 @@
 - npm version: 6.14.15
 - react-router-dom: 5.1.2
 
+## Installation
+- npm install --legacy-peer-deps
+
+## DEV run
+- npm start
+
 ## Build process:
 - run "npm run build" in your root folder
 - Dont forget to commit and push the entire files (including build folder) to repo
