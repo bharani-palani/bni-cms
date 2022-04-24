@@ -63,36 +63,5 @@ $route['resetPassword'] = 'home/resetPassword';
 $route['sendOtp'] = 'home/sendOtp';
 $route['getBackend'] = 'home/getBackend';
 
-// Account planner
-$route['account_planner/year_list'] =
-    'account_planner/account_planner/year_list';
-$route['account_planner/vendor_list'] =
-    'account_planner/account_planner/vendor_list';
-$route['account_planner/inc_exp_list'] =
-    'account_planner/account_planner/inc_exp_list';
-$route['account_planner/bank_list'] =
-    'account_planner/account_planner/bank_list';
-$route['account_planner/cc_year_list'] =
-    'account_planner/account_planner/cc_year_list';
-$route['account_planner/getIncExpChartData'] =
-    'account_planner/account_planner/getIncExpChartData';
-$route['account_planner/getCreditCardChartData'] =
-    'account_planner/account_planner/getCreditCardChartData';
-$route['account_planner/getIncExpTemplate'] =
-    'account_planner/account_planner/getIncExpTemplate';
-$route['account_planner/credit_card_list'] =
-    'account_planner/account_planner/credit_card_list';
-$route['account_planner/credit_card_details'] =
-    'account_planner/account_planner/credit_card_details';
-$route['account_planner/getPlanDetails'] =
-    'account_planner/account_planner/getPlanDetails';
-$route['account_planner/getTotalHoldings'] =
-    'account_planner/account_planner/getTotalHoldings';
-$route['account_planner/getAccountPlanner'] =
-    'account_planner/account_planner/getAccountPlanner';
-$route['account_planner/postAccountPlanner'] =
-    'account_planner/account_planner/postAccountPlanner';
-$route['account_planner/runQuery'] = 'account_planner/account_planner/runQuery';
-
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

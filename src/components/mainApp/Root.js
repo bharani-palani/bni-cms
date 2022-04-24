@@ -46,6 +46,7 @@ function Root(props) {
           '--app-theme-bg-color',
           refinedData.webThemeBackground
         );
+        document.title = refinedData.web;
       })
       .catch(error => setFetchStatus(false))
       .finally(error => false);
