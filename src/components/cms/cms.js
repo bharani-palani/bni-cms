@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import Settings from '../configuration/settings';
-import AccountPlanner from '../accountPlanner/AccountPlanner';
 import LayoutDesign from './layoutDesign';
 import * as ReactBootstrap from 'react-bootstrap';
 import * as BuiltInComponents from './BuiltInComponents';
@@ -15,7 +14,6 @@ function Cms(props) {
 
   const componentMap = {
     'app-settings': Settings,
-    'app-moneyPlanner': AccountPlanner,
     'app-layoutDesign': LayoutDesign,
     'app-bootstrap': ReactBootstrap,
     ...Object.keys(BootstrapComponents).reduce(
