@@ -11,7 +11,7 @@ import CryptoJS from 'crypto-js';
 
 function Config(props) {
   const userContext = useContext(UserContext);
-  const [appData] = useContext(AppContext);
+  const [appData, setMaster] = useContext(AppContext);
   const [formStructure, setFormStructure] = useState(masterConfig);
   const [loader, setLoader] = useState(true);
   const encryptKeys = [
@@ -48,7 +48,6 @@ function Config(props) {
           }
           return backup;
         });
-        console.log('bbb', backupStructure);
         setFormStructure(backupStructure);
       })
       .catch(error => {
@@ -57,7 +56,7 @@ function Config(props) {
       .finally(() => {
         setLoader(false);
       });
-  }, []);
+  }, [JSON.stringify(appData)]);
 
   const onMassagePayload = (index, value) => {
     let backupStructure = [...formStructure];
@@ -84,6 +83,7 @@ function Config(props) {
     };
     const formdata = new FormData();
     formdata.append('postData', JSON.stringify(newPayload));
+
     apiInstance
       .post('/postBackend', formdata)
       .then(res => {
@@ -100,9 +100,9 @@ function Config(props) {
           userContext.renderToast({
             message: 'Configurations saved successfully',
           });
-          setTimeout(() => {
-            document.location.href = '/';
-          }, 5000);
+          let massageStructure = backupStructure.map(b => [b.id, b.value]);
+          massageStructure = Object.fromEntries(massageStructure);
+          setMaster(massageStructure);
         }
       })
       .catch(e =>
