@@ -7,6 +7,7 @@ import ConfirmationModal from '../configuration/Gallery/ConfirmationModal';
 import AdminLogin from './adminLogin';
 import SignedUrl from '../configuration/Gallery/SignedUrl';
 import CryptoJS from 'crypto-js';
+import { encryptSaltKey } from '../configuration/crypt';
 
 const LoginUser = props => {
   const { onLogAction } = props;
@@ -132,7 +133,7 @@ const LoginUser = props => {
             <GoogleLogin
               clientId={CryptoJS.AES.decrypt(
                 appData.google_login_auth_token,
-                appData.web
+                appData[encryptSaltKey]
               ).toString(CryptoJS.enc.Utf8)}
               buttonText=""
               render={renderProps => (

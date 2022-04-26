@@ -256,22 +256,27 @@ function InfoPanel(props) {
                             </Col>
                           </Col>
                           <Col md={6} className="mb-1 text-end">
-                            {layoutContext.state.pageDetails.pageStatus && (
-                              <div>
-                                <small className={`me-2`}>Status</small>
-                                <span className={`badge pill ${getPubClass()}`}>
-                                  {
-                                    layoutContext.state.statusList.filter(f => {
-                                      return (
-                                        f.pub_id ===
-                                        layoutContext.state.pageDetails
-                                          .pageStatus
-                                      );
-                                    })[0].pub_name
-                                  }
-                                </span>
-                              </div>
-                            )}
+                            {layoutContext.state.pageDetails.pageStatus &&
+                              layoutContext.state.statusList && (
+                                <div>
+                                  <small className={`me-2`}>Status</small>
+                                  <span
+                                    className={`badge pill ${getPubClass()}`}
+                                  >
+                                    {
+                                      layoutContext.state.statusList.filter(
+                                        f => {
+                                          return (
+                                            f.pub_id ===
+                                            layoutContext.state.pageDetails
+                                              .pageStatus
+                                          );
+                                        }
+                                      )[0].pub_name
+                                    }
+                                  </span>
+                                </div>
+                              )}
                             {layoutContext.state.selectedNodeId && (
                               <div>
                                 <small>Node Id:</small>{' '}

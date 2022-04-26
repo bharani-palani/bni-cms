@@ -230,9 +230,9 @@ function PageTree(props) {
                 key={layoutDetails.state.pageDetails.pageObject.key}
                 style={{
                   width: '800px',
-                  'white-space': 'nowrap',
+                  whiteSpace: 'nowrap',
                   overflow: 'hidden',
-                  'text-overflow': 'ellipsis',
+                  textOverflow: 'ellipsis',
                 }}
                 showIcon={false}
                 draggable={true}

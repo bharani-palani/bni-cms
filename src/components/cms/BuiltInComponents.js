@@ -12,6 +12,7 @@ import {
 } from 'react-google-maps';
 import { Link } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
+import { encryptSaltKey } from '../configuration/crypt';
 
 const Div = ({ children, ...rest }) => {
   return <div {...rest}>{children}</div>;
@@ -344,7 +345,7 @@ const GoogleMaps = ({ children, ...rest }) => {
   const [appData] = useContext(AppContext);
   const mapKey = CryptoJS.AES.decrypt(
     appData.google_map_api_key,
-    appData.web
+    appData[encryptSaltKey]
   ).toString(CryptoJS.enc.Utf8);
   return (
     <GoogleMapMain

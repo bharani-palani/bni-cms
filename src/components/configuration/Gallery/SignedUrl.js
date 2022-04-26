@@ -29,24 +29,31 @@ function SignedUrl(props) {
   } = props;
   const [url, setUrl] = useState('');
 
-  const getSignedUrl = a => {
-    const pieces = unsignedUrl ? unsignedUrl.split('/') : ['/'];
-    const bucket = pieces[0];
-    const path = pieces.slice(1, pieces.length).join('/');
-
-    new AwsFactory(a)
-      .getSignedUrl(path, expiry, bucket)
-      .then(link => {
-        setUrl(link);
-      })
-      .catch(() => setUrl(Ban));
-  };
-
   useEffect(() => {
     if (Object.keys(appData).length > 0) {
+      setUrl('');
+      const getSignedUrl = a => {
+        const pieces = unsignedUrl ? unsignedUrl.split('/') : ['/'];
+        const bucket = pieces[0];
+        const path = pieces.slice(1, pieces.length).join('/');
+
+        new AwsFactory(a).getSignedUrl(path, expiry, bucket).then(link => {
+          if (type === 'image') {
+            const myImage = new Image();
+            myImage.src = link;
+            myImage.onerror = e => {
+              setUrl(Ban);
+            };
+            myImage.onload = e => {
+              setUrl(link);
+            };
+          }
+          setUrl(link);
+        });
+      };
       getSignedUrl(appData);
     }
-  }, [appData]);
+  }, [appData, expiry, type, unsignedUrl]);
 
   const renderTag = () => {
     switch (type) {
