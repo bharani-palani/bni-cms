@@ -230,9 +230,8 @@ function InfoPanel(props) {
                               </OverlayTrigger>
                               <em className="badge bg-secondary">
                                 {moment(
-                                  new Date(
-                                    layoutDetails.state.pageDetails.pageCreatedAt
-                                  )
+                                  layoutDetails.state.pageDetails.pageCreatedAt,
+                                  'YYYY/MM/DD hh:mm: A'
                                 ).format('MMM Do YYYY, h:mm a')}
                               </em>
                             </Col>
@@ -248,9 +247,8 @@ function InfoPanel(props) {
                               </OverlayTrigger>
                               <em className="badge bg-secondary">
                                 {moment(
-                                  new Date(
-                                    layoutDetails.state.pageDetails.pageUpdatedAt
-                                  )
+                                  layoutDetails.state.pageDetails.pageUpdatedAt,
+                                  'YYYY/MM/DD hh:mm: A'
                                 ).format('MMM Do YYYY, h:mm a')}
                               </em>
                             </Col>

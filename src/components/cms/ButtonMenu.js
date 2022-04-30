@@ -185,33 +185,71 @@ function ButtonMenu(props) {
   };
 
   const approveDeletePage = () => {
-    const deletObj = layoutContext.state.statusList.filter(
-      f => f.pub_value === 'deleted'
-    )[0];
-    updateApiAction(deletObj);
-    setDeleteOpenModal(false);
+    deleteApiAction();
+  };
+
+  const deleteApiAction = () => {
+    const payLoad = {
+      pageId: layoutContext.state.pageDetails.pageId,
+    };
+    const formdata = new FormData();
+    formdata.append('deleteData', JSON.stringify(payLoad));
+
+    apiInstance
+      .post('/deletePage', formdata)
+      .then(res => {
+        if (res.data.response) {
+          getPages();
+          userContext.renderToast({
+            message: `Page successfully Deleted`,
+          });
+        }
+      })
+      .catch(e => {
+        userContext.renderToast({
+          type: 'error',
+          icon: 'fa fa-times-circle',
+          message: 'Oops.. Something went wrong. Please try again.',
+        });
+      })
+      .finally(() => setDeleteOpenModal(false));
   };
 
   const updateApiAction = type => {
+    // 'published', 'inactive', 'deleted', 'saved'
     const payLoad = {
       pageId: layoutContext.state.pageDetails.pageId,
-      pageObject: layoutContext.state.pageDetails.pageObject,
-      hasAccessTo: layoutContext.state.pageDetails.hasAccessTo,
-      pageLabel: layoutContext.state.pageDetails.pageLabel,
-      pageRoute: layoutContext.state.pageDetails.pageRoute,
-      pageUpdatedAt: moment(new Date(), 'YYYY/MMM/DD').format(
-        'YYYY-MM-DD:HH:mm:ss'
-      ),
-      pageModifiedBy: userContext.userData.userId,
+      ...(type.pub_value === 'saved' && {
+        pageObject: layoutContext.state.pageDetails.pageObject,
+      }),
+      ...(type.pub_value === 'saved' && {
+        hasAccessTo: layoutContext.state.pageDetails.hasAccessTo,
+      }),
+      ...(type.pub_value === 'saved' && {
+        pageLabel: layoutContext.state.pageDetails.pageLabel,
+      }),
+      ...(type.pub_value === 'saved' && {
+        pageRoute: layoutContext.state.pageDetails.pageRoute,
+      }),
+      ...(type.pub_value === 'saved' && {
+        pageUpdatedAt: moment(new Date(), 'YYYY/MMM/DD').format(
+          'YYYY-MM-DD:HH:mm:ss'
+        ),
+      }),
+      ...(type.pub_value === 'saved' && {
+        pageModifiedBy: userContext.userData.userId,
+      }),
       pageStatus: type.pub_id,
-      pageIsFreezed: 0,
+      ...(type.pub_value === 'saved' && { pageIsFreezed: 0 }),
     };
+
     const formdata = new FormData();
     formdata.append('postData', JSON.stringify(payLoad));
     layoutContext.setState(prevState => ({
       ...prevState,
       loading: true,
     }));
+
     apiInstance
       .post('/updatePage', formdata)
       .then(res => {

@@ -27,23 +27,25 @@ function Cms(props) {
   };
 
   const recursiveComponent = str => {
-    const element = componentMap[str.component];
-    if (typeof element !== 'undefined') {
-      return (
-        <React.Fragment key={str.key}>
-          {React.createElement(
-            element,
-            str.props && Object.keys(str.props).length > 0 ? str.props : {},
-            str.children.length > 0
-              ? str.children.map((c, i) => (
-                  <React.Fragment key={c.key}>
-                    {recursiveComponent(c)}
-                  </React.Fragment>
-                ))
-              : str.title
-          )}
-        </React.Fragment>
-      );
+    if (str && str.component) {
+      const element = componentMap[str.component];
+      if (typeof element !== 'undefined') {
+        return (
+          <React.Fragment key={str.key}>
+            {React.createElement(
+              element,
+              str.props && Object.keys(str.props).length > 0 ? str.props : {},
+              str.children.length > 0
+                ? str.children.map((c, i) => (
+                    <React.Fragment key={c.key}>
+                      {recursiveComponent(c)}
+                    </React.Fragment>
+                  ))
+                : str.title
+            )}
+          </React.Fragment>
+        );
+      }
     }
   };
 
