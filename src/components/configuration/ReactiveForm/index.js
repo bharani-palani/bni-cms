@@ -537,7 +537,7 @@ function ReactiveForm(props) {
             <button
               // disabled={errorIndexes.length > 0}
               onClick={() => handleSubmit()}
-              className="btn btn-bni pull-right"
+              className="btn btn-az pull-right"
             >
               {submitBtnLabel}
             </button>

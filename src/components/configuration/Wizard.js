@@ -57,7 +57,7 @@ function Wizard(props) {
                 <li
                   // style={{ width: `${100 / menu.length}%` }}
                   className={`btn rounded-circle ${
-                    d.id === id ? 'btn-bni' : 'btn-secondary'
+                    d.id === id ? 'btn-az' : 'btn-secondary'
                   }`}
                   onClick={() => setId(d.id)}
                 >
@@ -75,7 +75,7 @@ function Wizard(props) {
               <button
                 disabled={id === 0}
                 onClick={() => onPrev()}
-                className="btn btn-bni pull-left"
+                className="btn btn-az pull-left"
               >
                 <i className="fa fa-angle-double-left" />
               </button>
@@ -84,7 +84,7 @@ function Wizard(props) {
               <button
                 disabled={id === menu.length - 1}
                 onClick={() => onNext()}
-                className="btn btn-bni pull-right"
+                className="btn btn-az pull-right"
               >
                 <i className="fa fa-angle-double-right" />
               </button>

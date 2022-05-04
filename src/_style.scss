@@ -1,17 +1,16 @@
-// bni temp start
-.icon-bni {
-  color: var(--app-theme-bg-color) !important;
+.icon-az {
+  color: var(--az-theme-bg-color) !important;
 }
-.btn-bni {
-  background: var(--app-theme-bg-color);
-  color: var(--app-theme-color);
+.btn-az {
+  background: var(--az-theme-bg-color);
+  color: var(--az-theme-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   &:active,
   &:focus,
   &:hover {
-    background: var(--app-theme-bg-color);
+    background: var(--az-theme-bg-color);
     opacity: 0.9;
   }
   &:active {
@@ -19,7 +18,7 @@
   }
   &.dark {
     background: $black-color;
-    color: var(--app-theme-bg-color);
+    color: var(--az-theme-bg-color);
   }
   &.sm {
     padding: 8px;
@@ -30,7 +29,6 @@
     font-size: 14px;
   }
 }
-//bni temp end
 
 .hr {
   margin-bottom: 0;
@@ -307,11 +305,11 @@ a:focus {
   right: 0;
   width: 100%;
   text-align: center;
-  background: var(--app-theme-color);
+  background: var(--az-theme-color);
   opacity: 0.8;
   padding: 10px 0;
   .skillset {
-    color: var(--app-theme-bg-color);
+    color: var(--az-theme-bg-color);
   }
   @media (max-width: 767px) {
     position: fixed;
@@ -475,7 +473,7 @@ a:focus {
         .rc-tree-node-selected {
           box-shadow: none;
           background-color: transparent;
-          border-left: solid 3px var(--app-theme-bg-color);
+          border-left: solid 3px var(--az-theme-bg-color);
           padding-left: 5px;
         }
       }
@@ -528,11 +526,11 @@ a:focus {
         }
       }
       .progress {
-        background-color: var(--app-theme-color);
+        background-color: var(--az-theme-color);
         height: 2px;
         .progress-bar {
-          background-color: var(--app-theme-bg-color) !important;
-          border-color: var(--app-theme-bg-color) !important;
+          background-color: var(--az-theme-bg-color) !important;
+          border-color: var(--az-theme-bg-color) !important;
           height: 2px;
         }
       }
@@ -622,7 +620,7 @@ a:focus {
             margin: auto;
             min-height: 150px;
             .noPreview {
-              color: var(--app-theme-bg-color);
+              color: var(--az-theme-bg-color);
               font-size: 50px;
             }
             .audioThumb {
@@ -834,8 +832,8 @@ a:focus {
     }
   }
   .roundedIcon {
-    border: solid 1px var(--app-theme-bg-color);
-    color: var(--app-theme-color);
+    border: solid 1px var(--az-theme-bg-color);
+    color: var(--az-theme-color);
     border-radius: 100%;
     padding: 0.5rem;
     cursor: pointer;
@@ -883,8 +881,8 @@ a:focus {
     }
     .btn {
       &:active:focus {
-        color: var(--app-theme-color) !important;
-        background-color: var(--app-theme-bg-color) !important;
+        color: var(--az-theme-color) !important;
+        background-color: var(--az-theme-bg-color) !important;
       }
       i.fa {
         transition-property: transform;
@@ -905,7 +903,7 @@ a:focus {
   padding: 2rem;
   &:hover,
   &.active {
-    color: var(--app-theme-bg-color);
+    color: var(--az-theme-bg-color);
   }
   cursor: pointer;
   .fa {
@@ -923,8 +921,8 @@ a:focus {
     }
     tr {
       &:last-child {
-        border-top: 1px var(--app-theme-color) solid;
-        border-bottom: 4px var(--app-theme-color) double;
+        border-top: 1px var(--az-theme-color) solid;
+        border-bottom: 4px var(--az-theme-color) double;
       }
     }
   }
@@ -950,10 +948,10 @@ a:focus {
       }
       button {
         border: 0;
-        color: var(--app-theme-color);
+        color: var(--az-theme-color);
         font-size: 20px;
         outline: 0;
-        background: var(--app-theme-bg-color);
+        background: var(--az-theme-bg-color);
         padding: 0;
         border-radius: 100%;
         width: 40px;
@@ -991,7 +989,7 @@ a:focus {
     font-size: 20px;
     cursor: pointer;
     &.debit {
-      color: var(--app-theme-bg-color);
+      color: var(--az-theme-bg-color);
     }
     &.credit {
       color: $red-color;
@@ -1008,7 +1006,7 @@ a:focus {
       background: $red-color;
     }
     &.success {
-      background: var(--app-theme-bg-color);
+      background: var(--az-theme-bg-color);
     }
   }
 }
@@ -1043,8 +1041,8 @@ a:focus {
 .creditCardModal {
   .separatorWrapper {
     .input-group-addon {
-      background: var(--app-theme-bg-color);
-      border: solid 1px var(--app-theme-bg-color);
+      background: var(--az-theme-bg-color);
+      border: solid 1px var(--az-theme-bg-color);
       padding: 0.25rem 0.75rem;
     }
   }
@@ -1107,10 +1105,10 @@ a:focus {
     position: absolute;
     right: 9px;
     top: 10px;
-    color: var(--app-theme-color);
+    color: var(--az-theme-color);
     cursor: pointer;
     &.good {
-      color: var(--app-theme-bg-color);
+      color: var(--az-theme-bg-color);
     }
     &.bad {
       color: $red-color;
@@ -1121,7 +1119,7 @@ a:focus {
   border: 0;
   .modal-header {
     display: flex;
-    background: var(--app-theme-bg-color);
+    background: var(--az-theme-bg-color);
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
     border-bottom: none;
@@ -1130,7 +1128,7 @@ a:focus {
     }
     .close {
       border: 0;
-      color: var(--app-theme-color);
+      color: var(--az-theme-color);
       width: 28px;
       height: 28px;
       border-radius: 100%;
@@ -1172,8 +1170,8 @@ a:focus {
 .roundedButton {
   font-size: 1rem;
   cursor: pointer;
-  border: solid 1px var(--app-theme-bg-color);
-  color: var(--app-theme-bg-color);
+  border: solid 1px var(--az-theme-bg-color);
+  color: var(--az-theme-bg-color);
   padding: 10px;
   border-radius: 100%;
   margin-right: 5px;
@@ -1186,24 +1184,24 @@ a:focus {
 ::-webkit-scrollbar {
   height: 2px;
   width: 3px;
-  background: var(--app-theme-color);
+  background: var(--az-theme-color);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--app-theme-bg-color);
+  background: var(--az-theme-bg-color);
   -webkit-border-radius: 1ex;
 }
 
 ::-webkit-scrollbar-corner {
   background: $black-color;
 }
-.bniToaster {
+.azToaster {
   z-index: 10000;
   .Toastify__toast {
     font-size: 0.8rem;
     &.Toastify__toast--success {
-      background: var(--app-theme-bg-color);
-      color: var(--app-theme-color);
+      background: var(--az-theme-bg-color);
+      color: var(--az-theme-color);
     }
     color: #fff;
     i {

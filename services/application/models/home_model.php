@@ -11,13 +11,13 @@ class home_model extends CI_Model
     }
     public function get_config()
     {
-        $query = $this->db->get('config');
+        $query = $this->db->get('az_config');
         return get_all_rows($query);
     }
     public function fetchAccessLevels()
     {
         $this->db->where('access_value !=', 'public');
-        $query = $this->db->get('access_levels');
+        $query = $this->db->get('az_access_levels');
         return get_all_rows($query);
     }
     public function fetchUsers()
@@ -37,8 +37,8 @@ class home_model extends CI_Model
                 ],
                 false
             )
-            ->from('users as a')
-            ->join('access_levels as b', 'a.user_type = b.access_id')
+            ->from('az_users as a')
+            ->join('az_access_levels as b', 'a.user_type = b.access_id')
             ->group_by(['a.user_id']);
         $query = $this->db->get();
         return get_all_rows($query);
@@ -60,8 +60,8 @@ class home_model extends CI_Model
                 ],
                 false
             )
-            ->from('users as a')
-            ->join('access_levels as b', 'a.user_type = b.access_id')
+            ->from('az_users as a')
+            ->join('az_access_levels as b', 'a.user_type = b.access_id')
             ->where('a.user_name', $post['username'])
             ->where('a.user_password', md5($post['password']))
             ->group_by(['a.user_id']);
@@ -78,7 +78,7 @@ class home_model extends CI_Model
             ];
 
             $this->db->where('user_id', $user_id);
-            $this->db->update('users', $data);
+            $this->db->update('az_users', $data);
 
             return [
                 'user_id' => $row->user_id,
@@ -99,7 +99,7 @@ class home_model extends CI_Model
     {
         $this->db->where('user_name =', $post['username']);
         $this->db->or_where('user_email =', $post['email']);
-        $query = $this->db->get('users');
+        $query = $this->db->get('az_users');
         if ($query->num_rows > 0) {
             return true;
         } else {
@@ -108,13 +108,13 @@ class home_model extends CI_Model
     }
     public function changePassword($post)
     {
-        $query = $this->db->get_where('users', [
+        $query = $this->db->get_where('az_users', [
             'user_name' => $post['userName'],
             'user_password' => md5($post['currentPass']),
         ]);
         if ($query->num_rows > 0) {
             $this->db->where('user_name', $post['userName']);
-            $this->db->update('users', [
+            $this->db->update('az_users', [
                 'user_password' => md5($post['newPass']),
             ]);
             if ($this->db->affected_rows() > 0) {
@@ -128,7 +128,7 @@ class home_model extends CI_Model
     }
     public function checkValidEmail($post)
     {
-        $query = $this->db->get_where('users', [
+        $query = $this->db->get_where('az_users', [
             'user_email' => $post['email'],
         ]);
         if ($query->num_rows > 0) {
@@ -145,7 +145,7 @@ class home_model extends CI_Model
             'user_otp' => $post['otp'],
             'user_otp_expiry >' => time(),
         ]);
-        $query = $this->db->get('users');
+        $query = $this->db->get('az_users');
         if ($query->num_rows > 0) {
             return true;
         } else {
@@ -155,7 +155,7 @@ class home_model extends CI_Model
     public function resetUpdate($userId, $resetPassword)
     {
         $this->db->where('user_id', $userId);
-        $this->db->update('users', ['user_password' => md5($resetPassword)]);
+        $this->db->update('az_users', ['user_password' => md5($resetPassword)]);
         if ($this->db->affected_rows() > 0) {
             return true;
         } else {
@@ -165,7 +165,7 @@ class home_model extends CI_Model
     public function otpUpdate($userId, $otp)
     {
         $this->db->where('user_id', $userId);
-        $this->db->update('users', [
+        $this->db->update('az_users', [
             'user_otp' => $otp,
             'user_otp_expiry' => strtotime('+5 minutes', time()),
         ]);
@@ -181,10 +181,10 @@ class home_model extends CI_Model
         $this->db->select($post['TableRows']);
         switch ($Table) {
             case 'config':
-                $query = $this->db->get('config');
+                $query = $this->db->get('az_config');
                 break;
             case 'users':
-                $query = $this->db->get_where('users', []);
+                $query = $this->db->get_where('az_users', []);
                 break;
             default:
                 return false;
@@ -197,10 +197,14 @@ class home_model extends CI_Model
         $Table = $postData->Table;
         switch ($Table) {
             case 'config':
-                return $this->onTransaction($postData, 'config', 'config_id');
+                return $this->onTransaction(
+                    $postData,
+                    'az_config',
+                    'config_id'
+                );
                 break;
             case 'users':
-                return $this->onTransaction($postData, 'users', 'user_id');
+                return $this->onTransaction($postData, 'az_users', 'user_id');
                 break;
             default:
                 return false;

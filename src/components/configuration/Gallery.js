@@ -38,7 +38,7 @@ function Gallery(props) {
         <Loader
           type={helpers.loadRandomSpinnerIcon()}
           color={document.documentElement.style.getPropertyValue(
-            '--app-theme-bg-color'
+            '--az-theme-bg-color'
           )}
           height={100}
           width={100}
@@ -363,7 +363,7 @@ function Gallery(props) {
       {bucketResponse ? (
         <div className="row ms-0 me-0">
           <div className="col-lg-3 col-md-4 leftPane">
-            <div className="bucketName btn-bni m-2">{getBucketName()}</div>
+            <div className="bucketName btn-az m-2">{getBucketName()}</div>
             <div className="listContainer">
               {fileFolders.length > 0 && (
                 <Tree

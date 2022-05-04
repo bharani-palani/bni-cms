@@ -64,7 +64,7 @@ function UserContextProvider(props) {
         renderToast,
       }}
     >
-      <ToastContainer className="bniToaster" />
+      <ToastContainer className="azToaster" />
       {Object.keys(userData).length > 0 && props.children}
     </UserContext.Provider>
   );

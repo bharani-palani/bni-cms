@@ -24,11 +24,11 @@ function Root(props) {
         setFetchStatus(true);
         favIconSetter(data);
         document.documentElement.style.setProperty(
-          '--app-theme-color',
+          '--az-theme-color',
           data.webThemeColor
         );
         document.documentElement.style.setProperty(
-          '--app-theme-bg-color',
+          '--az-theme-bg-color',
           data.webThemeBackground
         );
       })

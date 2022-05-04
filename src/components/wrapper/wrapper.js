@@ -67,7 +67,7 @@ const Wrapper = props => {
           <Loader
             type={helpers.loadRandomSpinnerIcon()}
             color={document.documentElement.style.getPropertyValue(
-              '--app-theme-bg-color'
+              '--az-theme-bg-color'
             )}
             height={100}
             width={100}

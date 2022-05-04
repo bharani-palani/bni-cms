@@ -23,10 +23,13 @@ class cms_model extends CI_Model
                 ],
                 false
             )
-            ->from('pages as a')
-            ->join('pages_publication_status as b', 'a.page_status = b.pub_id')
-            ->join('page_access as c', 'c.page_id = a.page_id')
-            ->join('access_levels as d', 'd.access_id = c.access_id')
+            ->from('az_pages as a')
+            ->join(
+                'az_pages_publication_status as b',
+                'a.page_status = b.pub_id'
+            )
+            ->join('az_page_access as c', 'c.page_id = a.page_id')
+            ->join('az_access_levels as d', 'd.access_id = c.access_id')
             ->where('b.pub_value', 'published')
             ->group_by(['a.page_id']);
         $query = $this->db->get();
@@ -39,8 +42,11 @@ class cms_model extends CI_Model
                 ['a.page_id as pageId', 'a.page_label as pageLabel'],
                 false
             )
-            ->from('pages as a')
-            ->join('pages_publication_status as c', 'a.page_status = c.pub_id')
+            ->from('az_pages as a')
+            ->join(
+                'az_pages_publication_status as c',
+                'a.page_status = c.pub_id'
+            )
             ->where('a.page_is_freezed', '0')
             ->where_in('c.pub_value', ['published', 'saved', 'inactive'])
             ->order_by('a.page_created_at', 'asc');
@@ -64,11 +70,14 @@ class cms_model extends CI_Model
                 ],
                 false
             )
-            ->from('pages as a')
-            ->join('users as b', 'a.page_modified_by = b.user_id')
-            ->join('page_access as c', 'c.page_id = a.page_id')
-            ->join('access_levels as d', 'd.access_id = c.access_id')
-            ->join('pages_publication_status as e', 'a.page_status = e.pub_id')
+            ->from('az_pages as a')
+            ->join('az_users as b', 'a.page_modified_by = b.user_id')
+            ->join('az_page_access as c', 'c.page_id = a.page_id')
+            ->join('az_access_levels as d', 'd.access_id = c.access_id')
+            ->join(
+                'az_pages_publication_status as e',
+                'a.page_status = e.pub_id'
+            )
             // ->where('a.page_is_freezed', '0')
             ->where('a.page_id', $post['pageId'])
             ->where_in('e.pub_value', ['published', 'saved', 'inactive']);
@@ -77,7 +86,7 @@ class cms_model extends CI_Model
     }
     public function getPageStatuses()
     {
-        $query = $this->db->get('pages_publication_status');
+        $query = $this->db->get('az_pages_publication_status');
         return get_all_rows($query);
     }
     public function getAccessLevels()
@@ -87,13 +96,13 @@ class cms_model extends CI_Model
             'access_value as accessValue',
             'access_label as accessLabel',
         ]);
-        $query = $this->db->get('access_levels');
+        $query = $this->db->get('az_access_levels');
         return get_all_rows($query);
     }
     public function deleteAccessLevel($post)
     {
         if (
-            $this->db->delete('access_levels', [
+            $this->db->delete('az_access_levels', [
                 'access_id' => $post['accessId'],
             ])
         ) {
@@ -110,14 +119,14 @@ class cms_model extends CI_Model
             isset($post['accessLabel'])
         ) {
             if ($post['accessId'] === '') {
-                $this->db->insert('access_levels', [
+                $this->db->insert('az_access_levels', [
                     'access_id ' => '',
                     'access_value ' => $post['accessValue'],
                     'access_label ' => $post['accessLabel'],
                 ]);
             } else {
                 $this->db->where('access_id', $post['accessId']);
-                $this->db->update('access_levels', [
+                $this->db->update('az_access_levels', [
                     'access_value ' => $post['accessValue'],
                     'access_label ' => $post['accessLabel'],
                 ]);
@@ -136,7 +145,7 @@ class cms_model extends CI_Model
         $this->db->trans_start();
         // Note: This isset is very important for checking. Dont remove this. Else, api will throw CORS exception
         if (isset($post->pageLabel)) {
-            $this->db->insert('pages', [
+            $this->db->insert('az_pages', [
                 'page_id' => '',
                 'page_label' => $post->pageLabel,
                 'page_route' => $post->pageRoute,
@@ -157,7 +166,7 @@ class cms_model extends CI_Model
                     'page_id' => $pageId,
                 ];
             }
-            $this->db->insert_batch('page_access', $array);
+            $this->db->insert_batch('az_page_access', $array);
         }
         $this->db->trans_complete();
         return $this->db->trans_status() === false ? false : true;
@@ -192,12 +201,12 @@ class cms_model extends CI_Model
                     : false,
             ]);
             $this->db->where('page_id', $post->pageId);
-            $this->db->update('pages', $data);
+            $this->db->update('az_pages', $data);
 
             if (isset($post->pageObject)) {
                 // delete existing page access
                 $this->db->where('page_id', $post->pageId);
-                $this->db->delete('page_access');
+                $this->db->delete('az_page_access');
                 // insert list of new accessors
                 foreach ($post->hasAccessTo as $i => $value) {
                     $array[$i] = [
@@ -206,7 +215,7 @@ class cms_model extends CI_Model
                         'page_id' => $post->pageId,
                     ];
                 }
-                $this->db->insert_batch('page_access', $array);
+                $this->db->insert_batch('az_page_access', $array);
             }
 
             $this->db->trans_complete();
@@ -220,7 +229,7 @@ class cms_model extends CI_Model
         if (isset($post->pageId)) {
             $this->db->trans_start();
             $this->db->where('page_id', $post->pageId);
-            $this->db->delete(['page_access', 'pages']);
+            $this->db->delete(['az_page_access', 'az_pages']);
             $this->db->trans_complete();
             return $this->db->trans_status() === false ? false : true;
         }

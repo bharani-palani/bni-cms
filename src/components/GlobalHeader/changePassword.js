@@ -222,7 +222,7 @@ function ChangePassword(props) {
                   <button
                     disabled={submitState}
                     onClick={() => changeAction()}
-                    className="btn btn-bni"
+                    className="btn btn-az"
                   >
                     Submit
                   </button>
@@ -243,7 +243,7 @@ function ChangePassword(props) {
           <Loader
             type={helpers.loadRandomSpinnerIcon()}
             color={document.documentElement.style.getPropertyValue(
-              '--app-theme-bg-color'
+              '--az-theme-bg-color'
             )}
             height={100}
             width={100}
