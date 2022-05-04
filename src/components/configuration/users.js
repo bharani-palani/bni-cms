@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState, useContext, useEffect } from 'react';
 import { userCreateForm } from '../configuration/backendTableConfig';
 import ReactiveForm from './ReactiveForm';

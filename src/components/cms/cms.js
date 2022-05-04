@@ -1,16 +1,27 @@
-// eslint-disable-next-line no-unused-vars
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import AppContext from '../../contexts/AppContext';
+import { UserContext } from '../../contexts/UserContext';
+import apiInstance from '../../services/apiServices';
 import { withRouter } from 'react-router-dom';
 import Settings from '../configuration/settings';
 import LayoutDesign from './layoutDesign';
 import * as ReactBootstrap from 'react-bootstrap';
 import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
+import * as FunctionalComponents from './FunctionalComponents';
+
 export const CmsContext = React.createContext();
 
 function Cms(props) {
   const { structure } = props;
-  const [state, setState] = useState({});
+  const [appData] = useContext(AppContext);
+  const userContext = useContext(UserContext);
+
+  const [state, setState] = useState({
+    configData: appData,
+    userData: userContext.userData,
+    api: apiInstance,
+  });
 
   const componentMap = {
     'app-settings': Settings,
@@ -24,7 +35,12 @@ function Cms(props) {
       (obj, item) => ({ ...obj, [item]: BuiltInComponents[item] }),
       {}
     ),
+    ...Object.keys(FunctionalComponents).reduce(
+      (obj, item) => ({ ...obj, [item]: FunctionalComponents[item] }),
+      {}
+    ),
   };
+  console.log('bbb', componentMap);
 
   const recursiveComponent = str => {
     if (str && str.component) {
@@ -35,7 +51,7 @@ function Cms(props) {
             {React.createElement(
               element,
               str.props && Object.keys(str.props).length > 0 ? str.props : {},
-              str.children.length > 0
+              str.children && str.children.length > 0
                 ? str.children.map((c, i) => (
                     <React.Fragment key={c.key}>
                       {recursiveComponent(c)}

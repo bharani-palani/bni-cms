@@ -244,7 +244,9 @@ function BootstrapList(props) {
 
   const findAndAddComponent = (key, node, insertObj) => {
     if (node.key === key) {
-      node.children.push(insertObj);
+      node.children &&
+        Array.isArray(node.children) &&
+        node.children.push(insertObj);
     }
     node.children.forEach(ch => {
       findAndAddComponent(key, ch, insertObj);

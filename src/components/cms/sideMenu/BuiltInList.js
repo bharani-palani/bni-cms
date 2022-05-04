@@ -161,9 +161,11 @@ function BuiltInList(props) {
     if (node.key === key) {
       node.children.push(insertObj);
     }
-    node.children.forEach(ch => {
-      findAndAddComponent(key, ch, insertObj);
-    });
+    node.children &&
+      Array.isArray(node.children) &&
+      node.children.forEach(ch => {
+        findAndAddComponent(key, ch, insertObj);
+      });
     return node;
   };
 

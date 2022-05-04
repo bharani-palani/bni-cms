@@ -156,7 +156,7 @@ function PageTree(props) {
     if (node.key === key) {
       node.children.push(insertObj);
     }
-    if (node.children) {
+    if (node.children && Array.isArray(node.children)) {
       node.children.forEach(ch => {
         findAndAddComponent(key, ch, insertObj);
       });
@@ -169,7 +169,8 @@ function PageTree(props) {
     if (obj.key === selectedKey) {
       r = obj;
     }
-    obj.children.length > 0 &&
+    obj.children &&
+      obj.children.length > 0 &&
       obj.children.forEach(item => {
         findAndAddGetObject(item, selectedKey);
       });

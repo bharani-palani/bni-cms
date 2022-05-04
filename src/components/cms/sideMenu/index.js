@@ -6,6 +6,7 @@ import BootstrapList from './BootstrapList';
 import PropsList from './PropsList';
 import StyleList from './StyleList';
 import Title from './Title';
+import Functional from './Functional';
 import { LayoutContext } from '../layoutDesign';
 
 function SideMenu(props) {
@@ -24,7 +25,7 @@ function SideMenu(props) {
     { id: 1, label: 'Props', body: <PropsList /> },
     { id: 2, label: 'Styles', body: <StyleList /> },
     { id: 3, label: 'Title', body: <Title /> },
-    { id: 4, label: 'Functions', body: 'Functions body' },
+    { id: 4, label: 'Functions', body: <Functional /> },
     {
       id: 5,
       label: 'Database',
@@ -36,8 +37,11 @@ function SideMenu(props) {
     },
     {
       id: 6,
-      label: 'Install Plugins',
-      body: 'Install Plugins',
+      label: 'Install',
+      children: [
+        { id: 6.1, label: 'Plugins', body: 'Plugins' },
+        { id: 6.2, label: 'Themes', body: 'Themes' },
+      ],
     },
   ]);
 
@@ -126,7 +130,7 @@ function SideMenu(props) {
                 }),
               }}
             >
-              <Accordion defaultActiveKey={3} alwaysOpen>
+              <Accordion defaultActiveKey={4} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}
