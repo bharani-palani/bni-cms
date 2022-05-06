@@ -8,7 +8,6 @@ import LayoutDesign from './layoutDesign';
 import * as ReactBootstrap from 'react-bootstrap';
 import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
-import * as FunctionalComponents from './FunctionalComponents';
 
 export const CmsContext = React.createContext();
 
@@ -35,12 +34,7 @@ function Cms(props) {
       (obj, item) => ({ ...obj, [item]: BuiltInComponents[item] }),
       {}
     ),
-    ...Object.keys(FunctionalComponents).reduce(
-      (obj, item) => ({ ...obj, [item]: FunctionalComponents[item] }),
-      {}
-    ),
   };
-  console.log('bbb', componentMap);
 
   const recursiveComponent = str => {
     if (str && str.component) {

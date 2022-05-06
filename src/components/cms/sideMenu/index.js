@@ -6,7 +6,7 @@ import BootstrapList from './BootstrapList';
 import PropsList from './PropsList';
 import StyleList from './StyleList';
 import Title from './Title';
-import Functional from './Functional';
+import AjaxForm from './AjaxForm';
 import { LayoutContext } from '../layoutDesign';
 
 function SideMenu(props) {
@@ -25,7 +25,7 @@ function SideMenu(props) {
     { id: 1, label: 'Props', body: <PropsList /> },
     { id: 2, label: 'Styles', body: <StyleList /> },
     { id: 3, label: 'Title', body: <Title /> },
-    { id: 4, label: 'Functions', body: <Functional /> },
+    { id: 4, label: 'Ajax Form', body: <AjaxForm /> },
     {
       id: 5,
       label: 'Database',
