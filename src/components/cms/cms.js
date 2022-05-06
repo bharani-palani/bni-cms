@@ -8,7 +8,7 @@ import LayoutDesign from './layoutDesign';
 import * as ReactBootstrap from 'react-bootstrap';
 import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
-
+import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
 export const CmsContext = React.createContext();
 
 function Cms(props) {
@@ -26,6 +26,7 @@ function Cms(props) {
     'app-settings': Settings,
     'app-layoutDesign': LayoutDesign,
     'app-bootstrap': ReactBootstrap,
+    'app-ajaxform': AjaxForm,
     ...Object.keys(BootstrapComponents).reduce(
       (obj, item) => ({ ...obj, [item]: BootstrapComponents[item] }),
       {}

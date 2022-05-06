@@ -1,21 +1,21 @@
 {
   "files": {
-    "main.js": "./static/js/main.d49aa4b3.chunk.js",
-    "main.js.map": "./static/js/main.d49aa4b3.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.e5ed1db6.js",
-    "runtime-main.js.map": "./static/js/runtime-main.e5ed1db6.js.map",
+    "main.js": "./static/js/main.64c542e9.chunk.js",
+    "main.js.map": "./static/js/main.64c542e9.chunk.js.map",
+    "runtime-main.js": "./static/js/runtime-main.e9ac9257.js",
+    "runtime-main.js.map": "./static/js/runtime-main.e9ac9257.js.map",
     "static/css/2.43b6285d.chunk.css": "./static/css/2.43b6285d.chunk.css",
-    "static/js/2.b91761e6.chunk.js": "./static/js/2.b91761e6.chunk.js",
-    "static/js/2.b91761e6.chunk.js.map": "./static/js/2.b91761e6.chunk.js.map",
+    "static/js/2.a4ea4f33.chunk.js": "./static/js/2.a4ea4f33.chunk.js",
+    "static/js/2.a4ea4f33.chunk.js.map": "./static/js/2.a4ea4f33.chunk.js.map",
     "static/css/3.15ad740e.chunk.css": "./static/css/3.15ad740e.chunk.css",
-    "static/js/3.50efe22b.chunk.js": "./static/js/3.50efe22b.chunk.js",
-    "static/js/3.50efe22b.chunk.js.map": "./static/js/3.50efe22b.chunk.js.map",
+    "static/js/3.4faf17d9.chunk.js": "./static/js/3.4faf17d9.chunk.js",
+    "static/js/3.4faf17d9.chunk.js.map": "./static/js/3.4faf17d9.chunk.js.map",
     "static/js/4.8f74e155.chunk.js": "./static/js/4.8f74e155.chunk.js",
     "static/js/4.8f74e155.chunk.js.map": "./static/js/4.8f74e155.chunk.js.map",
     "index.html": "./index.html",
     "static/css/2.43b6285d.chunk.css.map": "./static/css/2.43b6285d.chunk.css.map",
     "static/css/3.15ad740e.chunk.css.map": "./static/css/3.15ad740e.chunk.css.map",
-    "static/js/2.b91761e6.chunk.js.LICENSE.txt": "./static/js/2.b91761e6.chunk.js.LICENSE.txt",
+    "static/js/2.a4ea4f33.chunk.js.LICENSE.txt": "./static/js/2.a4ea4f33.chunk.js.LICENSE.txt",
     "static/js/4.8f74e155.chunk.js.LICENSE.txt": "./static/js/4.8f74e155.chunk.js.LICENSE.txt",
     "static/media/animateLoaderGlobe.01d1d872.svg": "./static/media/animateLoaderGlobe.01d1d872.svg",
     "static/media/ban.1c05a6c5.svg": "./static/media/ban.1c05a6c5.svg",
@@ -23,8 +23,8 @@
     "static/media/spinner-1.svg": "./static/media/spinner-1.56ac9e58.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.e5ed1db6.js",
+    "static/js/runtime-main.e9ac9257.js",
     "static/js/4.8f74e155.chunk.js",
-    "static/js/main.d49aa4b3.chunk.js"
+    "static/js/main.64c542e9.chunk.js"
   ]
 }

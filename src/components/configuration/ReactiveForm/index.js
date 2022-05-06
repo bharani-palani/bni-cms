@@ -13,6 +13,7 @@ function ReactiveForm(props) {
     onChange,
     onSubmit,
     submitBtnLabel,
+    submitBtnClassName,
     ...rest
   } = props;
   const userContext = useContext(UserContext);
@@ -535,9 +536,8 @@ function ReactiveForm(props) {
         {showSubmit && (
           <div className="col-md-12 py-2">
             <button
-              // disabled={errorIndexes.length > 0}
               onClick={() => handleSubmit()}
-              className="btn btn-az pull-right"
+              className={submitBtnClassName}
             >
               {submitBtnLabel}
             </button>
@@ -562,6 +562,7 @@ ReactiveForm.defaultProps = {
     options: { rowLength: 3 },
   },
   submitBtnLabel: 'Submit',
+  submitBtnClassName: 'btn btn-sm btn-success',
   showSubmit: true,
   parentClassName: 'my-reactive-form',
 };

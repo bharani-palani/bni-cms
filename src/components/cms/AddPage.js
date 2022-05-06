@@ -162,6 +162,7 @@ function AddPage(props) {
             onChange={onMassagePayload}
             onSubmit={onReactiveFormSubmit}
             submitBtnLabel={'Save'}
+            submitBtnClassName="btn btn-az pull-right"
           />
         ) : (
           <div className="text-center">

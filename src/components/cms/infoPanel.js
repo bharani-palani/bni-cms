@@ -214,9 +214,9 @@ function InfoPanel(props) {
                               >
                                 <i className="fa fa-user pe-2" />
                               </OverlayTrigger>
-                              <em className="badge bg-secondary">
+                              <small className="">
                                 {layoutDetails.state.pageDetails.pageModifiedBy}
-                              </em>
+                              </small>
                             </Col>
                             <Col xs={12}>
                               <OverlayTrigger
@@ -228,12 +228,12 @@ function InfoPanel(props) {
                               >
                                 <i className="fa fa-calendar pe-2" />
                               </OverlayTrigger>
-                              <em className="badge bg-secondary">
+                              <small className="">
                                 {moment(
                                   layoutDetails.state.pageDetails.pageCreatedAt,
                                   'YYYY/MM/DD hh:mm: A'
                                 ).format('MMM Do YYYY, h:mm a')}
-                              </em>
+                              </small>
                             </Col>
                             <Col xs={12}>
                               <OverlayTrigger
@@ -245,12 +245,12 @@ function InfoPanel(props) {
                               >
                                 <i className="fa fa-clock-o pe-2" />
                               </OverlayTrigger>
-                              <em className="badge bg-secondary">
+                              <small className="">
                                 {moment(
                                   layoutDetails.state.pageDetails.pageUpdatedAt,
                                   'YYYY/MM/DD hh:mm: A'
                                 ).format('MMM Do YYYY, h:mm a')}
-                              </em>
+                              </small>
                             </Col>
                           </Col>
                           <Col md={6} className="mb-1 text-end">
@@ -278,17 +278,17 @@ function InfoPanel(props) {
                             {layoutContext.state.selectedNodeId && (
                               <div>
                                 <small>Node Id:</small>{' '}
-                                <span className="badge bg-secondary">
+                                <small className="">
                                   {layoutContext.state.selectedNodeId}
-                                </span>
+                                </small>
                               </div>
                             )}
                             {layoutContext.state.selectedComponent && (
                               <div>
                                 <small>Component:</small>{' '}
-                                <span className="badge bg-secondary">
+                                <small className="">
                                   {`<${layoutContext.state.selectedComponent}>`}
-                                </span>
+                                </small>
                               </div>
                             )}
                           </Col>

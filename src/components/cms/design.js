@@ -31,7 +31,7 @@ function Design(props) {
           }));
         },
       },
-      str.children.length > 0 ? (
+      str.children && str.children.length > 0 ? (
         str.children.map((c, i) => (
           <React.Fragment key={c.key}>{recursiveComponent(c)}</React.Fragment>
         ))
@@ -44,9 +44,9 @@ function Design(props) {
           {Object.keys(str.props).length > 0 &&
             layoutContext.state.selectedNodeId === str.key && (
               <div className="">
-                <small className="badge bg-danger">
+                <div className="small bg-danger p-1 rounded text-light">
                   {JSON.stringify(str.props)}
-                </small>
+                </div>
               </div>
             )}
         </div>
