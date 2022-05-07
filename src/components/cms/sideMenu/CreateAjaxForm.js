@@ -16,7 +16,12 @@ import { v4 as uuidv4 } from 'uuid';
 function CreateAjaxForm(props) {
   const userContext = useContext(UserContext);
   const layoutContext = useContext(LayoutContext);
-  const [apiUrl, setApiUrl] = useState('');
+  const [config, setConfig] = useState({
+    apiUrl: '',
+    parentClassName: '',
+    submitBtnLabel: '',
+    submitBtnClassName: '',
+  });
   const [compList, setCompList] = useState([
     {
       component: 'Text Box',
@@ -54,6 +59,25 @@ function CreateAjaxForm(props) {
         },
       },
     },
+    {
+      component: 'Drop down',
+      show: false,
+      props: {
+        id: '',
+        index: '',
+        label: 'Drop down',
+        elementType: 'dropDown',
+        value: '',
+        placeHolder: 'Select',
+        className: '',
+        list: [],
+        options: {
+          required: true,
+          validation: '/([^s])/',
+          errorMsg: '',
+        },
+      },
+    },
   ]);
   const [selectedComponents, setSelectedComponents] = useState([]);
 
@@ -78,12 +102,28 @@ function CreateAjaxForm(props) {
       const details = layoutContext.state.pageDetails.pageObject;
       const nodeId = layoutContext.state.selectedNodeId;
       const selectedProps = findAndGetComponentProps(nodeId, { ...details });
-      const { apiUrl, structure } = selectedProps;
-      setApiUrl(apiUrl);
-      setSelectedComponents(structure);
-    } else {
-      setApiUrl('');
+
+      setConfig({});
       setSelectedComponents([]);
+
+      setTimeout(() => {
+        setConfig(prevState => ({
+          ...prevState,
+          apiUrl: selectedProps.config.apiUrl,
+        }));
+        setSelectedComponents(selectedProps.structure);
+      }, 10);
+    } else {
+      setConfig({});
+      setTimeout(() => {
+        setConfig({
+          apiUrl: '',
+          parentClassName: '',
+          submitBtnLabel: '',
+          submitBtnClassName: '',
+        });
+        setSelectedComponents([]);
+      }, 10);
     }
   }, [layoutContext.state.pageDetails, layoutContext.state.selectedNodeId]);
 
@@ -145,7 +185,7 @@ function CreateAjaxForm(props) {
       const details = [{ ...layoutContext.state.pageDetails.pageObject }];
       const nodeId = layoutContext.state.selectedNodeId;
       const newObject = findAndUpdateProps(details, nodeId, {
-        apiUrl,
+        config,
         structure: selectedComponents,
       })[0];
 
@@ -177,7 +217,7 @@ function CreateAjaxForm(props) {
     const sample = {
       key: uuidv4(),
       props: {
-        apiUrl,
+        config,
         structure: selectedComponents,
       },
       children: [],
@@ -220,19 +260,25 @@ function CreateAjaxForm(props) {
       {layoutDetails =>
         layoutDetails.state.selectedNodeId ? (
           <div>
-            <InputGroup size="sm" className="mb-1">
-              <InputGroup.Text>
-                <Form.Label htmlFor="apiUrl" className="mb-0">
-                  AJAX URL
-                </Form.Label>
-              </InputGroup.Text>
-              <FormControl
-                id="apiUrl"
-                // {...(layoutDetails.state.selectedComponent !== 'app-ajaxform' && { defaultValue: apiUrl })}
-                defaultValue={apiUrl}
-                onChange={e => setApiUrl(e.target.value)}
-              />
-            </InputGroup>
+            {Object.keys(config).length > 0 && (
+              <InputGroup size="sm" className="mb-1">
+                <InputGroup.Text>
+                  <Form.Label htmlFor="apiUrl" className="mb-0">
+                    AJAX URL
+                  </Form.Label>
+                </InputGroup.Text>
+                <FormControl
+                  id="apiUrl"
+                  defaultValue={config.apiUrl}
+                  onChange={e =>
+                    setConfig(prevState => ({
+                      ...prevState,
+                      apiUrl: e.target.value,
+                    }))
+                  }
+                />
+              </InputGroup>
+            )}
             <div className="d-grid">
               <Dropdown>
                 <Dropdown.Toggle
@@ -249,7 +295,8 @@ function CreateAjaxForm(props) {
                     userContext.userData.theme === 'dark' ? 'dark' : 'light'
                   }
                 >
-                  {compList.length > 0 &&
+                  {compList &&
+                    compList.length > 0 &&
                     compList.map((comp, i) => (
                       <Dropdown.Item
                         onClick={() => {
@@ -263,7 +310,7 @@ function CreateAjaxForm(props) {
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            {selectedComponents.length > 0 && (
+            {selectedComponents && selectedComponents.length > 0 && (
               <div className="mt-2">
                 <ul className="list-group mb-2">
                   {selectedComponents.map((sel, i) => (
@@ -342,17 +389,32 @@ function CreateAjaxForm(props) {
                                                 {o[0]}
                                               </Form.Label>
                                             </InputGroup.Text>
-                                            <FormControl
-                                              id={`${o[0]}-${i}-${j}-${k}`}
-                                              defaultValue={o[1]}
-                                              onChange={e =>
-                                                changeOptions(
-                                                  i,
-                                                  o[0],
-                                                  e.target.value
-                                                )
-                                              }
-                                            />
+                                            {typeof o[1] === 'string' && (
+                                              <FormControl
+                                                id={`${o[0]}-${i}-${j}-${k}`}
+                                                defaultValue={o[1]}
+                                                onChange={e =>
+                                                  changeOptions(
+                                                    i,
+                                                    o[0],
+                                                    e.target.value
+                                                  )
+                                                }
+                                              />
+                                            )}
+                                            {typeof o[1] === 'boolean' && (
+                                              <InputGroup.Checkbox
+                                                size="sm"
+                                                defaultChecked={o[1]}
+                                                onChange={e =>
+                                                  changeOptions(
+                                                    i,
+                                                    o[0],
+                                                    e.target.checked
+                                                  )
+                                                }
+                                              />
+                                            )}
                                           </InputGroup>
                                         )}
                                       </div>
@@ -365,18 +427,13 @@ function CreateAjaxForm(props) {
                     </React.Fragment>
                   ))}
                 </ul>
-                <div className="d-grid mb-1">
-                  <Button
-                    size="sm"
-                    variant="primary"
-                    disabled={!apiUrl && selectedComponents.length}
-                    onClick={() => saveProps()}
-                  >
-                    <i className="fa fa-thumbs-o-up" />
-                  </Button>
-                </div>
               </div>
             )}
+            <div className="d-grid mb-1">
+              <Button size="sm" variant="primary" onClick={() => saveProps()}>
+                <i className="fa fa-thumbs-o-up" />
+              </Button>
+            </div>
           </div>
         ) : (
           <div className="text-muted small px-1">Please select a component</div>

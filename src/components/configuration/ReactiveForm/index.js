@@ -356,15 +356,17 @@ function ReactiveForm(props) {
                 {...rest}
               >
                 <option value="">{row.placeHolder}</option>
-                {row.list.map((l, i) => (
-                  <option
-                    key={i}
-                    value={l.value}
-                    // selected={l.value === row.value}
-                  >
-                    {l.label}
-                  </option>
-                ))}
+                {row.list &&
+                  row.list.length > 0 &&
+                  row.list.map((l, i) => (
+                    <option
+                      key={i}
+                      value={l.value}
+                      // selected={l.value === row.value}
+                    >
+                      {l.label}
+                    </option>
+                  ))}
               </select>
               {errorIndexes.includes(row.index) && (
                 <ErrorSpan label={row.options.errorMsg} />
