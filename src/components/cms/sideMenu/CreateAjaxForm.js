@@ -22,6 +22,17 @@ function CreateAjaxForm(props) {
     submitBtnLabel: '',
     submitBtnClassName: '',
   });
+  const configAssoc = {
+    apiUrl: { label: 'Endpoint' },
+    parentClassName: { label: 'Wrapper class' },
+    submitBtnLabel: { label: 'Submit button label' },
+    submitBtnClassName: { label: 'Submit button class' },
+  };
+  const [listForm, setListForm] = useState({
+    id: '',
+    label: '',
+    value: '',
+  });
   const [compList, setCompList] = useState([
     {
       component: 'Text Box',
@@ -73,7 +84,27 @@ function CreateAjaxForm(props) {
         list: [],
         options: {
           required: true,
-          validation: '/([^s])/',
+          validation: '/$/',
+          errorMsg: '',
+        },
+      },
+    },
+    {
+      component: 'Checkbox',
+      show: false,
+      props: {
+        id: '',
+        index: '',
+        label: 'Checkbox',
+        elementType: 'checkBox',
+        value: [],
+        isInline: true,
+        placeHolder: '',
+        className: '',
+        list: [],
+        options: {
+          required: true,
+          validation: '/$/',
           errorMsg: '',
         },
       },
@@ -109,7 +140,16 @@ function CreateAjaxForm(props) {
       setTimeout(() => {
         setConfig(prevState => ({
           ...prevState,
-          apiUrl: selectedProps.config.apiUrl,
+          apiUrl: selectedProps.config ? selectedProps.config.apiUrl : '',
+          parentClassName: selectedProps.config
+            ? selectedProps.config.parentClassName
+            : '',
+          submitBtnLabel: selectedProps.config
+            ? selectedProps.config.submitBtnLabel
+            : '',
+          submitBtnClassName: selectedProps.config
+            ? selectedProps.config.submitBtnClassName
+            : '',
         }));
         setSelectedComponents(selectedProps.structure);
       }, 10);
@@ -230,6 +270,7 @@ function CreateAjaxForm(props) {
       { ...layoutContext.state.pageDetails.pageObject },
       sample
     );
+
     layoutContext.setState(prevState => ({
       ...prevState,
       selectedNodeId: sample.key,
@@ -255,30 +296,85 @@ function CreateAjaxForm(props) {
     return node;
   };
 
+  const addList = id => {
+    const listAdded = [...selectedComponents].map((object, ii) => {
+      if (id === ii) {
+        return {
+          ...object,
+          props: {
+            ...object.props,
+            list: [...object.props.list, listForm],
+          },
+        };
+      } else return object;
+    });
+    setSelectedComponents(listAdded);
+    setListForm({
+      label: '',
+      value: '',
+    });
+  };
+
+  const deleteListItem = (id, index) => {
+    const deletedList = [...selectedComponents].map((object, ii) => {
+      if (id === ii) {
+        return {
+          ...object,
+          props: {
+            ...object.props,
+            list: object.props.list.filter((_, i) => i !== index),
+          },
+        };
+      } else return object;
+    });
+    setSelectedComponents(deletedList);
+  };
+
+  const updateListItem = (id, index, value, type) => {
+    const updatedList = [...selectedComponents].map((object, ii) => {
+      if (id === ii) {
+        return {
+          ...object,
+          props: {
+            ...object.props,
+            list: object.props.list.map((all, i) => {
+              if (i === index) {
+                all[type] = value;
+              }
+              return all;
+            }),
+          },
+        };
+      } else return object;
+    });
+    setSelectedComponents(updatedList);
+  };
+
   return (
     <LayoutContext.Consumer>
       {layoutDetails =>
         layoutDetails.state.selectedNodeId ? (
           <div>
-            {Object.keys(config).length > 0 && (
-              <InputGroup size="sm" className="mb-1">
-                <InputGroup.Text>
-                  <Form.Label htmlFor="apiUrl" className="mb-0">
-                    AJAX URL
-                  </Form.Label>
-                </InputGroup.Text>
-                <FormControl
-                  id="apiUrl"
-                  defaultValue={config.apiUrl}
-                  onChange={e =>
-                    setConfig(prevState => ({
-                      ...prevState,
-                      apiUrl: e.target.value,
-                    }))
-                  }
-                />
-              </InputGroup>
-            )}
+            {Object.keys(config).length > 0 &&
+              Object.keys(config).map((conf, i) => (
+                <InputGroup key={i} size="sm" className="mb-1">
+                  <InputGroup.Text>
+                    <Form.Label htmlFor={conf} className="mb-0">
+                      {configAssoc[conf].label}
+                    </Form.Label>
+                  </InputGroup.Text>
+                  <FormControl
+                    id={conf}
+                    defaultValue={config[conf]}
+                    onChange={e =>
+                      setConfig(prevState => ({
+                        ...prevState,
+                        [conf]: e.target.value,
+                      }))
+                    }
+                  />
+                </InputGroup>
+              ))}
             <div className="d-grid">
               <Dropdown>
                 <Dropdown.Toggle
@@ -343,12 +439,14 @@ function CreateAjaxForm(props) {
                         >
                           <div className="list-group">
                             {Object.entries(sel.props)
-                              .filter(f => f[0] !== 'elementType')
+                              .filter(
+                                f => !['elementType', 'value'].includes(f[0])
+                              )
                               .map((p, j) => (
                                 <React.Fragment key={j}>
-                                  <div className="p-1 small">
+                                  <div className="pb-1 small">
                                     {typeof p[1] !== 'object' ? (
-                                      <InputGroup size="sm" className="mb-1">
+                                      <InputGroup size="sm" className="">
                                         <InputGroup.Text>
                                           <Form.Label
                                             htmlFor={`${p[0]}-${i}-${j}`}
@@ -370,53 +468,155 @@ function CreateAjaxForm(props) {
                                         />
                                       </InputGroup>
                                     ) : (
-                                      <b>{p[0].toUpperCase()}</b>
+                                      <>
+                                        <label className="fst-italic">
+                                          {p[0].toUpperCase()}
+                                        </label>
+                                        {Array.isArray(p[1]) && (
+                                          <InputGroup
+                                            size="sm"
+                                            className="mt-1"
+                                          >
+                                            <FormControl
+                                              placeholder="Option ID"
+                                              value={listForm.id}
+                                              onChange={e =>
+                                                setListForm(prevState => ({
+                                                  ...prevState,
+                                                  id: e.target.value,
+                                                }))
+                                              }
+                                            />
+                                            <FormControl
+                                              placeholder="Option label"
+                                              value={listForm.label}
+                                              onChange={e =>
+                                                setListForm(prevState => ({
+                                                  ...prevState,
+                                                  label: e.target.value,
+                                                }))
+                                              }
+                                            />
+                                            <FormControl
+                                              placeholder="Option value"
+                                              value={listForm.value}
+                                              onChange={e =>
+                                                setListForm(prevState => ({
+                                                  ...prevState,
+                                                  value: e.target.value,
+                                                }))
+                                              }
+                                            />
+                                            <Button
+                                              variant="primary"
+                                              disabled={
+                                                !(
+                                                  listForm.id &&
+                                                  listForm.label &&
+                                                  listForm.value
+                                                )
+                                              }
+                                              onClick={() => addList(i, p[0])}
+                                            >
+                                              <i className="fa fa-plus" />
+                                            </Button>
+                                          </InputGroup>
+                                        )}
+                                      </>
                                     )}
                                   </div>
                                   {typeof p[1] === 'object' &&
+                                    Object.entries(p[1]).length > 0 &&
                                     Object.entries(p[1]).map((o, k) => (
-                                      <div key={k} className="p-1 small">
-                                        {typeof o[1] !== 'object' && (
-                                          <InputGroup
-                                            size="sm"
-                                            className="mb-1"
-                                          >
-                                            <InputGroup.Text>
-                                              <Form.Label
-                                                htmlFor={`${o[0]}-${i}-${j}-${k}`}
-                                                className="mb-0"
-                                              >
-                                                {o[0]}
-                                              </Form.Label>
-                                            </InputGroup.Text>
-                                            {typeof o[1] === 'string' && (
+                                      <div key={k} className="pb-1 small">
+                                        {typeof o[0] === 'string' &&
+                                          typeof o[1] !== 'object' && (
+                                            <InputGroup size="sm" className="">
+                                              <InputGroup.Text>
+                                                <Form.Label
+                                                  htmlFor={`${o[0]}-${i}-${j}-${k}`}
+                                                  className="mb-0"
+                                                >
+                                                  {o[0]}
+                                                </Form.Label>
+                                              </InputGroup.Text>
+                                              {typeof o[1] === 'string' && (
+                                                <FormControl
+                                                  id={`${o[0]}-${i}-${j}-${k}`}
+                                                  defaultValue={o[1]}
+                                                  onChange={e =>
+                                                    changeOptions(
+                                                      i,
+                                                      o[0],
+                                                      e.target.value
+                                                    )
+                                                  }
+                                                />
+                                              )}
+                                              {typeof o[1] === 'boolean' && (
+                                                <InputGroup.Checkbox
+                                                  size="sm"
+                                                  defaultChecked={o[1]}
+                                                  onChange={e =>
+                                                    changeOptions(
+                                                      i,
+                                                      o[0],
+                                                      e.target.checked
+                                                    )
+                                                  }
+                                                />
+                                              )}
+                                            </InputGroup>
+                                          )}
+                                        {typeof o[0] === 'string' &&
+                                          typeof o[1] === 'object' && (
+                                            <InputGroup size="sm" className="">
                                               <FormControl
-                                                id={`${o[0]}-${i}-${j}-${k}`}
-                                                defaultValue={o[1]}
+                                                placeholder="Option ID"
+                                                value={o[1].id}
                                                 onChange={e =>
-                                                  changeOptions(
+                                                  updateListItem(
                                                     i,
-                                                    o[0],
-                                                    e.target.value
+                                                    k,
+                                                    e.target.value,
+                                                    'id'
                                                   )
                                                 }
                                               />
-                                            )}
-                                            {typeof o[1] === 'boolean' && (
-                                              <InputGroup.Checkbox
-                                                size="sm"
-                                                defaultChecked={o[1]}
+                                              <FormControl
+                                                placeholder="Option label"
+                                                value={o[1].label}
                                                 onChange={e =>
-                                                  changeOptions(
+                                                  updateListItem(
                                                     i,
-                                                    o[0],
-                                                    e.target.checked
+                                                    k,
+                                                    e.target.value,
+                                                    'label'
                                                   )
                                                 }
                                               />
-                                            )}
-                                          </InputGroup>
-                                        )}
+                                              <FormControl
+                                                placeholder="Option value"
+                                                value={o[1].value}
+                                                onChange={e =>
+                                                  updateListItem(
+                                                    i,
+                                                    k,
+                                                    e.target.value,
+                                                    'value'
+                                                  )
+                                                }
+                                              />
+                                              <Button
+                                                variant="danger"
+                                                onClick={() =>
+                                                  deleteListItem(i, k)
+                                                }
+                                              >
+                                                <i className="fa fa-times" />
+                                              </Button>
+                                            </InputGroup>
+                                          )}
                                       </div>
                                     ))}
                                 </React.Fragment>

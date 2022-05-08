@@ -31,7 +31,9 @@ function PropsList() {
       const selectedProps = findAndGetComponentProps(nodeId, { ...details });
       // Note: we are removing style from props and focus on other prop objects
       let restProps = (({ style, ...rest }) => (style, rest))(selectedProps);
-      restProps = Object.entries(restProps);
+      restProps = Object.entries(restProps).filter(
+        f => typeof f[0] === 'string' && typeof f[1] === 'string'
+      );
       setList([]);
       setTimeout(() => {
         setList(restProps);
