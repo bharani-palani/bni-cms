@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { LayoutContext } from '../layoutDesign';
 import { UserContext } from '../../../contexts/UserContext';
 import {
@@ -7,8 +6,6 @@ import {
   FormControl,
   Button,
   Dropdown,
-  ButtonGroup,
-  DropdownButton,
   Form,
 } from 'react-bootstrap';
 import { v4 as uuidv4 } from 'uuid';
@@ -19,8 +16,8 @@ function CreateAjaxForm(props) {
   const [config, setConfig] = useState({
     apiUrl: '',
     parentClassName: '',
-    submitBtnLabel: '',
-    submitBtnClassName: '',
+    submitBtnLabel: 'Submit',
+    submitBtnClassName: 'btn btn-success',
   });
   const configAssoc = {
     apiUrl: { label: 'Endpoint' },
@@ -33,7 +30,7 @@ function CreateAjaxForm(props) {
     label: '',
     value: '',
   });
-  const [compList, setCompList] = useState([
+  const compList = [
     {
       component: 'Text Box',
       show: false,
@@ -47,6 +44,25 @@ function CreateAjaxForm(props) {
         className: '',
         options: {
           required: true,
+          validation: '/$/',
+          errorMsg: '',
+        },
+      },
+    },
+    {
+      component: 'Text Area',
+      show: false,
+      props: {
+        id: '',
+        index: '',
+        label: 'Text area',
+        elementType: 'textArea',
+        value: '',
+        placeHolder: 'Text area',
+        className: '',
+        options: {
+          required: true,
+          rowLength: '100',
           validation: '/$/',
           errorMsg: '',
         },
@@ -99,7 +115,6 @@ function CreateAjaxForm(props) {
         elementType: 'checkBox',
         value: [],
         isInline: true,
-        placeHolder: '',
         className: '',
         list: [],
         options: {
@@ -109,7 +124,25 @@ function CreateAjaxForm(props) {
         },
       },
     },
-  ]);
+    {
+      component: 'Radio',
+      show: false,
+      props: {
+        id: '',
+        index: '',
+        label: 'Radio',
+        elementType: 'radio',
+        value: [],
+        className: '',
+        list: [],
+        options: {
+          required: true,
+          validation: '/$/',
+          errorMsg: '',
+        },
+      },
+    },
+  ];
   const [selectedComponents, setSelectedComponents] = useState([]);
 
   let r = {};
@@ -146,10 +179,10 @@ function CreateAjaxForm(props) {
             : '',
           submitBtnLabel: selectedProps.config
             ? selectedProps.config.submitBtnLabel
-            : '',
+            : 'Submit',
           submitBtnClassName: selectedProps.config
             ? selectedProps.config.submitBtnClassName
-            : '',
+            : 'btn btn-success',
         }));
         setSelectedComponents(selectedProps.structure);
       }, 10);
@@ -159,8 +192,8 @@ function CreateAjaxForm(props) {
         setConfig({
           apiUrl: '',
           parentClassName: '',
-          submitBtnLabel: '',
-          submitBtnClassName: '',
+          submitBtnLabel: 'Submit',
+          submitBtnClassName: 'btn btn-success',
         });
         setSelectedComponents([]);
       }, 10);
@@ -312,6 +345,7 @@ function CreateAjaxForm(props) {
     setListForm({
       label: '',
       value: '',
+      id: '',
     });
   };
 
@@ -348,6 +382,18 @@ function CreateAjaxForm(props) {
       } else return object;
     });
     setSelectedComponents(updatedList);
+  };
+
+  const addElement = comp => {
+    const newComp = {
+      ...comp,
+      props: {
+        ...comp.props,
+        id: selectedComponents.length + 1,
+        index: selectedComponents.length + 1,
+      },
+    };
+    setSelectedComponents([...selectedComponents, newComp]);
   };
 
   return (
@@ -394,12 +440,7 @@ function CreateAjaxForm(props) {
                   {compList &&
                     compList.length > 0 &&
                     compList.map((comp, i) => (
-                      <Dropdown.Item
-                        onClick={() => {
-                          setSelectedComponents([...selectedComponents, comp]);
-                        }}
-                        key={i}
-                      >
+                      <Dropdown.Item onClick={() => addElement(comp)} key={i}>
                         {comp.component}
                       </Dropdown.Item>
                     ))}

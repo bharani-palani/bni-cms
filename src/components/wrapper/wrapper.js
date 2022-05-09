@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext, useState, useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
@@ -9,7 +8,6 @@ import Cms from '../cms/cms';
 import apiInstance from '../../services/apiServices';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
-import { useHistory } from 'react-router-dom';
 
 const Wrapper = props => {
   const userContext = useContext(UserContext);
@@ -17,7 +15,6 @@ const Wrapper = props => {
   const [structure, setStructure] = useState({});
   const [loader, setLoader] = useState(false);
   const { location } = props;
-  const history = useHistory();
 
   useEffect(() => {
     const fPages = menu.filter(m => m.href === location.pathname);

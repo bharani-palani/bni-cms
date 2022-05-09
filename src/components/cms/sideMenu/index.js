@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Accordion, Card, useAccordionButton } from 'react-bootstrap';
 import { UserContext } from '../../../contexts/UserContext';
 import BuiltInList from './BuiltInList';
@@ -13,6 +13,7 @@ function SideMenu(props) {
   const userContext = useContext(UserContext);
   const layoutContext = useContext(LayoutContext);
   const [scrollPosition, setScrollPosition] = useState(0);
+  const ref = useRef(null);
   const [sideMenu] = useState([
     {
       id: 0,
@@ -70,42 +71,8 @@ function SideMenu(props) {
     );
   };
 
-  const getSideBarWidth = () => {
-    let width = 0;
-    if (screen.width < 768) {
-      width = 95;
-    } else if (screen.width >= 768 && screen.width <= 1024) {
-      width = 97;
-    } else if (screen.width >= 1080 && screen.width <= 1366) {
-      width = 23;
-    } else if (screen.width >= 1366 && screen.width <= 1920) {
-      width = 17;
-    } else {
-      width = 23;
-    }
-    return width;
-  };
-
-  const getSideBarHeight = () => {
-    let height = 0;
-    if (screen.width <= 768) {
-      height = 300;
-    } else {
-      height = 500;
-    }
-    return height;
-  };
-
-  const scrollTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
-  const scrollBottom = () => {
-    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-  };
-
   return (
-    <>
+    <div ref={ref}>
       {layoutContext.state.pageDetails &&
         Object.keys(layoutContext.state.pageDetails).length > 0 && (
           <div
@@ -116,17 +83,15 @@ function SideMenu(props) {
               ...(scrollPosition > 100 && {
                 position: 'fixed',
                 top: '100px',
-                width: `${getSideBarWidth()}%`,
+                width: `${ref.current.offsetWidth}px`,
               }),
             }}
           >
             <div
               style={{
                 ...(scrollPosition > 100 && {
-                  maxHeight: `${getSideBarHeight()}px`,
                   overflowY: 'auto',
-                  ...(window.screen.width >= 768 &&
-                    window.screen.width <= 1024 && { width: '230px' }),
+                  height: 'calc(100vh - 150px)',
                 }),
               }}
             >
@@ -185,25 +150,9 @@ function SideMenu(props) {
                 ))}
               </Accordion>
             </div>
-            <div
-              style={{
-                ...(window.screen.width >= 768 &&
-                  window.screen.width <= 1024 && { width: '230px' }),
-              }}
-              className="d-flex justify-content-between py-2"
-            >
-              <i
-                className="fa fa-arrow-circle-up cursor-pointer fs-5"
-                onClick={scrollTop}
-              />
-              <i
-                className="fa fa-arrow-circle-down cursor-pointer fs-5"
-                onClick={scrollBottom}
-              />
-            </div>
           </div>
         )}
-    </>
+    </div>
   );
 }
 

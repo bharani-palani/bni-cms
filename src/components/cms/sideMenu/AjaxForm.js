@@ -53,12 +53,25 @@ function AjaxForm(props) {
     }
   };
 
-  const onMassagePayload = (index, value, list) => {
+  const onMassagePayload = (index, value, list = {}) => {
     let backupStructure = [...formedStructure];
     backupStructure = backupStructure.map(backup => {
       if (backup.id === index) {
-        // start here
-        backup.value = value;
+        !value &&
+          Object.keys(list).length > 0 &&
+          backup.list &&
+          backup.list.length > 0 &&
+          backup.list.map(l => {
+            if (String(l.id) === String(list.id)) {
+              l.checked = list.checked;
+            }
+            return l;
+          });
+        const newValue =
+          !value && list && Object.keys(list).length > 0
+            ? backup.list.filter(f => f.checked).map(c => c.value)
+            : value;
+        backup.value = newValue;
       }
       return backup;
     });

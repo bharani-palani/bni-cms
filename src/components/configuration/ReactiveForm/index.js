@@ -232,7 +232,7 @@ function ReactiveForm(props) {
               )}
               <textarea
                 id={row.id}
-                rows={row.options.rowLength}
+                style={{ height: `${row.options.rowLength}px` }}
                 placeholder={row.placeHolder}
                 onChange={e => {
                   e.persist();

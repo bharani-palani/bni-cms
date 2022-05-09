@@ -276,6 +276,14 @@ function ButtonMenu(props) {
       });
   };
 
+  const scrollTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const scrollBottom = () => {
+    window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+  };
+
   return (
     <LayoutContext.Consumer>
       {layoutDetails => (
@@ -389,10 +397,18 @@ function ButtonMenu(props) {
                 position: 'fixed',
                 bottom: '0',
                 left: '50%',
-                transform: 'translateX(-50%)',
+                transform: 'translate(-50%,0%)',
               }}
             >
               <div className="d-flex btn-group btn-group-sm">
+                <button
+                  className={`px-2 py-1 btn btn-secondary ${
+                    layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                  }`}
+                  onClick={scrollTop}
+                >
+                  <i className="fa fa-arrow-circle-up" />
+                </button>
                 {layoutDetails.state.statusList &&
                   layoutDetails.state.statusList.length > 0 &&
                   layoutDetails.state.statusList
@@ -418,7 +434,7 @@ function ButtonMenu(props) {
                         }
                       >
                         <Button
-                          className={`px-3 py-2 ${
+                          className={`px-2 py-1 ${
                             statusInfo[status.pub_value].rowClass
                           }`}
                           disabled={!layoutDetails.state.pageDetails}
@@ -433,7 +449,7 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Tree</Tooltip>}
                 >
                   <button
-                    className={`px-3 py-2 btn btn-secondary ${
+                    className={`px-2 py-1 btn btn-secondary ${
                       layoutDetails.state.viewMode === 'tree' ? 'active' : ''
                     }`}
                     onClick={() =>
@@ -451,7 +467,7 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Structure</Tooltip>}
                 >
                   <button
-                    className={`px-3 py-2 btn btn-secondary ${
+                    className={`px-2 py-1 btn btn-secondary ${
                       layoutDetails.state.viewMode === 'design' ? 'active' : ''
                     }`}
                     onClick={() =>
@@ -469,7 +485,7 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Preview</Tooltip>}
                 >
                   <button
-                    className={`px-3 py-2 btn btn-secondary ${
+                    className={`px-2 py-1 btn btn-secondary ${
                       layoutDetails.state.viewMode === 'preview' ? 'active' : ''
                     }`}
                     onClick={() =>
@@ -482,6 +498,14 @@ function ButtonMenu(props) {
                     <i className="fa fa-play" />
                   </button>
                 </OverlayTrigger>
+                <button
+                  className={`px-2 py-1 btn btn-secondary ${
+                    layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                  }`}
+                  onClick={scrollBottom}
+                >
+                  <i className="fa fa-arrow-circle-down" />
+                </button>
               </div>
             </div>
           )}
