@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useContext } from 'react';
 import AppContext from '../../contexts/AppContext';
 import SignedUrl from '../configuration/Gallery/SignedUrl';
@@ -7,8 +6,6 @@ import {
   withGoogleMap,
   GoogleMap,
   Marker,
-  withHandlers,
-  DirectionsRenderer,
 } from 'react-google-maps';
 import { Link } from 'react-router-dom';
 import CryptoJS from 'crypto-js';

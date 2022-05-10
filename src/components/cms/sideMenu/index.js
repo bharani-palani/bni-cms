@@ -7,6 +7,7 @@ import PropsList from './PropsList';
 import StyleList from './StyleList';
 import Title from './Title';
 import CreateAjaxForm from './CreateAjaxForm';
+import Database from './Database/';
 import { LayoutContext } from '../layoutDesign';
 import AppContext from '../../../contexts/AppContext';
 
@@ -32,11 +33,7 @@ function SideMenu(props) {
     {
       id: 5,
       label: 'Database',
-      children: [
-        { id: 5.1, label: 'List', body: 'List table' },
-        { id: 5.2, label: 'Create', body: 'Create table' },
-        { id: 5.3, label: 'Fetch', body: 'Fetch table' },
-      ],
+      body: <Database />,
     },
     {
       id: 6,
@@ -100,7 +97,7 @@ function SideMenu(props) {
                 }),
               }}
             >
-              <Accordion defaultActiveKey={4} alwaysOpen>
+              <Accordion defaultActiveKey={5} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}
