@@ -46,12 +46,12 @@ function AddPage(props) {
       label: 'Page Access To',
       elementType: 'checkBox',
       value: [],
-      isInline: true,
       placeHolder: '',
       className: '',
       list: [],
       options: {
         required: true,
+        isInline: true,
         validation: /([^\s])/,
         errorMsg: 'At least 1 access level is required',
       },

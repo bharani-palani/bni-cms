@@ -1199,6 +1199,10 @@ a:focus {
 ::-webkit-scrollbar-corner {
   background: $black-color;
 }
+:root {
+  scrollbar-color: var(--az-theme-bg-color) var(--az-theme-color);
+  scrollbar-width: thin !important;
+}
 .azToaster {
   z-index: 10000;
   .Toastify__toast {

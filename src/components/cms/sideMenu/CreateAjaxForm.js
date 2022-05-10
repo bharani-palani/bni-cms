@@ -14,16 +14,16 @@ function CreateAjaxForm(props) {
   const userContext = useContext(UserContext);
   const layoutContext = useContext(LayoutContext);
   const [config, setConfig] = useState({
-    apiUrl: '',
+    table: '',
     parentClassName: '',
     submitBtnLabel: 'Submit',
     submitBtnClassName: 'btn btn-success',
   });
   const configAssoc = {
-    apiUrl: { label: 'Endpoint' },
+    table: { label: 'POST Table' },
     parentClassName: { label: 'Wrapper class' },
-    submitBtnLabel: { label: 'Submit button label' },
-    submitBtnClassName: { label: 'Submit button class' },
+    submitBtnLabel: { label: 'Submit label' },
+    submitBtnClassName: { label: 'Submit class' },
   };
   const [listForm, setListForm] = useState({
     id: '',
@@ -114,11 +114,11 @@ function CreateAjaxForm(props) {
         label: 'Checkbox',
         elementType: 'checkBox',
         value: [],
-        isInline: true,
         className: '',
         list: [],
         options: {
           required: true,
+          isInline: true,
           validation: '/$/',
           errorMsg: '',
         },
@@ -137,6 +137,7 @@ function CreateAjaxForm(props) {
         list: [],
         options: {
           required: true,
+          isInline: true,
           validation: '/$/',
           errorMsg: '',
         },
@@ -173,7 +174,7 @@ function CreateAjaxForm(props) {
       setTimeout(() => {
         setConfig(prevState => ({
           ...prevState,
-          apiUrl: selectedProps.config ? selectedProps.config.apiUrl : '',
+          table: selectedProps.config ? selectedProps.config.table : '',
           parentClassName: selectedProps.config
             ? selectedProps.config.parentClassName
             : '',
@@ -190,7 +191,7 @@ function CreateAjaxForm(props) {
       setConfig({});
       setTimeout(() => {
         setConfig({
-          apiUrl: '',
+          table: '',
           parentClassName: '',
           submitBtnLabel: 'Submit',
           submitBtnClassName: 'btn btn-success',
@@ -670,8 +671,14 @@ function CreateAjaxForm(props) {
                 </ul>
               </div>
             )}
+
             <div className="d-grid mb-1">
-              <Button size="sm" variant="primary" onClick={() => saveProps()}>
+              <Button
+                size="sm"
+                disabled={!selectedComponents.length > 0}
+                variant="primary"
+                onClick={() => saveProps()}
+              >
                 <i className="fa fa-thumbs-o-up" />
               </Button>
             </div>

@@ -8,9 +8,11 @@ import StyleList from './StyleList';
 import Title from './Title';
 import CreateAjaxForm from './CreateAjaxForm';
 import { LayoutContext } from '../layoutDesign';
+import AppContext from '../../../contexts/AppContext';
 
 function SideMenu(props) {
   const userContext = useContext(UserContext);
+  const [appData] = useContext(AppContext);
   const layoutContext = useContext(LayoutContext);
   const [scrollPosition, setScrollPosition] = useState(0);
   const ref = useRef(null);
@@ -82,7 +84,7 @@ function SideMenu(props) {
             style={{
               ...(scrollPosition > 100 && {
                 position: 'fixed',
-                top: '100px',
+                top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
                 width: `${ref.current.offsetWidth}px`,
               }),
             }}
@@ -91,7 +93,10 @@ function SideMenu(props) {
               style={{
                 ...(scrollPosition > 100 && {
                   overflowY: 'auto',
-                  height: 'calc(100vh - 150px)',
+                  height:
+                    appData.webMenuType === 'topMenu'
+                      ? 'calc(100vh - 150px)'
+                      : 'calc(100vh - 100px)',
                 }),
               }}
             >

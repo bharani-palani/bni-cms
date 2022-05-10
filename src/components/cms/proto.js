@@ -80,7 +80,13 @@ function Proto(props) {
                       fullscreen={true}
                       onHide={() => setFullScreen(false)}
                     >
-                      <Modal.Body className="position-relative">
+                      <Modal.Body
+                        className={`position-relative btn-group btn-group-sm ${
+                          userContext.userData.theme === 'dark'
+                            ? 'bg-dark text-light'
+                            : 'bg-light text-dark'
+                        }`}
+                      >
                         <i
                           style={{ zIndex: 1 }}
                           onClick={() => setFullScreen(false)}

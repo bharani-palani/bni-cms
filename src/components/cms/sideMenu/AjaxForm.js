@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from 'react';
 import ReactiveForm from '../../configuration/ReactiveForm/';
 
 function AjaxForm(props) {
   const {
-    config: { apiUrl, ...restConfig },
+    config: { table, ...restConfig },
     structure,
   } = props;
   const [formedStructure, setFormedStructure] = useState([]);
@@ -18,6 +17,8 @@ function AjaxForm(props) {
           opt = Object.entries(a[1]).map(o => {
             if (o[0] === 'validation') {
               return [o[0], regGen(o[1])];
+            } else if (o[0] === 'isInline') {
+              return [o[0], Boolean(o[1])];
             } else if (o[0] === 'required') {
               return [o[0], Boolean(o[1])];
             } else if (o[0] === 'list') {
@@ -36,7 +37,6 @@ function AjaxForm(props) {
       });
       return Object.fromEntries(newArray);
     });
-
     setFormedStructure([]);
     setTimeout(() => {
       setFormedStructure(bStructure);
@@ -79,7 +79,15 @@ function AjaxForm(props) {
   };
 
   const onReactiveFormSubmit = () => {
-    console.log('bbb', formedStructure);
+    // todo: reset form afetr post or error
+    const payLoad = {
+      table,
+      fields: formedStructure.map(form => ({
+        field: form.index,
+        value: Array.isArray(form.value) ? form.value.join(',') : form.value,
+      })),
+    };
+    console.log('bbb', payLoad);
   };
 
   return (
