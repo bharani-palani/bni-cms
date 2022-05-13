@@ -1,4 +1,6 @@
-<?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH')) {
+    exit('No direct script access allowed');
+}
 /*
 | -------------------------------------------------------------------
 | AUTO-LOADER
@@ -37,8 +39,7 @@
 |
 */
 
-$autoload['packages'] = array();
-
+$autoload['packages'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -52,8 +53,7 @@ $autoload['packages'] = array();
 |	$autoload['libraries'] = array('database', 'session', 'xmlrpc');
 */
 
-$autoload['libraries'] = array('database', 'email');
-
+$autoload['libraries'] = ['database', 'email'];
 
 /*
 | -------------------------------------------------------------------
@@ -64,8 +64,17 @@ $autoload['libraries'] = array('database', 'email');
 |	$autoload['helper'] = array('url', 'file');
 */
 
-$autoload['helper'] = array('response','url','html','form','file','jwt', "authorization", "date","file");
-
+$autoload['helper'] = [
+    'response',
+    'url',
+    'html',
+    'form',
+    'file',
+    'jwt',
+    'authorization',
+    'date',
+    'file',
+];
 
 /*
 | -------------------------------------------------------------------
@@ -80,8 +89,7 @@ $autoload['helper'] = array('response','url','html','form','file','jwt', "author
 |
 */
 
-$autoload['config'] = array('jwt');
-
+$autoload['config'] = ['jwt'];
 
 /*
 | -------------------------------------------------------------------
@@ -96,8 +104,7 @@ $autoload['config'] = array('jwt');
 |
 */
 
-$autoload['language'] = array();
-
+$autoload['language'] = [];
 
 /*
 | -------------------------------------------------------------------
@@ -109,8 +116,7 @@ $autoload['language'] = array();
 |
 */
 
-$autoload['model'] = array();
-
+$autoload['model'] = [];
 
 /* End of file autoload.php */
 /* Location: ./application/config/autoload.php */

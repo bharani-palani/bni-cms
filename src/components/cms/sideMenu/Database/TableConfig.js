@@ -13,6 +13,7 @@ import {
 } from 'react-bootstrap';
 import { UserContext } from '../../../../contexts/UserContext';
 import _ from 'lodash';
+import apiInstance from '../../../../services/apiServices';
 
 function TableConfig(props) {
   const userContext = useContext(UserContext);
@@ -87,7 +88,23 @@ function TableConfig(props) {
   // }, [selectedTypes]);
 
   const createTable = () => {
-    console.log('bbb', selectedTypes);
+    const payload = {
+      tableName,
+      fields: selectedTypes,
+    };
+    const formdata = new FormData();
+
+    formdata.append('table', tableName);
+    formdata.append('fields', JSON.stringify(selectedTypes));
+
+    apiInstance
+      .post('/createTable', formdata)
+      .then(response => {
+        console.log('bbb', response);
+      })
+      .catch(error => {
+        console.error(error);
+      });
   };
 
   return (
@@ -293,7 +310,7 @@ function TableConfig(props) {
         )}
         <Button
           onClick={() => createTable()}
-          disabled={!selectedTypes.length > 0}
+          disabled={!(selectedTypes.length > 0 && tableName)}
           size="sm"
         >
           Create

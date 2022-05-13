@@ -54,6 +54,7 @@ $route['deletePage'] = 'cms/cms/deletePage';
 $route['getAccessLevels'] = 'cms/cms/getAccessLevels';
 $route['deleteAccessLevel'] = 'cms/cms/deleteAccessLevel';
 $route['saveOrUpdateAccessLevel'] = 'cms/cms/saveOrUpdateAccessLevel';
+$route['createTable'] = 'cms/cms/createTable';
 
 // users and config
 $route['postBackend'] = 'home/postBackend';

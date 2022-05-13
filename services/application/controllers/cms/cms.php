@@ -5,6 +5,7 @@ class cms extends CI_Controller
     public function __construct()
     {
         parent::__construct();
+        $this->load->dbforge();
         $this->load->model('cms_model');
         $this->load->library('../controllers/auth');
     }
@@ -187,6 +188,69 @@ class cms extends CI_Controller
         if ($validate === 1) {
             $post = $this->input->post('deleteData');
             $data['response'] = $this->cms_model->deletePage($post);
+            $this->auth->response($data, [], 200);
+        }
+    }
+
+    public function getFieldData($options, $key)
+    {
+        $data = array_merge(...json_decode(json_encode($options), true));
+        return array_key_exists($key, $data) ? $data[$key] : false;
+    }
+
+    public function createTable()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table', false);
+            $fields = json_decode($this->input->post('fields'), false);
+
+            $fieldArray = [];
+            foreach ($fields as $row) {
+                $fieldArray[$row->field] = [
+                    'type' => $row->type,
+                    'constraint' => !empty($row->constraint)
+                        ? $row->constraint
+                        : false,
+                    'auto_increment' => $this->getFieldData(
+                        $row->options,
+                        'auto_increment'
+                    ),
+                    'unsigned' => $this->getFieldData(
+                        $row->options,
+                        'unsigned'
+                    ),
+                    'default' => $this->getFieldData($row->options, 'default'),
+                    'null' => $this->getFieldData($row->options, 'null'),
+                ];
+                $fieldArray[$row->field] = array_filter(
+                    $fieldArray[$row->field]
+                );
+            }
+
+            $keys = [];
+            foreach ($fields as $row) {
+                $keys[$row->field] =
+                    count($row->keys) > 0 ? $row->keys[0] : false;
+            }
+            $filteredKeys = array_filter($keys);
+
+            $this->dbforge->add_field($fieldArray);
+            foreach ($filteredKeys as $k => $v) {
+                $this->dbforge->add_key($k, $v === 'primaryKey' ? true : false);
+            }
+
+            if ($this->dbforge->create_table($table, true)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
             $this->auth->response($data, [], 200);
         }
     }
