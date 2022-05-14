@@ -5,7 +5,7 @@ import { UserContext } from '../../../../contexts/UserContext';
 
 function Database(props) {
   const userContext = useContext(UserContext);
-  const [show, setShow] = useState(true); // change to false
+  const [show, setShow] = useState(false); // change to false
 
   return (
     <div className="d-grid">
