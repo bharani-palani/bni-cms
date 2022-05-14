@@ -235,4 +235,14 @@ class cms_model extends CI_Model
         }
         return false;
     }
+
+    public function getTables()
+    {
+        $query = $this->db->query(
+            'SHOW TABLES WHERE `Tables_in_' .
+                $this->db->database .
+                '` NOT LIKE "az_%"'
+        );
+        return get_all_rows($query);
+    }
 }

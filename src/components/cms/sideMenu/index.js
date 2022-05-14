@@ -79,22 +79,25 @@ function SideMenu(props) {
               userContext.userData.theme === 'light' ? 'bg-light' : 'bg-dark'
             }`}
             style={{
-              ...(scrollPosition > 100 && {
-                position: 'fixed',
-                top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
-                width: `${ref.current.offsetWidth}px`,
-              }),
+              ...(scrollPosition > 100 &&
+                window.innerWidth > 768 && {
+                  position: 'fixed',
+                  top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
+                  width: `${ref.current.offsetWidth}px`,
+                }),
             }}
           >
+            {console.log('bbb', window.innerWidth)}
             <div
               style={{
-                ...(scrollPosition > 100 && {
-                  overflowY: 'auto',
-                  height:
-                    appData.webMenuType === 'topMenu'
-                      ? 'calc(100vh - 150px)'
-                      : 'calc(100vh - 100px)',
-                }),
+                ...(scrollPosition > 100 &&
+                  window.innerWidth > 768 && {
+                    overflowY: 'auto',
+                    height:
+                      appData.webMenuType === 'topMenu'
+                        ? 'calc(100vh - 150px)'
+                        : 'calc(100vh - 100px)',
+                  }),
               }}
             >
               <Accordion defaultActiveKey={5} alwaysOpen>

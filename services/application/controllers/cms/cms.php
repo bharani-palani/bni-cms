@@ -208,8 +208,8 @@ class cms extends CI_Controller
             $this->auth->invalidDomainResponse();
         }
         if ($validate === 1) {
-            $table = $this->input->post('table', false);
-            $fields = json_decode($this->input->post('fields'), false);
+            $table = $this->input->post('table');
+            $fields = json_decode($this->input->post('fields'));
 
             $fieldArray = [];
             foreach ($fields as $row) {
@@ -247,6 +247,42 @@ class cms extends CI_Controller
             }
 
             if ($this->dbforge->create_table($table, true)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
+        }
+    }
+
+    public function getTables()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $data['response'] = $this->cms_model->getTables();
+            $this->auth->response($data, [], 200);
+        }
+    }
+
+    public function renameTable()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $oldLabel = $this->input->post('oldLabel');
+            $newLabel = $this->input->post('newLabel');
+            if ($this->dbforge->rename_table($oldLabel, $newLabel)) {
                 $data['response'] = true;
             } else {
                 $data['response'] = false;
