@@ -9,9 +9,11 @@ import {
 } from 'react-bootstrap';
 import apiInstance from '../../../../services/apiServices';
 import { TableConfigContext } from './TableConfig';
+import { UserContext } from '../../../../contexts/UserContext';
 
 function CreateTable(props) {
   const tableConfigContext = useContext(TableConfigContext);
+  const userContext = useContext(UserContext);
 
   const inputTypeList = [
     { value: 'INT', label: 'INT' },
