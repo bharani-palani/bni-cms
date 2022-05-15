@@ -200,53 +200,59 @@ class cms extends CI_Controller
 
     public function createTable()
     {
-        // $validate = $this->auth->validateAll();
-        // if ($validate === 2) {
-        //     $this->auth->invalidTokenResponse();
-        // }
-        // if ($validate === 3) {
-        //     $this->auth->invalidDomainResponse();
-        // }
-        // if ($validate === 1) {
-        $table = $this->input->post('table');
-        $fields = json_decode($this->input->post('fields'));
-
-        $fieldArray = [];
-        foreach ($fields as $row) {
-            $fieldArray[$row->field] = [
-                'type' => $row->type,
-                'constraint' => !empty($row->constraint)
-                    ? $row->constraint
-                    : false,
-                'auto_increment' => $this->getFieldData(
-                    $row->options,
-                    'auto_increment'
-                ),
-                'unsigned' => $this->getFieldData($row->options, 'unsigned'),
-                'default' => $this->getFieldData($row->options, 'default'),
-                'null' => $this->getFieldData($row->options, 'null'),
-            ];
-            $fieldArray[$row->field] = array_filter($fieldArray[$row->field]);
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
         }
-
-        $keys = [];
-        foreach ($fields as $row) {
-            $keys[$row->field] = count($row->keys) > 0 ? $row->keys[0] : false;
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
         }
-        $filteredKeys = array_filter($keys);
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $fields = json_decode($this->input->post('fields'));
 
-        $this->dbforge->add_field($fieldArray);
-        foreach ($filteredKeys as $k => $v) {
-            $this->dbforge->add_key($k, $v === 'primaryKey' ? true : false);
-        }
+            $fieldArray = [];
+            foreach ($fields as $row) {
+                $fieldArray[$row->field] = [
+                    'type' => $row->type,
+                    'constraint' => !empty($row->constraint)
+                        ? $row->constraint
+                        : false,
+                    'auto_increment' => $this->getFieldData(
+                        $row->options,
+                        'auto_increment'
+                    ),
+                    'unsigned' => $this->getFieldData(
+                        $row->options,
+                        'unsigned'
+                    ),
+                    'default' => $this->getFieldData($row->options, 'default'),
+                    'null' => $this->getFieldData($row->options, 'null'),
+                ];
+                $fieldArray[$row->field] = array_filter(
+                    $fieldArray[$row->field]
+                );
+            }
 
-        if ($this->dbforge->create_table($table, true)) {
-            $data['response'] = true;
-        } else {
-            $data['response'] = false;
+            $keys = [];
+            foreach ($fields as $row) {
+                $keys[$row->field] =
+                    count($row->keys) > 0 ? $row->keys[0] : false;
+            }
+            $filteredKeys = array_filter($keys);
+
+            $this->dbforge->add_field($fieldArray);
+            foreach ($filteredKeys as $k => $v) {
+                $this->dbforge->add_key($k, $v === 'primaryKey' ? true : false);
+            }
+
+            if ($this->dbforge->create_table($table, true)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
         }
-        $this->auth->response($data, [], 200);
-        // }
     }
 
     public function getTables()
