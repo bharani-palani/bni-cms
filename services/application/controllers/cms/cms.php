@@ -200,59 +200,53 @@ class cms extends CI_Controller
 
     public function createTable()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
+        // $validate = $this->auth->validateAll();
+        // if ($validate === 2) {
+        //     $this->auth->invalidTokenResponse();
+        // }
+        // if ($validate === 3) {
+        //     $this->auth->invalidDomainResponse();
+        // }
+        // if ($validate === 1) {
+        $table = $this->input->post('table');
+        $fields = json_decode($this->input->post('fields'));
+
+        $fieldArray = [];
+        foreach ($fields as $row) {
+            $fieldArray[$row->field] = [
+                'type' => $row->type,
+                'constraint' => !empty($row->constraint)
+                    ? $row->constraint
+                    : false,
+                'auto_increment' => $this->getFieldData(
+                    $row->options,
+                    'auto_increment'
+                ),
+                'unsigned' => $this->getFieldData($row->options, 'unsigned'),
+                'default' => $this->getFieldData($row->options, 'default'),
+                'null' => $this->getFieldData($row->options, 'null'),
+            ];
+            $fieldArray[$row->field] = array_filter($fieldArray[$row->field]);
         }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
+
+        $keys = [];
+        foreach ($fields as $row) {
+            $keys[$row->field] = count($row->keys) > 0 ? $row->keys[0] : false;
         }
-        if ($validate === 1) {
-            $table = $this->input->post('table');
-            $fields = json_decode($this->input->post('fields'));
+        $filteredKeys = array_filter($keys);
 
-            $fieldArray = [];
-            foreach ($fields as $row) {
-                $fieldArray[$row->field] = [
-                    'type' => $row->type,
-                    'constraint' => !empty($row->constraint)
-                        ? $row->constraint
-                        : false,
-                    'auto_increment' => $this->getFieldData(
-                        $row->options,
-                        'auto_increment'
-                    ),
-                    'unsigned' => $this->getFieldData(
-                        $row->options,
-                        'unsigned'
-                    ),
-                    'default' => $this->getFieldData($row->options, 'default'),
-                    'null' => $this->getFieldData($row->options, 'null'),
-                ];
-                $fieldArray[$row->field] = array_filter(
-                    $fieldArray[$row->field]
-                );
-            }
-
-            $keys = [];
-            foreach ($fields as $row) {
-                $keys[$row->field] =
-                    count($row->keys) > 0 ? $row->keys[0] : false;
-            }
-            $filteredKeys = array_filter($keys);
-
-            $this->dbforge->add_field($fieldArray);
-            foreach ($filteredKeys as $k => $v) {
-                $this->dbforge->add_key($k, $v === 'primaryKey' ? true : false);
-            }
-
-            if ($this->dbforge->create_table($table, true)) {
-                $data['response'] = true;
-            } else {
-                $data['response'] = false;
-            }
-            $this->auth->response($data, [], 200);
+        $this->dbforge->add_field($fieldArray);
+        foreach ($filteredKeys as $k => $v) {
+            $this->dbforge->add_key($k, $v === 'primaryKey' ? true : false);
         }
+
+        if ($this->dbforge->create_table($table, true)) {
+            $data['response'] = true;
+        } else {
+            $data['response'] = false;
+        }
+        $this->auth->response($data, [], 200);
+        // }
     }
 
     public function getTables()
@@ -282,10 +276,40 @@ class cms extends CI_Controller
         if ($validate === 1) {
             $oldLabel = $this->input->post('oldLabel');
             $newLabel = $this->input->post('newLabel');
-            if ($this->dbforge->rename_table($oldLabel, $newLabel)) {
-                $data['response'] = true;
+            if (isset($oldLabel) && isset($newLabel)) {
+                if ($this->dbforge->rename_table($oldLabel, $newLabel)) {
+                    $data['response'] = true;
+                } else {
+                    $data['response'] = false;
+                }
             } else {
                 $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
+        }
+    }
+
+    public function tableEmptyOrDrop()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $action = $this->input->post('action');
+            $table = $this->input->post('table');
+            if ($action === 'drop') {
+                if ($this->dbforge->drop_table($table)) {
+                    $data['response'] = true;
+                } else {
+                    $data['response'] = false;
+                }
+            }
+            if ($action === 'empty') {
+                $data['response'] = $this->cms_model->truncateTable($table);
             }
             $this->auth->response($data, [], 200);
         }

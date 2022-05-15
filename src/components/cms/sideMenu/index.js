@@ -87,7 +87,6 @@ function SideMenu(props) {
                 }),
             }}
           >
-            {console.log('bbb', window.innerWidth)}
             <div
               style={{
                 ...(scrollPosition > 100 &&

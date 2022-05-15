@@ -57,6 +57,7 @@ $route['saveOrUpdateAccessLevel'] = 'cms/cms/saveOrUpdateAccessLevel';
 $route['createTable'] = 'cms/cms/createTable';
 $route['getTables'] = 'cms/cms/getTables';
 $route['renameTable'] = 'cms/cms/renameTable';
+$route['tableEmptyOrDrop'] = 'cms/cms/tableEmptyOrDrop';
 
 // users and config
 $route['postBackend'] = 'home/postBackend';

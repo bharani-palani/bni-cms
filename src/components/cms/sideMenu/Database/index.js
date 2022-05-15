@@ -17,8 +17,15 @@ function Database(props) {
         show={show}
         onHide={() => setShow(false)}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>Database - Table config</Modal.Title>
+        <Modal.Header
+          closeButton
+          className={`rounded-bottom ${
+            userContext.userData.theme === 'dark'
+              ? 'bg-dark text-light'
+              : 'bg-white text-dark'
+          }`}
+        >
+          <Modal.Title as="p">Database - Table config</Modal.Title>
         </Modal.Header>
         <Modal.Body
           className={`pt-0 pb-0 ${

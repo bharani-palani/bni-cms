@@ -10,12 +10,25 @@ import {
 } from 'react-bootstrap';
 import apiInstance from '../../../../services/apiServices';
 import { UserContext } from '../../../../contexts/UserContext';
+import ConfirmationModal from '../../../configuration/Gallery/ConfirmationModal';
 
 function TableList(props) {
   const userContext = useContext(UserContext);
   const [tableList, setTableList] = useState([]);
+  const modalDefOptions = {
+    show: false,
+    message: '',
+    table: '',
+    action: '',
+    past: '',
+  };
+  const [modalOptions, setModalOptions] = useState(modalDefOptions);
 
   useEffect(() => {
+    loadTables();
+  }, []);
+
+  const loadTables = () => {
     apiInstance
       .get('/getTables')
       .then(res => {
@@ -27,7 +40,7 @@ function TableList(props) {
       .catch(error => {
         console.error(error);
       });
-  }, []);
+  };
 
   const renameTable = (index, value) => {
     const bTableList = [...tableList].map((t, i) => {
@@ -58,7 +71,7 @@ function TableList(props) {
         const bool = res.data.response;
         if (bool) {
           userContext.renderToast({
-            message: `successfully table updated`,
+            message: `Table successfully updated`,
           });
           const bTableList = [...tableList].map((t, i) => {
             if (i === index) {
@@ -85,8 +98,46 @@ function TableList(props) {
       });
   };
 
+  const modalAction = () => {
+    if (modalOptions.table && modalOptions.action) {
+      const formdata = new FormData();
+      formdata.append('table', modalOptions.table);
+      formdata.append('action', modalOptions.action);
+
+      apiInstance
+        .post('/tableEmptyOrDrop', formdata)
+        .then(res => {
+          const bool = res.data.response;
+          if (bool) {
+            userContext.renderToast({
+              message: `${modalOptions.table} table successfully ${modalOptions.past}`,
+            });
+            loadTables();
+          }
+        })
+        .catch(error => {
+          userContext.renderToast({
+            type: 'error',
+            icon: 'fa fa-times-circle',
+            message: `Unable to ${modalOptions.action} table. Please try again.`,
+          });
+        })
+        .finally(() => setModalOptions(modalDefOptions));
+    }
+  };
+
   return (
     <div>
+      <ConfirmationModal
+        show={modalOptions.show}
+        confirmationstring={modalOptions.message}
+        handleHide={() => {
+          setModalOptions(modalDefOptions);
+        }}
+        handleYes={() => modalAction()}
+        size="md"
+      />
+
       <div className="py-2 ps-3">Tables</div>
       <div>
         <ListGroup variant="flush">
@@ -94,7 +145,7 @@ function TableList(props) {
             tableList.map((t, i) => (
               <ListGroup.Item
                 key={i}
-                className={`py-2 ${
+                className={`p-1 ${
                   userContext.userData.theme === 'dark'
                     ? 'bg-dark text-light'
                     : 'bg-white text-dark'
@@ -103,16 +154,18 @@ function TableList(props) {
                 <Dropdown
                   autoClose="outside"
                   as={ButtonGroup}
-                  className="d-flex justify-content-between align-items-start"
+                  className="d-flex justify-content-between align-items-start btn-group-sm"
                 >
-                  <Button className="text-break" variant="primary">
+                  <Button className="text-break" variant="primary w-75">
                     {t.renameLabel}
                   </Button>
-                  <Dropdown.Toggle split variant="primary" />
+                  <Dropdown.Toggle split variant="outline-primary w-25" />
                   <Dropdown.Menu className="p-1">
                     <Dropdown.Item as="div" className="p-1">
                       <Form.Label htmlFor={`renameTable-${i}`}>
-                        <small>Rename</small>
+                        <small>
+                          <b>Rename</b>
+                        </small>
                       </Form.Label>
                       <InputGroup size="sm">
                         <FormControl
@@ -133,13 +186,35 @@ function TableList(props) {
                       </InputGroup>
                     </Dropdown.Item>
                     <Dropdown.Item as="div" className="p-1">
-                      <button className="btn btn-sm btn-danger w-100">
+                      <button
+                        className="btn btn-sm btn-danger w-100"
+                        onClick={() =>
+                          setModalOptions({
+                            show: true,
+                            message: `Are you sure to empty table ${t.oldLabel}`,
+                            table: t.oldLabel,
+                            action: 'empty',
+                            past: 'emptied',
+                          })
+                        }
+                      >
                         Empty Table
                       </button>
                     </Dropdown.Item>
                     <Dropdown.Item as="div" className="p-1">
-                      <button className="btn btn-sm btn-danger w-100">
-                        Delete Table
+                      <button
+                        className="btn btn-sm btn-danger w-100"
+                        onClick={() =>
+                          setModalOptions({
+                            show: true,
+                            message: `Are you sure to drop table ${t.oldLabel}`,
+                            table: t.oldLabel,
+                            action: 'drop',
+                            past: 'dropped',
+                          })
+                        }
+                      >
+                        Drop Table
                       </button>
                     </Dropdown.Item>
                   </Dropdown.Menu>

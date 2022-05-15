@@ -245,4 +245,16 @@ class cms_model extends CI_Model
         );
         return get_all_rows($query);
     }
+
+    public function truncateTable($table)
+    {
+        if (isset($table)) {
+            if ($this->db->truncate($table)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }

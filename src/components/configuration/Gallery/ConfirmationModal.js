@@ -8,8 +8,14 @@ function ConfirmationModal(props) {
 
   return (
     <Modal {...rest} style={{ zIndex: 9999 }}>
-      <Modal.Header>
-        <Modal.Title>{confirmationstring}</Modal.Title>
+      <Modal.Header
+        className={`rounded-bottom ${
+          userContext.userData.theme === 'dark'
+            ? 'bg-dark text-light'
+            : 'bg-white text-dark'
+        }`}
+      >
+        <Modal.Title as="p">{confirmationstring}</Modal.Title>
       </Modal.Header>
       <Modal.Body
         className={`rounded-bottom ${
@@ -20,12 +26,12 @@ function ConfirmationModal(props) {
       >
         <p className="text-center">This action cannot be undone!</p>
         <div className="row">
-          <div className="col-6 text-center">
+          <div className="col-6 text-center d-grid">
             <button onClick={() => handleYes()} className="btn btn-az">
               <i className="fa fa-thumbs-o-up" />
             </button>
           </div>
-          <div className="col-6 text-center">
+          <div className="col-6 text-center d-grid">
             <button onClick={() => handleHide()} className="btn btn-az dark">
               <i className="fa fa-thumbs-o-down" />
             </button>
