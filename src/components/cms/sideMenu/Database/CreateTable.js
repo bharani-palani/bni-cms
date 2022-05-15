@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   ListGroup,
   InputGroup,
@@ -8,8 +8,11 @@ import {
   Dropdown,
 } from 'react-bootstrap';
 import apiInstance from '../../../../services/apiServices';
+import { TableConfigContext } from './TableConfig';
 
 function CreateTable(props) {
+  const tableConfigContext = useContext(TableConfigContext);
+
   const inputTypeList = [
     { value: 'INT', label: 'INT' },
     { value: 'TINYINT', label: 'TINYINT' },
@@ -84,11 +87,28 @@ function CreateTable(props) {
 
     apiInstance
       .post('/createTable', formdata)
-      .then(response => {
-        console.log('bbb', response);
+      .then(res => {
+        const bool = res.data.response;
+        if (bool) {
+          userContext.renderToast({
+            message: `Table "${tableName}" successfully created`,
+          });
+          tableConfigContext.loadTables();
+        } else {
+          userContext.renderToast({
+            type: 'error',
+            icon: 'fa fa-times-circle',
+            message:
+              'Oops.. Some thing wrong in your schema. Please correct them and try again.',
+          });
+        }
       })
       .catch(error => {
-        console.error(error);
+        userContext.renderToast({
+          type: 'error',
+          icon: 'fa fa-times-circle',
+          message: 'Oops.. Some thing wrong. Please try again.',
+        });
       });
   };
 

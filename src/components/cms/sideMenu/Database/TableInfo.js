@@ -7,9 +7,10 @@ function TableInfo(props) {
   return (
     <div className="table-responsive">
       <table
-        className={`table ${
+        className={`table table-sm table-striped ${
           userContext.userData.theme === 'dark' ? 'table-dark' : 'table-light'
         }`}
+        style={{ minWidth: '768px' }}
       >
         <thead>
           <tr>
