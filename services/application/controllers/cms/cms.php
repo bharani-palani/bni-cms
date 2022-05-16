@@ -347,4 +347,25 @@ class cms extends CI_Controller
             $this->auth->response($data, [], 200);
         }
     }
+
+    public function dropTableColumn()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $field = $this->input->post('field');
+            if ($this->dbforge->drop_column($table, $field)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
+        }
+    }
 }

@@ -59,6 +59,7 @@ $route['getTables'] = 'cms/cms/getTables';
 $route['renameTable'] = 'cms/cms/renameTable';
 $route['tableEmptyOrDrop'] = 'cms/cms/tableEmptyOrDrop';
 $route['getTableInfo'] = 'cms/cms/getTableInfo';
+$route['dropTableColumn'] = 'cms/cms/dropTableColumn';
 
 // users and config
 $route['postBackend'] = 'home/postBackend';

@@ -15,6 +15,49 @@ function TableConfig(props) {
     data: [],
   });
   const [loading, setLoading] = useState(false);
+  const inputTypeList = [
+    { value: 'INT', label: 'INT' },
+    { value: 'TINYINT', label: 'TINYINT' },
+    { value: 'SMALLINT', label: 'SMALLINT' },
+    { value: 'MEDIUMINT', label: 'MEDIUMINT' },
+    { value: 'BIGINT', label: 'BIGINT' },
+    { value: 'CHAR', label: 'CHAR' },
+    { value: 'VARCHAR', label: 'VARCHAR' },
+    { value: 'TEXT', label: 'TEXT' },
+    { value: 'TINYTEXT', label: 'TINYTEXT' },
+    { value: 'MEDIUMTEXT', label: 'MEDIUMTEXT' },
+    { value: 'LONGTEXT', label: 'LONGTEXT' },
+    { value: 'BLOB', label: 'BLOB' },
+    { value: 'MEDIUMBLOB', label: 'MEDIUMBLOB' },
+    { value: 'LONGBLOB', label: 'LONGBLOB' },
+    { value: 'FLOAT', label: 'FLOAT' },
+    { value: 'DOUBLE', label: 'DOUBLE' },
+    { value: 'DECIMAL', label: 'DECIMAL' },
+    { value: 'DATE', label: 'DATE' },
+    { value: 'DATETIME', label: 'DATETIME' },
+    { value: 'TIMESTAMP', label: 'TIMESTAMP' },
+    { value: 'TIME', label: 'TIME' },
+    { value: 'ENUM', label: 'ENUM' },
+    { value: 'SET', label: 'SET' },
+    { value: 'BOOLEAN', label: 'BOOLEAN' },
+  ];
+
+  const defaultOptions = {
+    field: '',
+    type: '',
+    constraint: '',
+    options: [
+      { label: 'Auto Increment', key: 'auto_increment', value: false },
+      { label: 'Unsigned', key: 'unsigned', value: false },
+      { label: 'Null', key: 'null', value: false },
+      { label: 'Default', key: 'default', value: '' },
+    ],
+    keys: [
+      { label: 'Primary key', key: 'primaryKey', value: false },
+      { label: 'Index', key: 'index', value: false },
+    ],
+    // note: focus to start here to set foreign keys in future
+  };
 
   useEffect(() => {
     loadTables();
@@ -73,6 +116,8 @@ function TableConfig(props) {
         loadTables,
         infoList,
         setInfoList,
+        inputTypeList,
+        defaultOptions,
       }}
     >
       <Row>
