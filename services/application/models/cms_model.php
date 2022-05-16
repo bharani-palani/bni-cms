@@ -257,4 +257,16 @@ class cms_model extends CI_Model
         }
         return false;
     }
+
+    public function getTableInfo($table)
+    {
+        if (isset($table)) {
+            // $fields = $this->db->field_data($table);
+            // return $fields;
+            $query = $this->db->query('DESCRIBE ' . $table);
+            return get_all_rows($query);
+        } else {
+            return [];
+        }
+    }
 }

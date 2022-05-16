@@ -111,7 +111,8 @@ function CreateTable(props) {
           icon: 'fa fa-times-circle',
           message: 'Oops.. Some thing wrong. Please try again.',
         });
-      });
+      })
+      .finally(() => setSelectedTypes([]));
   };
 
   return (
@@ -131,6 +132,11 @@ function CreateTable(props) {
       </div>
       <div className="mb-2">
         <div className="col-md-3">
+          <small className="badge bg-danger mb-1">
+            <em>
+              Note: Table name cannot start with reserved name &quot;az &quot;
+            </em>
+          </small>
           <InputGroup size="sm" className="mb-2">
             <InputGroup.Text>
               <Form.Label htmlFor="tableName" className="mb-0">

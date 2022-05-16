@@ -38,7 +38,7 @@ function TableList(props) {
   };
 
   const tableValidation = e => {
-    const ALLOWED_CHARS_REGEXP = /^[a-zA-Z0-9 ]$/g;
+    const ALLOWED_CHARS_REGEXP = /^[a-z0-9 ]$/g;
     if (!ALLOWED_CHARS_REGEXP.test(e.key) || e.key === ' ') {
       e.preventDefault();
     }
@@ -110,13 +110,15 @@ function TableList(props) {
             message: `Unable to ${modalOptions.action} table. Please try again.`,
           });
         })
-        .finally(() => setModalOptions(modalDefOptions));
+        .finally(() => {
+          setModalOptions(modalDefOptions);
+        });
     }
   };
 
   return (
     <TableConfigContext.Consumer>
-      {({ tableList }) => (
+      {({ tableList, loading, setInfoList }) => (
         <>
           <ConfirmationModal
             show={modalOptions.show}
@@ -127,11 +129,11 @@ function TableList(props) {
             handleYes={() => modalAction()}
             size="md"
           />
-
           <div className="py-2 ps-3">Tables</div>
           <div>
             <ListGroup variant="flush">
-              {tableList.length > 0 ? (
+              {tableList.length > 0 &&
+                !loading &&
                 tableList.map((t, i) => (
                   <ListGroup.Item
                     key={i}
@@ -146,7 +148,11 @@ function TableList(props) {
                       as={ButtonGroup}
                       className="d-flex justify-content-between align-items-start btn-group-sm"
                     >
-                      <Button className="text-break" variant="primary w-75">
+                      <Button
+                        onClick={() => setInfoList({ table: t.oldLabel })}
+                        className="text-break"
+                        variant="primary w-75"
+                      >
                         {t.renameLabel}
                       </Button>
                       <Dropdown.Toggle split variant="outline-primary w-25" />
@@ -210,8 +216,8 @@ function TableList(props) {
                       </Dropdown.Menu>
                     </Dropdown>
                   </ListGroup.Item>
-                ))
-              ) : (
+                ))}
+              {!tableList.length && !loading && (
                 <ListGroup.Item
                   className={`py-2 text-center ${
                     userContext.userData.theme === 'dark'
@@ -219,7 +225,7 @@ function TableList(props) {
                       : 'bg-white text-dark'
                   }`}
                 >
-                  No Tables found
+                  <em>No Tables found</em>
                 </ListGroup.Item>
               )}
             </ListGroup>

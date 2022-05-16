@@ -15,6 +15,9 @@
 ## DEV run
 - npm start
 
+## DEV run (disable web security)
+- chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
+
 ## Build process:
 - run "npm run build" in your root folder
 - Dont forget to commit and push the entire files (including build folder) to repo

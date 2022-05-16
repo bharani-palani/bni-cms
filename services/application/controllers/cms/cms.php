@@ -329,4 +329,22 @@ class cms extends CI_Controller
             $this->auth->response($data, [], 200);
         }
     }
+
+    public function getTableInfo()
+    {
+        // $validate = $this->auth->validateAll();
+        // if ($validate === 2) {
+        //     $this->auth->invalidTokenResponse();
+        // }
+        // if ($validate === 3) {
+        //     $this->auth->invalidDomainResponse();
+        // }
+        // if ($validate === 1) {
+
+        $table = $this->input->post('table');
+        $data['response'] = $this->cms_model->getTableInfo($table);
+        $this->auth->response($data, [], 200);
+
+        // }
+    }
 }
