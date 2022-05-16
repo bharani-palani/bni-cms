@@ -9,7 +9,12 @@ function TableInfo(props) {
     <TableConfigContext.Consumer>
       {({ infoList }) => (
         <div>
-          <div className="py-2">Table structure: {infoList.table}</div>
+          <div className="py-2">
+            <span className="badge bg-primary me-1">{infoList.table}</span>
+            <span className="badge bg-success ms-1">
+              {infoList.records} record(s)
+            </span>
+          </div>
           <div className="table-responsive">
             <table
               className={`table table-sm table-striped ${

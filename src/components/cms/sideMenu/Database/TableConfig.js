@@ -28,7 +28,11 @@ function TableConfig(props) {
       apiInstance
         .post('/getTableInfo', formdata)
         .then(res => {
-          setInfoList({ table: infoList.table, data: res.data.response });
+          setInfoList({
+            table: infoList.table,
+            data: res.data.response.info,
+            records: res.data.response.records,
+          });
         })
         .catch(error => {
           console.error(error);

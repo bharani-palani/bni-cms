@@ -332,19 +332,19 @@ class cms extends CI_Controller
 
     public function getTableInfo()
     {
-        // $validate = $this->auth->validateAll();
-        // if ($validate === 2) {
-        //     $this->auth->invalidTokenResponse();
-        // }
-        // if ($validate === 3) {
-        //     $this->auth->invalidDomainResponse();
-        // }
-        // if ($validate === 1) {
-
-        $table = $this->input->post('table');
-        $data['response'] = $this->cms_model->getTableInfo($table);
-        $this->auth->response($data, [], 200);
-
-        // }
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $info = $this->cms_model->getTableInfo($table);
+            $records = $this->cms_model->getTableRecords($table);
+            $data['response'] = ['info' => $info, 'records' => $records];
+            $this->auth->response($data, [], 200);
+        }
     }
 }

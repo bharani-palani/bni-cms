@@ -269,4 +269,14 @@ class cms_model extends CI_Model
             return [];
         }
     }
+
+    public function getTableRecords($table)
+    {
+        if (isset($table)) {
+            $records = $this->db->count_all($table);
+            return $records;
+        } else {
+            return 0;
+        }
+    }
 }
