@@ -5,7 +5,6 @@ import apiInstance from '../../services/apiServices';
 import { withRouter } from 'react-router-dom';
 import Settings from '../configuration/settings';
 import LayoutDesign from './layoutDesign';
-import * as ReactBootstrap from 'react-bootstrap';
 import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
 import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
@@ -23,10 +22,9 @@ function Cms(props) {
   });
 
   const componentMap = {
-    'app-settings': Settings,
-    'app-layoutDesign': LayoutDesign,
-    'app-bootstrap': ReactBootstrap,
-    'app-ajaxform': AjaxForm,
+    'az-settings': Settings,
+    'az-layoutDesign': LayoutDesign,
+    'az-ajaxform': AjaxForm,
     ...Object.keys(BootstrapComponents).reduce(
       (obj, item) => ({ ...obj, [item]: BootstrapComponents[item] }),
       {}

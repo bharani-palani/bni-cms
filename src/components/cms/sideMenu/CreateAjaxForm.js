@@ -681,7 +681,7 @@ function CreateAjaxForm(props) {
             <div className="d-grid mb-1">
               <Button
                 size="sm"
-                disabled={!selectedComponents.length > 0}
+                disabled={!selectedComponents || !selectedComponents.length > 0}
                 variant="primary"
                 onClick={() => saveProps()}
               >
