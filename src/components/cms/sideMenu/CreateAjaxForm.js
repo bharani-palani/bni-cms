@@ -164,7 +164,7 @@ function CreateAjaxForm(props) {
     if (
       layoutContext.state.pageDetails &&
       layoutContext.state.selectedNodeId &&
-      layoutContext.state.selectedComponent === 'app-ajaxform'
+      layoutContext.state.selectedComponent === 'az-ajaxform'
     ) {
       const details = layoutContext.state.pageDetails.pageObject;
       const nodeId = layoutContext.state.selectedNodeId;
@@ -259,7 +259,7 @@ function CreateAjaxForm(props) {
   };
 
   const saveProps = () => {
-    if (layoutContext.state.selectedComponent !== 'app-ajaxform') {
+    if (layoutContext.state.selectedComponent !== 'az-ajaxform') {
       save();
     } else {
       const details = [{ ...layoutContext.state.pageDetails.pageObject }];
@@ -302,7 +302,7 @@ function CreateAjaxForm(props) {
       },
       children: [],
       title: 'AjaxForm',
-      component: `app-ajaxform`,
+      component: `az-ajaxform`,
     };
 
     const newObject = findAndAddComponent(
