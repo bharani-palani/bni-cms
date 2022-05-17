@@ -4,6 +4,7 @@ import { TableConfigContext } from './TableConfig';
 import ConfirmationModal from '../../../configuration/Gallery/ConfirmationModal';
 import apiInstance from '../../../../services/apiServices';
 import { Button, Modal } from 'react-bootstrap';
+import InlineForm from './InlineForm';
 
 function TableInfo(props) {
   const tableConfigContext = useContext(TableConfigContext);
@@ -14,13 +15,6 @@ function TableInfo(props) {
     table: '',
   };
   const [modalOptions, setModalOptions] = useState(modalDefOptions);
-  const defEditModalOptions = {
-    show: false,
-    table: '',
-    field: '',
-    update: {},
-  };
-  const [editModalOptions, setEditModalOptions] = useState(defEditModalOptions);
 
   const modalAction = () => {
     const formdata = new FormData();
@@ -56,7 +50,16 @@ function TableInfo(props) {
 
   return (
     <TableConfigContext.Consumer>
-      {({ infoList }) => (
+      {({
+        infoList,
+        setFormType,
+        defaultOptions,
+        setTableName,
+        editModalShow,
+        setEditModalShow,
+        createColumnModalShow,
+        setCreateColumnModalShow,
+      }) => (
         <div>
           <ConfirmationModal
             show={modalOptions.show}
@@ -68,22 +71,66 @@ function TableInfo(props) {
             size="md"
           />
           <Modal
-            show={editModalOptions.show}
-            style={{ zIndex: 9999 }}
+            show={editModalShow}
             backdrop="static"
             centered
             size="lg"
             keyboard={false}
-            onHide={() => setEditModalOptions(defEditModalOptions)}
+            onHide={() => {
+              setModalOptions(modalDefOptions);
+              setEditModalShow(false);
+              setFormType(defaultOptions);
+              setTableName('');
+            }}
+            className={
+              userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'
+            }
+            style={{
+              zIndex: 9999,
+            }}
           >
             <Modal.Header closeButton>
-              <Modal.Title as="div">Edit column</Modal.Title>
+              <Modal.Title as="div">
+                Table &quot;{infoList.table}&quot;
+              </Modal.Title>
             </Modal.Header>
-            <Modal.Body>content</Modal.Body>
+            <Modal.Body>
+              <p>Edit column</p>
+              <InlineForm mode="edit" />
+            </Modal.Body>
+          </Modal>
+          <Modal
+            show={createColumnModalShow}
+            backdrop="static"
+            centered
+            size="lg"
+            keyboard={false}
+            onHide={() => {
+              setModalOptions(modalDefOptions);
+              setCreateColumnModalShow(false);
+              setFormType(defaultOptions);
+              setTableName('');
+            }}
+            className={
+              userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'
+            }
+            style={{
+              zIndex: 9999,
+            }}
+          >
+            <Modal.Header closeButton>
+              <Modal.Title as="div">
+                Table &quot;{infoList.table}&quot;
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>Add column</p>
+              <InlineForm mode="add" />
+            </Modal.Body>
           </Modal>
           <div className="py-2">
-            <span className="badge bg-primary me-1">{infoList.table}</span>
-            <span className="badge bg-success ms-1">
+            <h4 className="">{infoList.table}</h4>
+            <span className="badge bg-success">
               {infoList.records} record(s)
             </span>
           </div>
@@ -123,14 +170,15 @@ function TableInfo(props) {
                         />
                         <i
                           className="fa fa-pencil cursor-pointer text-success"
-                          onClick={() =>
-                            setEditModalOptions({
-                              show: true,
-                              table: infoList.table,
+                          onClick={() => {
+                            setEditModalShow(true);
+                            setFormType(prevState => ({
+                              ...prevState,
+                              oldField: h.Field,
                               field: h.Field,
-                              update: {},
-                            })
-                          }
+                            }));
+                            setTableName(infoList.table);
+                          }}
                         />
                       </div>
                     </td>
@@ -141,8 +189,14 @@ function TableInfo(props) {
                 ))}
               </tbody>
             </table>
-            <Button size="sm">Add Column</Button>
           </div>
+          <Button
+            size="sm"
+            className="my-2"
+            onClick={() => setCreateColumnModalShow(true)}
+          >
+            Add Column
+          </Button>
         </div>
       )}
     </TableConfigContext.Consumer>

@@ -1,48 +1,31 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import {
   ListGroup,
   InputGroup,
   FormControl,
   Button,
   Form,
-  Dropdown,
 } from 'react-bootstrap';
 import apiInstance from '../../../../services/apiServices';
 import { TableConfigContext } from './TableConfig';
 import { UserContext } from '../../../../contexts/UserContext';
+import InlineForm from './InlineForm';
 
 function CreateTable(props) {
   const tableConfigContext = useContext(TableConfigContext);
   const userContext = useContext(UserContext);
 
-  const [formType, setFormType] = useState(tableConfigContext.defaultOptions);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const [tableName, setTableName] = useState('');
-
-  const addType = () => {
-    const newRow = {
-      field: formType.field,
-      type: formType.type,
-      constraint: formType.constraint,
-      options: formType.options
-        .filter(o => o.value)
-        .map(item => ({ [item.key]: item.value })),
-      keys: formType.keys.filter(f => f.value).map(item => item.key),
-    };
-    const bSelectedTypes = [...selectedTypes, newRow];
-    setSelectedTypes(bSelectedTypes);
-    setFormType(tableConfigContext.defaultOptions);
-  };
-
   const removeField = index => {
-    const filtered = [...selectedTypes].filter((_, i) => i !== index);
-    setSelectedTypes(filtered);
+    const filtered = [...tableConfigContext.selectedTypes].filter(
+      (_, i) => i !== index
+    );
+    tableConfigContext.setSelectedTypes(filtered);
   };
 
   const createTable = () => {
     const formdata = new FormData();
-    formdata.append('table', tableName);
-    formdata.append('fields', JSON.stringify(selectedTypes));
+    formdata.append('table', tableConfigContext.tableName);
+    formdata.append('fields', JSON.stringify(tableConfigContext.selectedTypes));
 
     apiInstance
       .post('/createTable', formdata)
@@ -50,7 +33,7 @@ function CreateTable(props) {
         const bool = res.data.response;
         if (bool) {
           userContext.renderToast({
-            message: `Table "${tableName}" successfully created`,
+            message: `Table "${tableConfigContext.tableName}" successfully created`,
           });
           tableConfigContext.loadTables();
         } else {
@@ -70,15 +53,15 @@ function CreateTable(props) {
         });
       })
       .finally(() => {
-        setSelectedTypes([]);
-        setTableName('');
+        tableConfigContext.setSelectedTypes([]);
+        tableConfigContext.setTableName('');
       });
   };
 
   return (
     <TableConfigContext.Consumer>
-      {({ inputTypeList }) => (
-        <div>
+      {({ selectedTypes, tableName, setTableName }) => (
+        <div className="border-1 border-bottom pb-3">
           <div className="py-2">
             <div>Create Table</div>
             <em>
@@ -114,132 +97,7 @@ function CreateTable(props) {
               </InputGroup>
             </div>
             <div className="col-lg-6">
-              <InputGroup size="sm" className="mb-2 col-md-6">
-                <FormControl
-                  placeholder="Field name"
-                  value={formType.field}
-                  onChange={e =>
-                    setFormType(prevState => ({
-                      ...prevState,
-                      field: e.target.value,
-                    }))
-                  }
-                />
-                <Form.Select
-                  value={formType.type}
-                  onChange={e =>
-                    setFormType(prevState => ({
-                      ...prevState,
-                      type: e.target.value,
-                    }))
-                  }
-                >
-                  <option value="">Select Type</option>
-                  {inputTypeList.map((l, i) => (
-                    <option value={l.value} key={i}>
-                      {l.label}
-                    </option>
-                  ))}
-                </Form.Select>
-                <FormControl
-                  placeholder="Constraint"
-                  type="number"
-                  value={formType.constraint}
-                  onChange={e =>
-                    setFormType(prevState => ({
-                      ...prevState,
-                      constraint: e.target.value,
-                    }))
-                  }
-                />
-                <Dropdown autoClose="outside">
-                  <Dropdown.Toggle id="dropdown-autoclose-true" />
-                  <Dropdown.Menu variant="primary">
-                    <div className="p-1 small">
-                      {formType.options.map((o, i) => (
-                        <React.Fragment key={i}>
-                          {typeof o.value === 'boolean' ? (
-                            <div className="form-check">
-                              <input
-                                type="checkbox"
-                                className="form-check-input"
-                                id={o.label}
-                                name={o.key}
-                                checked={o.value}
-                                onChange={e => {
-                                  setFormType(prevState => ({
-                                    ...prevState,
-                                    options: prevState.options.map(obj =>
-                                      obj.key === o.key
-                                        ? Object.assign(obj, {
-                                            value: e.target.checked,
-                                          })
-                                        : obj
-                                    ),
-                                  }));
-                                }}
-                              />
-                              <label
-                                className="form-check-label"
-                                htmlFor={o.label}
-                              >
-                                {o.label}
-                              </label>
-                            </div>
-                          ) : (
-                            <FormControl
-                              placeholder={o.label}
-                              size="sm"
-                              value={o.value}
-                              onChange={e =>
-                                setFormType(prevState => ({
-                                  ...prevState,
-                                  options: prevState.options.map(obj =>
-                                    obj.key === o.key
-                                      ? Object.assign(obj, {
-                                          value: e.target.value,
-                                        })
-                                      : obj
-                                  ),
-                                }))
-                              }
-                            />
-                          )}
-                        </React.Fragment>
-                      ))}
-                      <div className="p-1 fw-bold">Keys</div>
-                      {formType.keys.map((k, j) => (
-                        <Form.Check
-                          key={j}
-                          name="key"
-                          type={'radio'}
-                          label={k.label}
-                          id={k.key}
-                          checked={k.value}
-                          onChange={e =>
-                            setFormType(prevState => ({
-                              ...prevState,
-                              keys: prevState.keys.map(obj =>
-                                obj.key === k.key
-                                  ? Object.assign(obj, {
-                                      value: e.target.checked,
-                                    })
-                                  : obj
-                              ),
-                            }))
-                          }
-                        />
-                      ))}
-                    </div>
-                  </Dropdown.Menu>
-                </Dropdown>
-                <Button
-                  disabled={!(formType.field && formType.type)}
-                  onClick={() => addType()}
-                >
-                  <i className="fa fa-plus" />
-                </Button>
-              </InputGroup>
+              <InlineForm mode="create" />
             </div>
           </div>
           {selectedTypes.length > 0 && (

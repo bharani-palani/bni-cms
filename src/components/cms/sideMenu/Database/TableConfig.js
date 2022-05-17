@@ -1,14 +1,15 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import CreateTable from './CreateTable';
 import TableList from './TableList';
 import TableInfo from './TableInfo';
 import apiInstance from '../../../../services/apiServices';
+import { UserContext } from '../../../../contexts/UserContext';
 
 export const TableConfigContext = React.createContext();
 
 function TableConfig(props) {
+  const userContext = useContext(UserContext);
   const [tableList, setTableList] = useState([]);
   const [infoList, setInfoList] = useState({
     table: '',
@@ -43,6 +44,7 @@ function TableConfig(props) {
   ];
 
   const defaultOptions = {
+    oldField: '',
     field: '',
     type: '',
     constraint: '',
@@ -58,6 +60,11 @@ function TableConfig(props) {
     ],
     // note: focus to start here to set foreign keys in future
   };
+  const [formType, setFormType] = useState(defaultOptions);
+  const [selectedTypes, setSelectedTypes] = useState([]);
+  const [tableName, setTableName] = useState('');
+  const [editModalShow, setEditModalShow] = useState(false);
+  const [createColumnModalShow, setCreateColumnModalShow] = useState(false);
 
   useEffect(() => {
     loadTables();
@@ -107,6 +114,96 @@ function TableConfig(props) {
       .finally(() => setLoading(false));
   };
 
+  const addType = () => {
+    const newRow = {
+      oldField: formType.field,
+      field: formType.field,
+      type: formType.type,
+      constraint: formType.constraint,
+      options: formType.options
+        .filter(o => o.value)
+        .map(item => ({ [item.key]: item.value })),
+      keys: formType.keys.filter(f => f.value).map(item => item.key),
+    };
+    const bSelectedTypes = [...selectedTypes, newRow];
+    setSelectedTypes(bSelectedTypes);
+    setFormType(defaultOptions);
+  };
+
+  const editInlineForm = () => {
+    const formdata = new FormData();
+    formdata.append('table', tableName);
+    formdata.append('fields', JSON.stringify([formType]));
+
+    apiInstance
+      .post('/updateTableColumn', formdata)
+      .then(res => {
+        const bool = res.data.response;
+        if (bool) {
+          userContext.renderToast({
+            message: `Column "${formType.field}" successfully updated.`,
+          });
+          setInfoList({ table: tableName });
+        } else {
+          userContext.renderToast({
+            type: 'error',
+            icon: 'fa fa-times-circle',
+            message:
+              'Oops.. Some thing wrong in your column schema. Please correct them and try again.',
+          });
+        }
+      })
+      .catch(error => {
+        userContext.renderToast({
+          type: 'error',
+          icon: 'fa fa-times-circle',
+          message: 'Oops.. Some thing went wrong. Please try again.',
+        });
+      })
+      .finally(() => {
+        setTableName('');
+        setEditModalShow(false);
+        setFormType(defaultOptions);
+      });
+  };
+
+  const addColumnInlineForm = () => {
+    const formdata = new FormData();
+    formdata.append('table', infoList.table);
+    formdata.append('fields', JSON.stringify([formType]));
+
+    apiInstance
+      .post('/addTableColumn', formdata)
+      .then(res => {
+        const bool = res.data.response;
+        if (bool) {
+          userContext.renderToast({
+            message: `Column "${formType.field}" successfully added.`,
+          });
+          setInfoList({ table: infoList.table });
+        } else {
+          userContext.renderToast({
+            type: 'error',
+            icon: 'fa fa-times-circle',
+            message:
+              'Oops.. Some thing wrong in your column schema. Please correct them and try again.',
+          });
+        }
+      })
+      .catch(error => {
+        userContext.renderToast({
+          type: 'error',
+          icon: 'fa fa-times-circle',
+          message: 'Oops.. Some thing went wrong. Please try again.',
+        });
+      })
+      .finally(() => {
+        setTableName('');
+        setCreateColumnModalShow(false);
+        setFormType(defaultOptions);
+      });
+  };
+
   return (
     <TableConfigContext.Provider
       value={{
@@ -118,6 +215,19 @@ function TableConfig(props) {
         setInfoList,
         inputTypeList,
         defaultOptions,
+        addType,
+        formType,
+        setFormType,
+        selectedTypes,
+        setSelectedTypes,
+        tableName,
+        setTableName,
+        editInlineForm,
+        editModalShow,
+        setEditModalShow,
+        createColumnModalShow,
+        setCreateColumnModalShow,
+        addColumnInlineForm,
       }}
     >
       <Row>

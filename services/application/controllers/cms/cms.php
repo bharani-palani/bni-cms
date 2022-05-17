@@ -368,4 +368,113 @@ class cms extends CI_Controller
             $this->auth->response($data, [], 200);
         }
     }
+
+    public function updateTableColumn()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $fields = json_decode($this->input->post('fields'));
+
+            $fieldArray = [];
+            foreach ($fields as $row) {
+                $fieldArray[$row->oldField] = [
+                    'type' => $row->type,
+                    'name' => $row->field,
+                    'constraint' => !empty($row->constraint)
+                        ? $row->constraint
+                        : false,
+                    'auto_increment' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData(
+                                $row->options,
+                                'auto_increment'
+                            )
+                            : false,
+                    'unsigned' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'unsigned')
+                            : false,
+                    'default' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'default')
+                            : false,
+                    'null' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'null')
+                            : false,
+                ];
+                $fieldArray[$row->oldField] = array_filter(
+                    $fieldArray[$row->oldField]
+                );
+            }
+
+            if ($this->dbforge->modify_column($table, $fieldArray)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
+        }
+    }
+
+    public function addTableColumn()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $fields = json_decode($this->input->post('fields'));
+
+            $fieldArray = [];
+            foreach ($fields as $row) {
+                $fieldArray[$row->field] = [
+                    'type' => $row->type,
+                    'constraint' => !empty($row->constraint)
+                        ? $row->constraint
+                        : false,
+                    'auto_increment' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData(
+                                $row->options,
+                                'auto_increment'
+                            )
+                            : false,
+                    'unsigned' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'unsigned')
+                            : false,
+                    'default' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'default')
+                            : false,
+                    'null' =>
+                        count($row->options) > 0
+                            ? $this->getFieldData($row->options, 'null')
+                            : false,
+                ];
+                $fieldArray[$row->field] = array_filter(
+                    $fieldArray[$row->field]
+                );
+            }
+
+            if ($this->dbforge->add_column($table, $fieldArray)) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
+            }
+            $this->auth->response($data, [], 200);
+        }
+    }
 }
