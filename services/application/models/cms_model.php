@@ -279,4 +279,13 @@ class cms_model extends CI_Model
             return 0;
         }
     }
+
+    public function postAjaxForm($table, $fieldArray)
+    {
+        if ($this->db->insert($table, $fieldArray)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

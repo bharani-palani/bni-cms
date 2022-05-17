@@ -1,9 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import ReactiveForm from '../../configuration/ReactiveForm/';
+import apiInstance from '../../../services/apiServices';
+import { UserContext } from '../../../contexts/UserContext';
 
 function AjaxForm(props) {
+  const userContext = useContext(UserContext);
   const {
-    config: { table, ...restConfig },
+    config: { table, successMessage, ...restConfig },
     structure,
   } = props;
   const [formedStructure, setFormedStructure] = useState([]);
@@ -78,16 +81,53 @@ function AjaxForm(props) {
     setFormedStructure(backupStructure);
   };
 
+  const resetForm = () => {
+    let backupStructure = [...formedStructure];
+    backupStructure = backupStructure.map(backup => {
+      backup.value = Array.isArray(backup.value) ? [] : '';
+      return backup;
+    });
+    setFormedStructure([]);
+    setTimeout(() => {
+      setFormedStructure(backupStructure);
+    }, 10);
+  };
+
   const onReactiveFormSubmit = () => {
-    // todo: reset form afetr post or error
-    const payLoad = {
-      table,
-      fields: formedStructure.map(form => ({
-        field: form.index,
-        value: Array.isArray(form.value) ? form.value.join(',') : form.value,
-      })),
-    };
-    console.log('bbb', payLoad);
+    const fields = formedStructure.map(form => ({
+      field: form.index,
+      value: Array.isArray(form.value) ? form.value.join(',') : form.value,
+    }));
+
+    const formdata = new FormData();
+    formdata.append('table', table);
+    formdata.append('fields', JSON.stringify(fields));
+
+    apiInstance
+      .post('/postAjaxForm', formdata)
+      .then(res => {
+        const bool = res.data.response;
+        if (bool) {
+          userContext.renderToast({
+            message: successMessage,
+          });
+        } else {
+          userContext.renderToast({
+            type: 'error',
+            icon: 'fa fa-times-circle',
+            message:
+              'Oops.. Some thing wrong in your form. Please correct them and try again.',
+          });
+        }
+      })
+      .catch(error => {
+        userContext.renderToast({
+          type: 'error',
+          icon: 'fa fa-times-circle',
+          message: 'Oops.. Some thing went wrong. Please try again.',
+        });
+      })
+      .finally(() => resetForm());
   };
 
   return (

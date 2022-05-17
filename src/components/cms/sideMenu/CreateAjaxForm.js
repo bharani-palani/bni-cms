@@ -18,12 +18,14 @@ function CreateAjaxForm(props) {
     parentClassName: '',
     submitBtnLabel: 'Submit',
     submitBtnClassName: 'btn btn-success',
+    successMessage: 'Form successfully posted',
   });
   const configAssoc = {
     table: { label: 'POST Table' },
     parentClassName: { label: 'Wrapper class' },
     submitBtnLabel: { label: 'Submit label' },
     submitBtnClassName: { label: 'Submit class' },
+    successMessage: { label: 'Success message' },
   };
   const [listForm, setListForm] = useState({
     id: '',
@@ -184,6 +186,9 @@ function CreateAjaxForm(props) {
           submitBtnClassName: selectedProps.config
             ? selectedProps.config.submitBtnClassName
             : 'btn btn-success',
+          successMessage: selectedProps.config
+            ? selectedProps.config.successMessage
+            : 'Form successfully posted',
         }));
         setSelectedComponents(selectedProps.structure);
       }, 10);
@@ -195,6 +200,7 @@ function CreateAjaxForm(props) {
           parentClassName: '',
           submitBtnLabel: 'Submit',
           submitBtnClassName: 'btn btn-success',
+          successMessage: 'Form successfully posted',
         });
         setSelectedComponents([]);
       }, 10);

@@ -477,4 +477,33 @@ class cms extends CI_Controller
             $this->auth->response($data, [], 200);
         }
     }
+
+    public function postAjaxForm()
+    {
+        $validate = $this->auth->validateAll();
+        if ($validate === 2) {
+            $this->auth->invalidTokenResponse();
+        }
+        if ($validate === 3) {
+            $this->auth->invalidDomainResponse();
+        }
+        if ($validate === 1) {
+            $table = $this->input->post('table');
+            $fields = $this->input->post('fields');
+            if (isset($fields) && isset($table)) {
+                $arr = json_decode($fields, true);
+                if (is_array($arr)) {
+                    $fieldArray = [];
+                    foreach ($arr as $row) {
+                        $fieldArray[$row['field']] = $row['value'];
+                    }
+                    $data['response'] = $this->cms_model->postAjaxForm(
+                        $table,
+                        $fieldArray
+                    );
+                    $this->auth->response($data, [], 200);
+                }
+            }
+        }
+    }
 }
