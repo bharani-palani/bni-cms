@@ -83,18 +83,31 @@ function TableInfo(props) {
               setTableName('');
             }}
             className={
-              userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'
+              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-light'
             }
             style={{
               zIndex: 9999,
             }}
           >
-            <Modal.Header closeButton>
+            <Modal.Header
+              closeButton
+              className={`rounded-0 ${
+                userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-light'
+                  : 'bg-white text-dark'
+              }`}
+            >
               <Modal.Title as="div">
                 Table &quot;{infoList.table}&quot;
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body
+              className={`rounded-0 ${
+                userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-light'
+                  : 'bg-white text-dark'
+              }`}
+            >
               <p>Edit column</p>
               <InlineForm mode="edit" />
             </Modal.Body>
@@ -112,18 +125,31 @@ function TableInfo(props) {
               setTableName('');
             }}
             className={
-              userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'
+              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-light'
             }
             style={{
               zIndex: 9999,
             }}
           >
-            <Modal.Header closeButton>
+            <Modal.Header
+              closeButton
+              className={`rounded-0 ${
+                userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-light'
+                  : 'bg-white text-dark'
+              }`}
+            >
               <Modal.Title as="div">
                 Table &quot;{infoList.table}&quot;
               </Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body
+              className={`rounded-0 ${
+                userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-light'
+                  : 'bg-white text-dark'
+              }`}
+            >
               <p>Add column</p>
               <InlineForm mode="add" />
             </Modal.Body>

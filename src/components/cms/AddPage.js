@@ -146,7 +146,7 @@ function AddPage(props) {
       <Modal.Dialog className="m-0">
         <Modal.Header
           closeButton
-          className={`${
+          className={`rounded-0 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-white text-dark'
@@ -155,7 +155,7 @@ function AddPage(props) {
           <Modal.Title as="div">Add Page</Modal.Title>
         </Modal.Header>
         <Modal.Body
-          className={`rounded-bottom ${
+          className={`rounded-0 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-white text-dark'
@@ -172,7 +172,7 @@ function AddPage(props) {
               onChange={onMassagePayload}
               onSubmit={onReactiveFormSubmit}
               submitBtnLabel={'Save'}
-              submitBtnClassName="btn btn-az pull-right"
+              submitBtnClassName="btn btn-success btn-sm"
             />
           ) : (
             <div className="text-center">

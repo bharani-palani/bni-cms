@@ -9,7 +9,7 @@ function ConfirmationModal(props) {
   return (
     <Modal {...rest} style={{ zIndex: 9999 }}>
       <Modal.Header
-        className={`rounded-bottom ${
+        className={`${
           userContext.userData.theme === 'dark'
             ? 'bg-dark text-light'
             : 'bg-white text-dark'
@@ -18,7 +18,7 @@ function ConfirmationModal(props) {
         <Modal.Title as="p">{confirmationstring}</Modal.Title>
       </Modal.Header>
       <Modal.Body
-        className={`rounded-bottom ${
+        className={`rounded-bottom border-0 ${
           userContext.userData.theme === 'dark'
             ? 'bg-dark text-light'
             : 'bg-white text-dark'

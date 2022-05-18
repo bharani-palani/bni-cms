@@ -19,7 +19,7 @@ function Database(props) {
       >
         <Modal.Header
           closeButton
-          className={`rounded-bottom ${
+          className={`rounded-0 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-white text-dark'

@@ -83,7 +83,8 @@ function TableList(props) {
           icon: 'fa fa-times-circle',
           message: 'Oops.. Some thing went wrong. Please try again.',
         });
-      });
+      })
+      .finally(() => document.dispatchEvent(new MouseEvent('click')));
   };
 
   const modalAction = () => {

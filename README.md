@@ -16,6 +16,7 @@
 - npm start
 
 ## DEV run (disable web security)
+- in windows - win key + r run the below command
 - chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 
 ## Build process:

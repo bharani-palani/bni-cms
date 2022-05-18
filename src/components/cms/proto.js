@@ -14,7 +14,7 @@ function Proto(props) {
   return (
     <LayoutContext.Consumer>
       {layoutDetails => (
-        <div>
+        <div className="min-vh-100">
           {layoutDetails.state.pageDetails &&
             Object.keys(layoutDetails.state.pageDetails).length > 0 && (
               <div className={`d-xl-grid`}>
@@ -81,7 +81,7 @@ function Proto(props) {
                       onHide={() => setFullScreen(false)}
                     >
                       <Modal.Body
-                        className={`position-relative btn-group btn-group-sm ${
+                        className={`rounded-0 position-relative btn-group btn-group-sm ${
                           userContext.userData.theme === 'dark'
                             ? 'bg-dark text-light'
                             : 'bg-light text-dark'

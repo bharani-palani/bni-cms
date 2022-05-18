@@ -14,7 +14,7 @@ function AdminLogin(props) {
     <Modal {...props} className="" size={'sm'} centered>
       <Modal.Dialog className="m-0">
         <Modal.Header
-          className={`${
+          className={`rounded-0 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-white text-dark'
@@ -26,14 +26,14 @@ function AdminLogin(props) {
                 onClick={() => setView('Admin login')}
                 className="btn btn-sm btn-default me-2"
               >
-                <i className="fa fa-chevron-left" />
+                <i className="fa fa-chevron-left text-danger" />
               </button>
             )}
             <span className="pl-5">{view}</span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body
-          className={`${
+          className={`rounded-0 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-white text-dark'

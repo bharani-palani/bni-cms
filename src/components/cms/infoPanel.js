@@ -202,7 +202,7 @@ function InfoPanel(props) {
                             )}
                           </Col>
                         </Row>
-                        <Row className="">
+                        <Row className="align-items-center">
                           <Col md={6} className="mb-1">
                             <Col xs={12}>
                               <OverlayTrigger
@@ -275,7 +275,7 @@ function InfoPanel(props) {
                                   </span>
                                 </div>
                               )}
-                            {layoutContext.state.selectedNodeId && (
+                            {/* {layoutContext.state.selectedNodeId && (
                               <div>
                                 <small>Node Id:</small>{' '}
                                 <small className="">
@@ -290,7 +290,7 @@ function InfoPanel(props) {
                                   {`<${layoutContext.state.selectedComponent}>`}
                                 </small>
                               </div>
-                            )}
+                            )} */}
                           </Col>
                         </Row>
                       </div>

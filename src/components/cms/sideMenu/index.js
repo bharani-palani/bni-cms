@@ -7,6 +7,7 @@ import PropsList from './PropsList';
 import StyleList from './StyleList';
 import Title from './Title';
 import CreateAjaxForm from './CreateAjaxForm';
+import CreateAjaxFetch from './CreateAjaxFetch';
 import Database from './Database/';
 import { LayoutContext } from '../layoutDesign';
 import AppContext from '../../../contexts/AppContext';
@@ -26,22 +27,21 @@ function SideMenu(props) {
         { id: 0.2, label: 'Bootstrap', body: <BootstrapList /> },
       ],
     },
-    { id: 1, label: 'Props', body: <PropsList /> },
-    { id: 2, label: 'Styles', body: <StyleList /> },
-    { id: 3, label: 'Title', body: <Title /> },
-    { id: 4, label: 'Ajax Form', body: <CreateAjaxForm /> },
     {
-      id: 5,
+      id: 1,
+      label: 'Arguments',
+      children: [
+        { id: 1.1, label: 'Props', body: <PropsList /> },
+        { id: 1.2, label: 'Style', body: <StyleList /> },
+        { id: 1.3, label: 'Title', body: <Title /> },
+      ],
+    },
+    { id: 2, label: 'Ajax Form', body: <CreateAjaxForm /> },
+    { id: 3, label: 'Ajax Fetch', body: <CreateAjaxFetch /> },
+    {
+      id: 4,
       label: 'Database',
       body: <Database />,
-    },
-    {
-      id: 6,
-      label: 'Install',
-      children: [
-        { id: 6.1, label: 'Plugins', body: 'Plugins' },
-        { id: 6.2, label: 'Themes', body: 'Themes' },
-      ],
     },
   ]);
 
@@ -99,7 +99,7 @@ function SideMenu(props) {
                   }),
               }}
             >
-              <Accordion defaultActiveKey={-1} alwaysOpen>
+              <Accordion defaultActiveKey={3} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}
