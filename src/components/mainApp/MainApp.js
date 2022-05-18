@@ -72,7 +72,7 @@ function MainApp(props) {
                       : ''
                   }`}
                 >
-                  <div className="fixed-content">
+                  <div className="fixed-content d-none d-sm-block">
                     <DesktopApp appData={appData} />
                   </div>
                   <MobileApp

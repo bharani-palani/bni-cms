@@ -143,40 +143,51 @@ function AddPage(props) {
       centered
       keyboard={false}
     >
-      <Modal.Header closeButton>
-        <Modal.Title>Add Page</Modal.Title>
-      </Modal.Header>
-      <Modal.Body
-        className={`rounded-bottom ${
-          userContext.userData.theme === 'dark'
-            ? 'bg-dark text-light'
-            : 'bg-white text-dark'
-        }`}
-      >
-        {!loader ? (
-          <ReactiveForm
-            parentClassName={`reactive-form ${
-              userContext.userData.theme === 'dark' ? 'text-light' : 'text-dark'
-            }`}
-            structure={formStructure}
-            onChange={onMassagePayload}
-            onSubmit={onReactiveFormSubmit}
-            submitBtnLabel={'Save'}
-            submitBtnClassName="btn btn-az pull-right"
-          />
-        ) : (
-          <div className="text-center">
-            <Loader
-              type={helpers.loadRandomSpinnerIcon()}
-              color={document.documentElement.style.getPropertyValue(
-                '--az-theme-bg-color'
-              )}
-              height={100}
-              width={100}
+      <Modal.Dialog className="m-0">
+        <Modal.Header
+          closeButton
+          className={`${
+            userContext.userData.theme === 'dark'
+              ? 'bg-dark text-light'
+              : 'bg-white text-dark'
+          }`}
+        >
+          <Modal.Title as="div">Add Page</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          className={`rounded-bottom ${
+            userContext.userData.theme === 'dark'
+              ? 'bg-dark text-light'
+              : 'bg-white text-dark'
+          }`}
+        >
+          {!loader ? (
+            <ReactiveForm
+              parentClassName={`reactive-form ${
+                userContext.userData.theme === 'dark'
+                  ? 'text-light'
+                  : 'text-dark'
+              }`}
+              structure={formStructure}
+              onChange={onMassagePayload}
+              onSubmit={onReactiveFormSubmit}
+              submitBtnLabel={'Save'}
+              submitBtnClassName="btn btn-az pull-right"
             />
-          </div>
-        )}
-      </Modal.Body>
+          ) : (
+            <div className="text-center">
+              <Loader
+                type={helpers.loadRandomSpinnerIcon()}
+                color={document.documentElement.style.getPropertyValue(
+                  '--az-theme-bg-color'
+                )}
+                height={100}
+                width={100}
+              />
+            </div>
+          )}
+        </Modal.Body>
+      </Modal.Dialog>
     </Modal>
   );
 }
