@@ -75,12 +75,12 @@ function SideMenu(props) {
       {layoutContext.state.pageDetails &&
         Object.keys(layoutContext.state.pageDetails).length > 0 && (
           <div
-            className={`pt-2 ${
+            className={`pt-2 pb-5 ${
               userContext.userData.theme === 'light' ? 'bg-light' : 'bg-dark'
             }`}
             style={{
               ...(scrollPosition > 100 &&
-                window.innerWidth > 768 && {
+                window.innerWidth > 820 && {
                   position: 'fixed',
                   top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
                   width: `${ref.current.offsetWidth}px`,
