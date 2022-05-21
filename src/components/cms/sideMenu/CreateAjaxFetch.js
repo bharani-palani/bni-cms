@@ -13,17 +13,17 @@ import { UserContext } from '../../../contexts/UserContext';
 
 function CreateAjaxFetch(props) {
   const userContext = useContext(UserContext);
-  const [whereCondition, setWhereCondition] = useState('');
+  const [whereCondition, setWhereCondition] = useState({
+    column: '',
+    clause: '',
+    condition: '',
+  });
+  const [orderByCondition, setOrderByCondition] = useState({
+    column: '',
+    clause: '',
+  });
+
   const [configArray, setConfigArray] = useState([
-    {
-      component: 'InputField',
-      options: {
-        id: 'fetchTable',
-        label: 'GET Table',
-        value: '',
-        type: 'text',
-      },
-    },
     {
       component: 'AddListField',
       options: {
@@ -33,52 +33,61 @@ function CreateAjaxFetch(props) {
       },
     },
     {
+      component: 'InputField',
+      options: {
+        id: 'fetchTable',
+        label: 'GET Table',
+        type: 'text',
+        value: '',
+      },
+    },
+    {
+      component: 'SelectListField',
+      options: {
+        id: 'select',
+        label: 'Select',
+        value: [],
+      },
+    },
+    {
       component: 'MapListField',
       options: {
         id: 'where',
         label: 'Where',
         conditions: [
-          { label: 'BETWEEN', value: 'Between' },
-          { label: 'EQUAL TO', value: 'equalTo' },
-          { label: 'NOT EQUAL TO', value: 'notEqualTo' },
-          { label: 'LESSER THAN', value: 'lesserThan' },
-          { label: 'GREATER THAN', value: 'greaterThan' },
-          { label: 'LESSER THAN EQUAL TO', value: 'lesserThanEqualTo' },
-          { label: 'GREATER THAN EQUAL TO', value: 'greaterThanEqualTo' },
-          { label: 'CONTAINS', value: 'containe' },
-          { label: 'STARTSWITH', value: 'startsWith' },
-          { label: 'ENDSWITH', value: 'endsWith' },
-          { label: 'DOES NOT CONTAIN', value: 'doesNotContain' },
-          { label: 'DOES NOT STARTS WITH', value: 'doesNotStartsWith' },
-          { label: 'DOES NOT ENDS WITH', value: 'doesNotEndsWith' },
-          { label: 'IS NULL', value: 'isNull' },
-          { label: 'IS NOT NULL', value: 'isNotNull' },
-          { label: 'IN', value: 'in' },
-          { label: 'NOT IN', value: 'notIn' },
+          'BETWEEN',
+          'EQUAL TO',
+          'NOT EQUAL TO',
+          'LESSER THAN',
+          'GREATER THAN',
+          'LESSER THAN EQUAL TO',
+          'GREATER THAN EQUAL TO',
+          'CONTAINS',
+          'STARTS WITH',
+          'ENDS WITH',
+          'DOES NOT CONTAIN',
+          'DOES NOT STARTS WITH',
+          'DOES NOT ENDS WITH',
+          'IS NULL',
+          'IS NOT NULL',
+          'IN',
+          'NOT IN',
         ],
         value: [],
       },
     },
     {
-      component: 'InputField',
+      component: 'OrderByListField',
       options: {
-        id: 'recordsPerPage',
-        label: 'Records Per Page',
-        value: 50,
-        type: 'number',
+        id: 'orderBy',
+        label: 'Order By',
+        conditions: ['ASC', 'DESC'],
+        value: [],
       },
     },
     {
       component: 'InputField',
       options: { id: 'limit', label: 'Limit', value: 1000, type: 'number' },
-    },
-    {
-      component: 'DropDownSelectionField',
-      options: {
-        id: 'orderBy',
-        label: 'OrderBy',
-        value: '',
-      },
     },
   ]);
 
@@ -115,14 +124,37 @@ function CreateAjaxFetch(props) {
   //   }, [configArray]);
 
   const removeRow = (id, index) => {
-    const bb = [...configArray];
-    const changed = bb.map(obj => {
+    const deletedArray = [...configArray].map(obj => {
       if (obj.options.id === id) {
         obj.options.value = obj.options.value.filter((_, i) => i !== index);
       }
       return obj;
     });
-    setConfigArray(changed);
+
+    const existingFields = deletedArray.filter(
+      con => con.component === 'AddListField'
+    )[0].options.value;
+
+    const newArray = deletedArray.map(obj => {
+      if (obj.component === 'MapListField') {
+        obj.options.value = obj.options.value.filter(f =>
+          existingFields.includes(f.column)
+        );
+      }
+      if (obj.component === 'SelectListField') {
+        obj.options.value = obj.options.value.filter(f =>
+          existingFields.includes(f)
+        );
+      }
+      if (obj.component === 'OrderByListField') {
+        obj.options.value = obj.options.value.filter(f =>
+          existingFields.includes(f.column)
+        );
+      }
+      return obj;
+    });
+
+    setConfigArray(newArray);
   };
 
   const isFields = () => {
@@ -130,7 +162,74 @@ function CreateAjaxFetch(props) {
     return row[0].options.value;
   };
 
-  const addClause = () => {};
+  const addClause = () => {
+    const changed = [...configArray].map(obj => {
+      if (obj.component === 'MapListField') {
+        obj.options.value = [
+          ...obj.options.value,
+          {
+            column: whereCondition.column,
+            clause: whereCondition.clause,
+            condition: whereCondition.condition,
+          },
+        ];
+      }
+      return obj;
+    });
+    setConfigArray(changed);
+    setWhereCondition({
+      column: '',
+      clause: '',
+      condition: '',
+    });
+  };
+
+  const selectOnChange = (e, label) => {
+    const changed = [...configArray].map(obj => {
+      if (obj.component === 'SelectListField') {
+        obj.options.value = e.target.checked
+          ? [...obj.options.value, label]
+          : obj.options.value.filter(f => f !== label);
+      }
+      return obj;
+    });
+    setConfigArray(changed);
+  };
+
+  const saveProps = () => {
+    console.log('bbb', configArray);
+  };
+
+  const saveButtonStatus = () => {
+    const row = configArray.filter(
+      con => con.component === 'SelectListField'
+    )[0].options.value;
+    return row.length;
+  };
+
+  const addOrderByClause = () => {
+    const changed = [...configArray].map(obj => {
+      if (
+        obj.component === 'OrderByListField' &&
+        !obj.options.value.filter(f => f.column === orderByCondition.column)
+          .length
+      ) {
+        obj.options.value = [
+          ...obj.options.value,
+          {
+            column: orderByCondition.column,
+            clause: orderByCondition.clause,
+          },
+        ];
+      }
+      return obj;
+    });
+    setConfigArray(changed);
+    setOrderByCondition({
+      column: '',
+      clause: '',
+    });
+  };
 
   return (
     <LayoutContext.Consumer>
@@ -143,7 +242,10 @@ function CreateAjaxFetch(props) {
                   return (
                     <InputGroup key={i} size="sm" className="mb-1">
                       <InputGroup.Text>
-                        <Form.Label htmlFor={c.options.id} className="mb-0">
+                        <Form.Label
+                          htmlFor={c.options.id}
+                          className="mb-0 text-primary"
+                        >
                           {c.options.label}
                         </Form.Label>
                       </InputGroup.Text>
@@ -212,9 +314,20 @@ function CreateAjaxFetch(props) {
                     <div key={i}>
                       {isFields().length > 0 && (
                         <>
-                          <div className="py-1 small">{c.options.label}</div>
+                          <div className="py-1 text-primary">
+                            {c.options.label}
+                          </div>
                           <InputGroup size="sm" className="mb-1">
-                            <Form.Select size="sm">
+                            <Form.Select
+                              size="sm"
+                              onChange={e =>
+                                setWhereCondition(prevState => ({
+                                  ...prevState,
+                                  column: e.target.value,
+                                }))
+                              }
+                              value={whereCondition.column}
+                            >
                               <option value="">--COLUMN--</option>
                               {isFields().map((v, j) => (
                                 <option key={j} value={v}>
@@ -222,31 +335,188 @@ function CreateAjaxFetch(props) {
                                 </option>
                               ))}
                             </Form.Select>
-                            <Form.Select size="sm">
+                            <Form.Select
+                              size="sm"
+                              onChange={e =>
+                                setWhereCondition(prevState => ({
+                                  ...prevState,
+                                  clause: e.target.value,
+                                }))
+                              }
+                              value={whereCondition.clause}
+                            >
                               <option value="">--CLAUSE--</option>
                               {c.options.conditions.map((c, j) => (
-                                <option key={j} value={c.value}>
-                                  {c.label}
+                                <option key={j} value={c}>
+                                  {c}
                                 </option>
                               ))}
                             </Form.Select>
                           </InputGroup>
-
                           <InputGroup size="sm" className="mb-1">
                             <FormControl
                               type="text"
-                              value={whereCondition}
-                              onChange={e => setWhereCondition(e.target.value)}
-                              placeholder="Check MySql where conditions.."
+                              value={whereCondition.condition}
+                              onChange={e =>
+                                setWhereCondition(prevState => ({
+                                  ...prevState,
+                                  condition: e.target.value,
+                                }))
+                              }
+                              placeholder="Your clause ??"
                             />
                             <Button
                               variant="primary"
-                              disabled={!whereCondition}
+                              disabled={
+                                !(
+                                  whereCondition.column && whereCondition.clause
+                                )
+                              }
                               onClick={() => addClause()}
                             >
                               <i className="fa fa-thumbs-o-up" />
                             </Button>
                           </InputGroup>
+                          {c.options.value.length > 0 && (
+                            <ul className="list-group mb-2">
+                              {c.options.value.map((v, j) => (
+                                <li
+                                  key={j}
+                                  className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                    userContext.userData.theme === 'dark'
+                                      ? 'bg-dark text-light'
+                                      : 'bg-light text-dark'
+                                  }`}
+                                >
+                                  <div className="user-select-none overflow-auto">
+                                    <div className="small">{v.column}</div>
+                                    <div className="small badge bg-success">
+                                      {v.clause}
+                                    </div>
+                                    <div className="small">{v.condition}</div>
+                                  </div>
+                                  <div>
+                                    <i
+                                      className="fa fa-times-circle text-danger cursor-pointer"
+                                      onClick={() => removeRow(c.options.id, j)}
+                                    />
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  );
+                case 'SelectListField':
+                  return (
+                    <div key={i}>
+                      {isFields().length > 0 && (
+                        <>
+                          <div className="py-1 text-primary">
+                            {c.options.label}
+                          </div>
+                          {[...configArray]
+                            .filter(con => con.component === 'AddListField')[0]
+                            .options.value.map((v, j) => (
+                              <Form.Check
+                                key={j}
+                                type="checkbox"
+                                id={`check-${v}`}
+                                label={v}
+                                onChange={e => selectOnChange(e, v)}
+                              />
+                            ))}
+                        </>
+                      )}
+                    </div>
+                  );
+                case 'OrderByListField':
+                  return (
+                    <div key={i}>
+                      {isFields().length > 0 && (
+                        <>
+                          <div className="py-1 text-primary">
+                            {c.options.label}
+                          </div>
+                          <InputGroup size="sm" className="mb-1">
+                            <Form.Select
+                              size="sm"
+                              onChange={e =>
+                                setOrderByCondition(prevState => ({
+                                  ...prevState,
+                                  column: e.target.value,
+                                }))
+                              }
+                              value={orderByCondition.column}
+                            >
+                              <option value="">--COLUMN--</option>
+                              {isFields().map((v, j) => (
+                                <option key={j} value={v}>
+                                  {v}
+                                </option>
+                              ))}
+                            </Form.Select>
+                            <Form.Select
+                              size="sm"
+                              onChange={e =>
+                                setOrderByCondition(prevState => ({
+                                  ...prevState,
+                                  clause: e.target.value,
+                                }))
+                              }
+                              value={orderByCondition.clause}
+                            >
+                              <option value="">--CLAUSE--</option>
+                              {c.options.conditions.map((c, j) => (
+                                <option key={j} value={c}>
+                                  {c}
+                                </option>
+                              ))}
+                            </Form.Select>
+                            <Button
+                              variant="primary"
+                              disabled={
+                                !(
+                                  orderByCondition.column &&
+                                  orderByCondition.clause
+                                )
+                              }
+                              onClick={() => addOrderByClause()}
+                            >
+                              <i className="fa fa-thumbs-o-up" />
+                            </Button>
+                          </InputGroup>
+                          {c.options.value.length > 0 && (
+                            <ul className="list-group mb-2">
+                              {c.options.value.map((v, j) => (
+                                <li
+                                  key={j}
+                                  className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                    userContext.userData.theme === 'dark'
+                                      ? 'bg-dark text-light'
+                                      : 'bg-light text-dark'
+                                  }`}
+                                >
+                                  <div className="user-select-none overflow-auto">
+                                    <div className="small">
+                                      <span>{v.column}</span>
+                                      <span className="ms-1 badge bg-success">
+                                        {v.clause}
+                                      </span>
+                                    </div>
+                                  </div>
+                                  <div>
+                                    <i
+                                      className="fa fa-times-circle text-danger cursor-pointer"
+                                      onClick={() => removeRow(c.options.id, j)}
+                                    />
+                                  </div>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
                         </>
                       )}
                     </div>
@@ -258,9 +528,9 @@ function CreateAjaxFetch(props) {
             <div className="d-grid mb-1">
               <Button
                 size="sm"
-                disabled={false}
+                disabled={!saveButtonStatus()}
                 variant="primary"
-                onClick={() => null}
+                onClick={() => saveProps()}
               >
                 <i className="fa fa-thumbs-o-up" />
               </Button>
