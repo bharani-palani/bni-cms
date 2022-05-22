@@ -8,6 +8,7 @@ import LayoutDesign from './layoutDesign';
 import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
 import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
+import AjaxFetch from '../../components/cms/sideMenu/AjaxFetch';
 export const CmsContext = React.createContext();
 
 function Cms(props) {
@@ -25,6 +26,7 @@ function Cms(props) {
     'az-settings': Settings,
     'az-layoutDesign': LayoutDesign,
     'az-ajaxform': AjaxForm,
+    'az-ajaxfetch': AjaxFetch,
     ...Object.keys(BootstrapComponents).reduce(
       (obj, item) => ({ ...obj, [item]: BootstrapComponents[item] }),
       {}

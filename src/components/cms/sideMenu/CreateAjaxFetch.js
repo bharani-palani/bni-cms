@@ -8,11 +8,14 @@ import {
   Dropdown,
   Form,
 } from 'react-bootstrap';
-import _ from 'lodash';
 import { UserContext } from '../../../contexts/UserContext';
+import { v4 as uuidv4 } from 'uuid';
 
 function CreateAjaxFetch(props) {
+  const layoutContext = useContext(LayoutContext);
   const userContext = useContext(UserContext);
+  const { query } = props;
+
   const [whereCondition, setWhereCondition] = useState({
     column: '',
     clause: '',
@@ -22,23 +25,38 @@ function CreateAjaxFetch(props) {
     column: '',
     clause: '',
   });
+  const [fieldName, setFieldName] = useState('');
 
-  const [configArray, setConfigArray] = useState([
+  const whereClauses = [
+    'BETWEEN',
+    'EQUAL TO',
+    'NOT EQUAL TO',
+    'LESSER THAN',
+    'GREATER THAN',
+    'LESSER THAN EQUAL TO',
+    'GREATER THAN EQUAL TO',
+    'CONTAINS',
+    'STARTS WITH',
+    'ENDS WITH',
+    'DOES NOT CONTAIN',
+    'DOES NOT STARTS WITH',
+    'DOES NOT ENDS WITH',
+    'IS NULL',
+    'IS NOT NULL',
+    'IN',
+    'NOT IN',
+  ];
+
+  const orderClauses = ['ASC', 'DESC'];
+
+  const config = [
     {
       component: 'AddListField',
       options: {
         id: 'fields',
         label: 'Fields',
+        placeholder: 'Column name',
         value: [],
-      },
-    },
-    {
-      component: 'InputField',
-      options: {
-        id: 'fetchTable',
-        label: 'GET Table',
-        type: 'text',
-        value: '',
       },
     },
     {
@@ -50,29 +68,20 @@ function CreateAjaxFetch(props) {
       },
     },
     {
+      component: 'InputField',
+      options: {
+        id: 'fetchTable',
+        label: 'From',
+        type: 'text',
+        placeholder: 'Table name',
+        value: '',
+      },
+    },
+    {
       component: 'MapListField',
       options: {
         id: 'where',
         label: 'Where',
-        conditions: [
-          'BETWEEN',
-          'EQUAL TO',
-          'NOT EQUAL TO',
-          'LESSER THAN',
-          'GREATER THAN',
-          'LESSER THAN EQUAL TO',
-          'GREATER THAN EQUAL TO',
-          'CONTAINS',
-          'STARTS WITH',
-          'ENDS WITH',
-          'DOES NOT CONTAIN',
-          'DOES NOT STARTS WITH',
-          'DOES NOT ENDS WITH',
-          'IS NULL',
-          'IS NOT NULL',
-          'IN',
-          'NOT IN',
-        ],
         value: [],
       },
     },
@@ -81,7 +90,6 @@ function CreateAjaxFetch(props) {
       options: {
         id: 'orderBy',
         label: 'Order By',
-        conditions: ['ASC', 'DESC'],
         value: [],
       },
     },
@@ -89,9 +97,107 @@ function CreateAjaxFetch(props) {
       component: 'InputField',
       options: { id: 'limit', label: 'Limit', value: 1000, type: 'number' },
     },
-  ]);
+  ];
+  const [configArray, setConfigArray] = useState(config);
+  const fieldConfig = {
+    fields: [],
+    select: [],
+    fetchTable: '',
+    where: [],
+    orderBy: [],
+    limit: '1000',
+  };
+  const [selectedFields, setSelectedFields] = useState(fieldConfig);
 
-  const onElementChange = (id, value) => {
+  let r = {};
+  const findAndGetComponentProps = (key, node) => {
+    if (node.key === key) {
+      r = node.props;
+    }
+    Array.isArray(node.children) &&
+      node.children.forEach(ch => {
+        findAndGetComponentProps(key, ch);
+      });
+    return r;
+  };
+
+  useEffect(() => {
+    if (
+      layoutContext.state.pageDetails &&
+      layoutContext.state.selectedNodeId &&
+      layoutContext.state.selectedComponent === 'az-ajaxfetch'
+    ) {
+      const details = layoutContext.state.pageDetails.pageObject;
+      const nodeId = layoutContext.state.selectedNodeId;
+      const selectedProps = findAndGetComponentProps(nodeId, { ...details });
+
+      setConfigArray([]);
+      setSelectedFields({});
+
+      setTimeout(() => {
+        setConfigArray([
+          {
+            component: 'AddListField',
+            options: {
+              id: 'fields',
+              label: 'Fields',
+              placeholder: 'Column name',
+              value: selectedProps.query ? selectedProps.query.fields : [],
+            },
+          },
+          {
+            component: 'SelectListField',
+            options: {
+              id: 'select',
+              label: 'Select',
+              value: selectedProps.query ? selectedProps.query.select : [],
+            },
+          },
+          {
+            component: 'InputField',
+            options: {
+              id: 'fetchTable',
+              label: 'From',
+              type: 'text',
+              placeholder: 'Table name',
+              value: selectedProps.query ? selectedProps.query.fetchTable : '',
+            },
+          },
+          {
+            component: 'MapListField',
+            options: {
+              id: 'where',
+              label: 'Where',
+              value: selectedProps.query ? selectedProps.query.where : [],
+            },
+          },
+          {
+            component: 'OrderByListField',
+            options: {
+              id: 'orderBy',
+              label: 'Order By',
+              value: selectedProps.query ? selectedProps.query.orderBy : [],
+            },
+          },
+          {
+            component: 'InputField',
+            options: {
+              id: 'limit',
+              label: 'Limit',
+              value: selectedProps.query ? selectedProps.query.limit : 1000,
+              type: 'number',
+            },
+          },
+        ]);
+        setSelectedFields(selectedProps.query);
+      }, 10);
+    } else {
+      setConfigArray(config);
+      setSelectedFields({});
+    }
+  }, [layoutContext.state.pageDetails, layoutContext.state.selectedNodeId]);
+
+  const onInputChange = (id, value) => {
     const bb = [...configArray];
     const changed = bb.map(obj => {
       return obj.options.id === id
@@ -103,16 +209,22 @@ function CreateAjaxFetch(props) {
           })
         : obj;
     });
+    setSelectedFields(prevState => ({
+      ...prevState,
+      [id]: value,
+    }));
     setConfigArray(changed);
   };
-
-  const [fieldName, setFieldName] = useState('');
 
   const addRow = (id, row) => {
     const bb = [...configArray];
     const changed = bb.map(obj => {
       if (obj.options.id === id) {
         obj.options.value = [...obj.options.value, row];
+        setSelectedFields(prevState => ({
+          ...prevState,
+          [id]: obj.options.value,
+        }));
       }
       return obj;
     });
@@ -151,6 +263,10 @@ function CreateAjaxFetch(props) {
           existingFields.includes(f.column)
         );
       }
+      setSelectedFields(prevState => ({
+        ...prevState,
+        [obj.options.id]: obj.options.value,
+      }));
       return obj;
     });
 
@@ -173,6 +289,10 @@ function CreateAjaxFetch(props) {
             condition: whereCondition.condition,
           },
         ];
+        setSelectedFields(prevState => ({
+          ...prevState,
+          where: obj.options.value,
+        }));
       }
       return obj;
     });
@@ -190,21 +310,32 @@ function CreateAjaxFetch(props) {
         obj.options.value = e.target.checked
           ? [...obj.options.value, label]
           : obj.options.value.filter(f => f !== label);
+        setSelectedFields(prevState => ({
+          ...prevState,
+          select: obj.options.value,
+        }));
       }
       return obj;
     });
     setConfigArray(changed);
   };
 
-  const saveProps = () => {
-    console.log('bbb', configArray);
-  };
-
   const saveButtonStatus = () => {
-    const row = configArray.filter(
-      con => con.component === 'SelectListField'
-    )[0].options.value;
-    return row.length;
+    const selectRows =
+      configArray.length > 0
+        ? configArray.filter(con => con.component === 'SelectListField')[0]
+            .options.value.length
+        : 0;
+
+    const table =
+      configArray.length > 0
+        ? configArray.filter(
+            con =>
+              con.component === 'InputField' && con.options.id === 'fetchTable'
+          )[0].options.value
+        : '';
+
+    return selectRows && table;
   };
 
   const addOrderByClause = () => {
@@ -221,6 +352,10 @@ function CreateAjaxFetch(props) {
             clause: orderByCondition.clause,
           },
         ];
+        setSelectedFields(prevState => ({
+          ...prevState,
+          orderBy: obj.options.value,
+        }));
       }
       return obj;
     });
@@ -231,300 +366,390 @@ function CreateAjaxFetch(props) {
     });
   };
 
+  const saveProps = () => {
+    if (layoutContext.state.selectedComponent !== 'az-ajaxfetch') {
+      save();
+    } else {
+      const details = [{ ...layoutContext.state.pageDetails.pageObject }];
+      const nodeId = layoutContext.state.selectedNodeId;
+      const newObject = findAndUpdateProps(details, nodeId, {
+        query: selectedFields,
+      })[0];
+
+      layoutContext.setState(prevState => ({
+        ...prevState,
+        pageDetails: {
+          ...prevState.pageDetails,
+          pageObject: newObject,
+        },
+      }));
+    }
+  };
+
+  const findAndUpdateProps = (arr, selectedKey, updatedFormList) => {
+    return arr.map(item => {
+      if (item.key === selectedKey) {
+        item.props = updatedFormList;
+      }
+      item.children = findAndUpdateProps(
+        item.children,
+        selectedKey,
+        updatedFormList
+      );
+      return item;
+    });
+  };
+
+  const save = () => {
+    const sample = {
+      key: uuidv4(),
+      props: {
+        query: selectedFields,
+      },
+      children: [],
+      title: 'AjaxFetch',
+      component: `az-ajaxfetch`,
+    };
+
+    const newObject = findAndAddComponent(
+      layoutContext.state.selectedNodeId,
+      { ...layoutContext.state.pageDetails.pageObject },
+      sample
+    );
+
+    layoutContext.setState(prevState => ({
+      ...prevState,
+      selectedNodeId: sample.key,
+      selectedComponent: sample.component,
+      pageDetails: {
+        ...prevState.pageDetails,
+        pageObject: newObject,
+      },
+    }));
+  };
+
+  const findAndAddComponent = (key, node, insertObj) => {
+    if (node.key === key) {
+      node.children &&
+        Array.isArray(node.children) &&
+        node.children.push(insertObj);
+    }
+    node.children &&
+      node.children.length > 0 &&
+      node.children.forEach(ch => {
+        findAndAddComponent(key, ch, insertObj);
+      });
+    return node;
+  };
   return (
     <LayoutContext.Consumer>
       {layoutDetails =>
         layoutDetails.state.selectedNodeId ? (
           <div>
-            {configArray.map((c, i) => {
-              switch (c.component) {
-                case 'InputField':
-                  return (
-                    <InputGroup key={i} size="sm" className="mb-1">
-                      <InputGroup.Text>
-                        <Form.Label
-                          htmlFor={c.options.id}
-                          className="mb-0 text-primary"
-                        >
-                          {c.options.label}
-                        </Form.Label>
-                      </InputGroup.Text>
-                      <FormControl
-                        type={c.options.type}
-                        id={c.options.id}
-                        defaultValue={c.options.value}
-                        onChange={e =>
-                          onElementChange(c.options.id, e.target.value)
-                        }
-                      />
-                    </InputGroup>
-                  );
-                case 'AddListField':
-                  return (
-                    <div key={i}>
-                      <InputGroup size="sm" className="mb-1">
+            {configArray.length > 0 &&
+              configArray.map((c, i) => {
+                switch (c.component) {
+                  case 'InputField':
+                    return (
+                      <InputGroup key={i} size="sm" className="mb-1">
                         <InputGroup.Text>
-                          <Form.Label htmlFor="fieldNames" className="mb-0">
-                            Add {c.options.label}
+                          <Form.Label
+                            htmlFor={c.options.id}
+                            className="mb-0 text-primary"
+                          >
+                            {c.options.label}
                           </Form.Label>
                         </InputGroup.Text>
                         <FormControl
-                          type="text"
-                          id="fieldNames"
-                          value={fieldName}
-                          maxLength={64}
-                          onChange={e => setFieldName(e.target.value)}
+                          type={c.options.type}
+                          id={c.options.id}
+                          defaultValue={c.options.value}
+                          placeholder={c.options.placeholder}
+                          onChange={e =>
+                            onInputChange(c.options.id, e.target.value)
+                          }
                         />
-                        <Button
-                          variant="primary"
-                          disabled={!fieldName}
-                          onClick={() => addRow(c.options.id, fieldName)}
-                        >
-                          <i className="fa fa-thumbs-o-up" />
-                        </Button>
                       </InputGroup>
-                      {c.options.value.length > 0 && (
-                        <ul className="list-group mb-2">
-                          {c.options.value.map((v, j) => (
-                            <li
-                              key={j}
-                              className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                userContext.userData.theme === 'dark'
-                                  ? 'bg-dark text-light'
-                                  : 'bg-light text-dark'
-                              }`}
-                            >
-                              <div className="user-select-none overflow-auto">
-                                {v}
-                              </div>
-                              <div>
-                                <i
-                                  className="fa fa-times-circle text-danger cursor-pointer"
-                                  onClick={() => removeRow(c.options.id, j)}
-                                />
-                              </div>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  );
-                case 'MapListField':
-                  return (
-                    <div key={i}>
-                      {isFields().length > 0 && (
-                        <>
-                          <div className="py-1 text-primary">
-                            {c.options.label}
-                          </div>
-                          <InputGroup size="sm" className="mb-1">
-                            <Form.Select
-                              size="sm"
-                              onChange={e =>
-                                setWhereCondition(prevState => ({
-                                  ...prevState,
-                                  column: e.target.value,
-                                }))
-                              }
-                              value={whereCondition.column}
-                            >
-                              <option value="">--COLUMN--</option>
-                              {isFields().map((v, j) => (
-                                <option key={j} value={v}>
-                                  {v}
-                                </option>
-                              ))}
-                            </Form.Select>
-                            <Form.Select
-                              size="sm"
-                              onChange={e =>
-                                setWhereCondition(prevState => ({
-                                  ...prevState,
-                                  clause: e.target.value,
-                                }))
-                              }
-                              value={whereCondition.clause}
-                            >
-                              <option value="">--CLAUSE--</option>
-                              {c.options.conditions.map((c, j) => (
-                                <option key={j} value={c}>
-                                  {c}
-                                </option>
-                              ))}
-                            </Form.Select>
-                          </InputGroup>
-                          <InputGroup size="sm" className="mb-1">
-                            <FormControl
-                              type="text"
-                              value={whereCondition.condition}
-                              onChange={e =>
-                                setWhereCondition(prevState => ({
-                                  ...prevState,
-                                  condition: e.target.value,
-                                }))
-                              }
-                              placeholder="Your clause ??"
-                            />
-                            <Button
-                              variant="primary"
-                              disabled={
-                                !(
-                                  whereCondition.column && whereCondition.clause
-                                )
-                              }
-                              onClick={() => addClause()}
-                            >
-                              <i className="fa fa-thumbs-o-up" />
-                            </Button>
-                          </InputGroup>
-                          {c.options.value.length > 0 && (
-                            <ul className="list-group mb-2">
-                              {c.options.value.map((v, j) => (
-                                <li
-                                  key={j}
-                                  className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                    userContext.userData.theme === 'dark'
-                                      ? 'bg-dark text-light'
-                                      : 'bg-light text-dark'
-                                  }`}
-                                >
-                                  <div className="user-select-none overflow-auto">
-                                    <div className="small">{v.column}</div>
-                                    <div className="small badge bg-success">
-                                      {v.clause}
-                                    </div>
-                                    <div className="small">{v.condition}</div>
-                                  </div>
-                                  <div>
-                                    <i
-                                      className="fa fa-times-circle text-danger cursor-pointer"
-                                      onClick={() => removeRow(c.options.id, j)}
-                                    />
-                                  </div>
-                                </li>
-                              ))}
-                            </ul>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  );
-                case 'SelectListField':
-                  return (
-                    <div key={i}>
-                      {isFields().length > 0 && (
-                        <>
-                          <div className="py-1 text-primary">
-                            {c.options.label}
-                          </div>
-                          {[...configArray]
-                            .filter(con => con.component === 'AddListField')[0]
-                            .options.value.map((v, j) => (
-                              <Form.Check
+                    );
+                  case 'AddListField':
+                    return (
+                      <div key={i}>
+                        <InputGroup size="sm" className="mb-1">
+                          <InputGroup.Text>
+                            <Form.Label htmlFor="fieldNames" className="mb-0">
+                              Add {c.options.label}
+                            </Form.Label>
+                          </InputGroup.Text>
+                          <FormControl
+                            type="text"
+                            id="fieldNames"
+                            value={fieldName}
+                            maxLength={64}
+                            placeholder={c.options.placeholder}
+                            onChange={e => setFieldName(e.target.value)}
+                          />
+                          <Button
+                            variant="primary"
+                            disabled={!fieldName}
+                            onClick={() => addRow(c.options.id, fieldName)}
+                          >
+                            <i className="fa fa-thumbs-o-up" />
+                          </Button>
+                        </InputGroup>
+                        {c.options.value.length > 0 && (
+                          <ul className="list-group mb-2">
+                            {c.options.value.map((v, j) => (
+                              <li
                                 key={j}
-                                type="checkbox"
-                                id={`check-${v}`}
-                                label={v}
-                                onChange={e => selectOnChange(e, v)}
-                              />
-                            ))}
-                        </>
-                      )}
-                    </div>
-                  );
-                case 'OrderByListField':
-                  return (
-                    <div key={i}>
-                      {isFields().length > 0 && (
-                        <>
-                          <div className="py-1 text-primary">
-                            {c.options.label}
-                          </div>
-                          <InputGroup size="sm" className="mb-1">
-                            <Form.Select
-                              size="sm"
-                              onChange={e =>
-                                setOrderByCondition(prevState => ({
-                                  ...prevState,
-                                  column: e.target.value,
-                                }))
-                              }
-                              value={orderByCondition.column}
-                            >
-                              <option value="">--COLUMN--</option>
-                              {isFields().map((v, j) => (
-                                <option key={j} value={v}>
+                                className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                  userContext.userData.theme === 'dark'
+                                    ? 'bg-dark text-light'
+                                    : 'bg-light text-dark'
+                                }`}
+                              >
+                                <div className="user-select-none overflow-auto">
                                   {v}
-                                </option>
-                              ))}
-                            </Form.Select>
-                            <Form.Select
-                              size="sm"
-                              onChange={e =>
-                                setOrderByCondition(prevState => ({
-                                  ...prevState,
-                                  clause: e.target.value,
-                                }))
-                              }
-                              value={orderByCondition.clause}
-                            >
-                              <option value="">--CLAUSE--</option>
-                              {c.options.conditions.map((c, j) => (
-                                <option key={j} value={c}>
-                                  {c}
-                                </option>
-                              ))}
-                            </Form.Select>
-                            <Button
-                              variant="primary"
-                              disabled={
-                                !(
-                                  orderByCondition.column &&
-                                  orderByCondition.clause
-                                )
-                              }
-                              onClick={() => addOrderByClause()}
-                            >
-                              <i className="fa fa-thumbs-o-up" />
-                            </Button>
-                          </InputGroup>
-                          {c.options.value.length > 0 && (
-                            <ul className="list-group mb-2">
-                              {c.options.value.map((v, j) => (
-                                <li
-                                  key={j}
-                                  className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                    userContext.userData.theme === 'dark'
-                                      ? 'bg-dark text-light'
-                                      : 'bg-light text-dark'
-                                  }`}
-                                >
-                                  <div className="user-select-none overflow-auto">
-                                    <div className="small">
-                                      <span>{v.column}</span>
-                                      <span className="ms-1 badge bg-success">
+                                </div>
+                                <div>
+                                  <i
+                                    className="fa fa-times-circle text-danger cursor-pointer"
+                                    onClick={() => removeRow(c.options.id, j)}
+                                  />
+                                </div>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  case 'MapListField':
+                    return (
+                      <div key={i}>
+                        {isFields().length > 0 && (
+                          <>
+                            <div className="py-1 text-primary">
+                              {c.options.label}
+                            </div>
+                            <InputGroup size="sm" className="mb-1">
+                              <Form.Select
+                                size="sm"
+                                onChange={e =>
+                                  setWhereCondition(prevState => ({
+                                    ...prevState,
+                                    column: e.target.value,
+                                  }))
+                                }
+                                value={whereCondition.column}
+                              >
+                                <option value="">--COLUMN--</option>
+                                {isFields().map((v, j) => (
+                                  <option key={j} value={v}>
+                                    {v}
+                                  </option>
+                                ))}
+                              </Form.Select>
+                              <Form.Select
+                                size="sm"
+                                onChange={e =>
+                                  setWhereCondition(prevState => ({
+                                    ...prevState,
+                                    clause: e.target.value,
+                                  }))
+                                }
+                                value={whereCondition.clause}
+                              >
+                                <option value="">--CLAUSE--</option>
+                                {whereClauses.map((c, j) => (
+                                  <option key={j} value={c}>
+                                    {c}
+                                  </option>
+                                ))}
+                              </Form.Select>
+                            </InputGroup>
+                            <InputGroup size="sm" className="mb-1">
+                              <FormControl
+                                type="text"
+                                value={whereCondition.condition}
+                                onChange={e =>
+                                  setWhereCondition(prevState => ({
+                                    ...prevState,
+                                    condition: e.target.value,
+                                  }))
+                                }
+                                placeholder="Your clause ??"
+                              />
+                              <Button
+                                variant="primary"
+                                disabled={
+                                  !(
+                                    whereCondition.column &&
+                                    whereCondition.clause
+                                  )
+                                }
+                                onClick={() => addClause()}
+                              >
+                                <i className="fa fa-thumbs-o-up" />
+                              </Button>
+                            </InputGroup>
+                            {c.options.value && c.options.value.length > 0 && (
+                              <ul className="list-group mb-2">
+                                {c.options.value.map((v, j) => (
+                                  <li
+                                    key={j}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                      userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-light'
+                                        : 'bg-light text-dark'
+                                    }`}
+                                  >
+                                    <div className="user-select-none overflow-auto">
+                                      <div className="small">{v.column}</div>
+                                      <div className="small badge bg-success">
                                         {v.clause}
-                                      </span>
+                                      </div>
+                                      <div className="small">{v.condition}</div>
                                     </div>
-                                  </div>
-                                  <div>
-                                    <i
-                                      className="fa fa-times-circle text-danger cursor-pointer"
-                                      onClick={() => removeRow(c.options.id, j)}
-                                    />
-                                  </div>
-                                </li>
+                                    <div>
+                                      <i
+                                        className="fa fa-times-circle text-danger cursor-pointer"
+                                        onClick={() =>
+                                          removeRow(c.options.id, j)
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  case 'SelectListField':
+                    return (
+                      <div key={i}>
+                        {isFields().length > 0 && (
+                          <>
+                            <div className="py-1 text-primary">
+                              {c.options.label}
+                            </div>
+                            {[...configArray]
+                              .filter(
+                                con => con.component === 'AddListField'
+                              )[0]
+                              .options.value.map((v, j) => (
+                                <Form.Check
+                                  key={j}
+                                  type="checkbox"
+                                  id={`check-${v}`}
+                                  label={v}
+                                  onChange={e => selectOnChange(e, v)}
+                                  defaultChecked={
+                                    selectedFields.select &&
+                                    selectedFields.select.includes(v)
+                                  }
+                                />
                               ))}
-                            </ul>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  );
-                default:
-                  return null;
-              }
-            })}
+                          </>
+                        )}
+                      </div>
+                    );
+                  case 'OrderByListField':
+                    return (
+                      <div key={i}>
+                        {isFields() && isFields().length > 0 && (
+                          <>
+                            <div className="py-1 text-primary">
+                              {c.options.label}
+                            </div>
+                            <InputGroup size="sm" className="mb-1">
+                              <Form.Select
+                                size="sm"
+                                onChange={e =>
+                                  setOrderByCondition(prevState => ({
+                                    ...prevState,
+                                    column: e.target.value,
+                                  }))
+                                }
+                                value={orderByCondition.column}
+                              >
+                                <option value="">--COLUMN--</option>
+                                {isFields().length > 0 &&
+                                  isFields().map((v, j) => (
+                                    <option key={j} value={v}>
+                                      {v}
+                                    </option>
+                                  ))}
+                              </Form.Select>
+                              <Form.Select
+                                size="sm"
+                                onChange={e =>
+                                  setOrderByCondition(prevState => ({
+                                    ...prevState,
+                                    clause: e.target.value,
+                                  }))
+                                }
+                                value={orderByCondition.clause}
+                              >
+                                <option value="">--CLAUSE--</option>
+                                {orderClauses.map((c, j) => (
+                                  <option key={j} value={c}>
+                                    {c}
+                                  </option>
+                                ))}
+                              </Form.Select>
+                              <Button
+                                variant="primary"
+                                disabled={
+                                  !(
+                                    orderByCondition.column &&
+                                    orderByCondition.clause
+                                  )
+                                }
+                                onClick={() => addOrderByClause()}
+                              >
+                                <i className="fa fa-thumbs-o-up" />
+                              </Button>
+                            </InputGroup>
+                            {c.options.value && c.options.value.length > 0 && (
+                              <ul className="list-group mb-2">
+                                {c.options.value.map((v, j) => (
+                                  <li
+                                    key={j}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                      userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-light'
+                                        : 'bg-light text-dark'
+                                    }`}
+                                  >
+                                    <div className="user-select-none overflow-auto">
+                                      <div className="small">
+                                        <span>{v.column}</span>
+                                        <span className="ms-1 badge bg-success">
+                                          {v.clause}
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <i
+                                        className="fa fa-times-circle text-danger cursor-pointer"
+                                        onClick={() =>
+                                          removeRow(c.options.id, j)
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  default:
+                    return null;
+                }
+              })}
             <div className="d-grid mb-1">
               <Button
                 size="sm"
