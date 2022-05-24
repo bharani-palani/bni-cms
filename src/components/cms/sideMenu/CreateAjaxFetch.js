@@ -10,12 +10,11 @@ import {
 } from 'react-bootstrap';
 import { UserContext } from '../../../contexts/UserContext';
 import { v4 as uuidv4 } from 'uuid';
+import apiInstance from '../../../services/apiServices';
 
 function CreateAjaxFetch(props) {
   const layoutContext = useContext(LayoutContext);
   const userContext = useContext(UserContext);
-  const { query } = props;
-
   const [whereCondition, setWhereCondition] = useState({
     column: '',
     clause: '',
@@ -25,6 +24,7 @@ function CreateAjaxFetch(props) {
     column: '',
     clause: '',
   });
+  const [groupByCondition, setGroupByCondition] = useState('');
   const [fieldName, setFieldName] = useState('');
 
   const whereClauses = [
@@ -68,11 +68,10 @@ function CreateAjaxFetch(props) {
       },
     },
     {
-      component: 'InputField',
+      component: 'DropDownField',
       options: {
         id: 'fetchTable',
         label: 'From',
-        type: 'text',
         placeholder: 'Table name',
         value: '',
       },
@@ -94,6 +93,14 @@ function CreateAjaxFetch(props) {
       },
     },
     {
+      component: 'GroupByListField',
+      options: {
+        id: 'groupBy',
+        label: 'Group By',
+        value: [],
+      },
+    },
+    {
       component: 'InputField',
       options: { id: 'limit', label: 'Limit', value: 1000, type: 'number' },
     },
@@ -108,6 +115,22 @@ function CreateAjaxFetch(props) {
     limit: '1000',
   };
   const [selectedFields, setSelectedFields] = useState(fieldConfig);
+  const [dbTables, setDbTables] = useState([]);
+
+  const loadTables = () => {
+    apiInstance
+      .get('/getTables')
+      .then(res => {
+        const data = res.data.response
+          .map(e => Object.entries(e))
+          .map(f => ({ label: f[0][1], value: f[0][1] }));
+        setDbTables(data);
+      })
+      .catch(error => {
+        console.error(error);
+        setDbTables([]);
+      });
+  };
 
   let r = {};
   const findAndGetComponentProps = (key, node) => {
@@ -120,6 +143,10 @@ function CreateAjaxFetch(props) {
       });
     return r;
   };
+
+  useEffect(() => {
+    loadTables();
+  }, []);
 
   useEffect(() => {
     if (
@@ -142,7 +169,10 @@ function CreateAjaxFetch(props) {
               id: 'fields',
               label: 'Fields',
               placeholder: 'Column name',
-              value: selectedProps.query ? selectedProps.query.fields : [],
+              value:
+                selectedProps.query && selectedProps.query.fields
+                  ? selectedProps.query.fields
+                  : [],
             },
           },
           {
@@ -150,17 +180,21 @@ function CreateAjaxFetch(props) {
             options: {
               id: 'select',
               label: 'Select',
-              value: selectedProps.query ? selectedProps.query.select : [],
+              value:
+                selectedProps.query && selectedProps.query.select
+                  ? selectedProps.query.select
+                  : [],
             },
           },
           {
-            component: 'InputField',
+            component: 'DropDownField',
             options: {
               id: 'fetchTable',
               label: 'From',
-              type: 'text',
-              placeholder: 'Table name',
-              value: selectedProps.query ? selectedProps.query.fetchTable : '',
+              value:
+                selectedProps.query && selectedProps.query.fetchTable
+                  ? selectedProps.query.fetchTable
+                  : '',
             },
           },
           {
@@ -168,7 +202,10 @@ function CreateAjaxFetch(props) {
             options: {
               id: 'where',
               label: 'Where',
-              value: selectedProps.query ? selectedProps.query.where : [],
+              value:
+                selectedProps.query && selectedProps.query.where
+                  ? selectedProps.query.where
+                  : [],
             },
           },
           {
@@ -176,7 +213,21 @@ function CreateAjaxFetch(props) {
             options: {
               id: 'orderBy',
               label: 'Order By',
-              value: selectedProps.query ? selectedProps.query.orderBy : [],
+              value:
+                selectedProps.query && selectedProps.query.orderBy
+                  ? selectedProps.query.orderBy
+                  : [],
+            },
+          },
+          {
+            component: 'GroupByListField',
+            options: {
+              id: 'groupBy',
+              label: 'Group By',
+              value:
+                selectedProps.query && selectedProps.query.groupBy
+                  ? selectedProps.query.groupBy
+                  : [],
             },
           },
           {
@@ -184,7 +235,10 @@ function CreateAjaxFetch(props) {
             options: {
               id: 'limit',
               label: 'Limit',
-              value: selectedProps.query ? selectedProps.query.limit : 1000,
+              value:
+                selectedProps.query && selectedProps.query.limit
+                  ? selectedProps.query.limit
+                  : 1000,
               type: 'number',
             },
           },
@@ -192,8 +246,12 @@ function CreateAjaxFetch(props) {
         setSelectedFields(selectedProps.query);
       }, 10);
     } else {
-      setConfigArray(config);
+      setConfigArray([]);
       setSelectedFields({});
+      setTimeout(() => {
+        setConfigArray(config);
+        setSelectedFields({});
+      }, 10);
     }
   }, [layoutContext.state.pageDetails, layoutContext.state.selectedNodeId]);
 
@@ -216,14 +274,18 @@ function CreateAjaxFetch(props) {
     setConfigArray(changed);
   };
 
-  const addRow = (id, row) => {
+  const addRow = row => {
     const bb = [...configArray];
     const changed = bb.map(obj => {
-      if (obj.options.id === id) {
+      if (
+        ['select', 'fields'].includes(obj.options.id) &&
+        !obj.options.value.includes(row)
+      ) {
         obj.options.value = [...obj.options.value, row];
         setSelectedFields(prevState => ({
           ...prevState,
-          [id]: obj.options.value,
+          select: obj.options.value,
+          fields: obj.options.value,
         }));
       }
       return obj;
@@ -235,6 +297,22 @@ function CreateAjaxFetch(props) {
   //   useEffect(() => {
   //   }, [configArray]);
 
+  const removeSelectRow = (id, value) => {
+    const deletedArray = [...configArray].map(obj => {
+      if (obj.options.id === id) {
+        obj.options.value = obj.options.value.filter(
+          v => String(v) !== String(value)
+        );
+        setSelectedFields(prevState => ({
+          ...prevState,
+          [id]: obj.options.value,
+        }));
+      }
+      return obj;
+    });
+    setConfigArray(deletedArray);
+  };
+
   const removeRow = (id, index) => {
     const deletedArray = [...configArray].map(obj => {
       if (obj.options.id === id) {
@@ -242,7 +320,6 @@ function CreateAjaxFetch(props) {
       }
       return obj;
     });
-
     const existingFields = deletedArray.filter(
       con => con.component === 'AddListField'
     )[0].options.value;
@@ -254,15 +331,21 @@ function CreateAjaxFetch(props) {
         );
       }
       if (obj.component === 'SelectListField') {
-        obj.options.value = obj.options.value.filter(f =>
-          existingFields.includes(f)
-        );
+        obj.options.value = !existingFields.length
+          ? [] // reset if fields is empty
+          : obj.options.value.filter(f => f);
       }
       if (obj.component === 'OrderByListField') {
         obj.options.value = obj.options.value.filter(f =>
           existingFields.includes(f.column)
         );
       }
+      if (obj.component === 'GroupByListField') {
+        obj.options.value = obj.options.value.filter(f =>
+          existingFields.includes(f)
+        );
+      }
+
       setSelectedFields(prevState => ({
         ...prevState,
         [obj.options.id]: obj.options.value,
@@ -304,12 +387,15 @@ function CreateAjaxFetch(props) {
     });
   };
 
-  const selectOnChange = (e, label) => {
+  const selectOnTextChange = (value, index) => {
     const changed = [...configArray].map(obj => {
       if (obj.component === 'SelectListField') {
-        obj.options.value = e.target.checked
-          ? [...obj.options.value, label]
-          : obj.options.value.filter(f => f !== label);
+        obj.options.value = obj.options.value.map((v, j) => {
+          if (j === index) {
+            v = value;
+          }
+          return v;
+        });
         setSelectedFields(prevState => ({
           ...prevState,
           select: obj.options.value,
@@ -325,13 +411,14 @@ function CreateAjaxFetch(props) {
       configArray.length > 0
         ? configArray.filter(con => con.component === 'SelectListField')[0]
             .options.value.length
-        : 0;
+        : false;
 
     const table =
       configArray.length > 0
         ? configArray.filter(
             con =>
-              con.component === 'InputField' && con.options.id === 'fetchTable'
+              con.component === 'DropDownField' &&
+              con.options.id === 'fetchTable'
           )[0].options.value
         : '';
 
@@ -364,6 +451,24 @@ function CreateAjaxFetch(props) {
       column: '',
       clause: '',
     });
+  };
+
+  const addGroupByClause = () => {
+    const changed = [...configArray].map(obj => {
+      if (
+        obj.component === 'GroupByListField' &&
+        !obj.options.value.filter(f => f === groupByCondition).length
+      ) {
+        obj.options.value = [...obj.options.value, groupByCondition];
+        setSelectedFields(prevState => ({
+          ...prevState,
+          groupBy: obj.options.value,
+        }));
+      }
+      return obj;
+    });
+    setConfigArray(changed);
+    setGroupByCondition('');
   };
 
   const saveProps = () => {
@@ -471,6 +576,32 @@ function CreateAjaxFetch(props) {
                         />
                       </InputGroup>
                     );
+                  case 'DropDownField':
+                    return (
+                      <>
+                        <div className="py-1 text-primary">
+                          {c.options.label}
+                        </div>
+
+                        <InputGroup key={i} size="sm" className="mb-1">
+                          <Form.Select
+                            id={c.options.id}
+                            value={c.options.value}
+                            onChange={e =>
+                              onInputChange(c.options.id, e.target.value)
+                            }
+                          >
+                            <option value="">--TABLE--</option>
+                            {dbTables.length > 0 &&
+                              dbTables.map((t, j) => (
+                                <option key={j} value={t.value}>
+                                  {t.label}
+                                </option>
+                              ))}
+                          </Form.Select>
+                        </InputGroup>
+                      </>
+                    );
                   case 'AddListField':
                     return (
                       <div key={i}>
@@ -491,9 +622,9 @@ function CreateAjaxFetch(props) {
                           <Button
                             variant="primary"
                             disabled={!fieldName}
-                            onClick={() => addRow(c.options.id, fieldName)}
+                            onClick={() => addRow(fieldName)}
                           >
-                            <i className="fa fa-thumbs-o-up" />
+                            <i className="fa fa-plus" />
                           </Button>
                         </InputGroup>
                         {c.options.value.length > 0 && (
@@ -576,7 +707,7 @@ function CreateAjaxFetch(props) {
                                     condition: e.target.value,
                                   }))
                                 }
-                                placeholder="Your clause ??"
+                                placeholder="Your condition ??"
                               />
                               <Button
                                 variant="primary"
@@ -588,7 +719,7 @@ function CreateAjaxFetch(props) {
                                 }
                                 onClick={() => addClause()}
                               >
-                                <i className="fa fa-thumbs-o-up" />
+                                <i className="fa fa-plus" />
                               </Button>
                             </InputGroup>
                             {c.options.value && c.options.value.length > 0 && (
@@ -633,23 +764,30 @@ function CreateAjaxFetch(props) {
                             <div className="py-1 text-primary">
                               {c.options.label}
                             </div>
-                            {[...configArray]
-                              .filter(
-                                con => con.component === 'AddListField'
-                              )[0]
-                              .options.value.map((v, j) => (
-                                <Form.Check
-                                  key={j}
-                                  type="checkbox"
-                                  id={`check-${v}`}
-                                  label={v}
-                                  onChange={e => selectOnChange(e, v)}
-                                  defaultChecked={
-                                    selectedFields.select &&
-                                    selectedFields.select.includes(v)
+                            {c.options.value.map((v, j) => (
+                              <InputGroup key={j} size="sm" className="mb-1">
+                                <FormControl
+                                  title={`Set alias or aggregate fn() for column ${v}`}
+                                  placeholder={`Alias / fn()`}
+                                  value={v}
+                                  onChange={e =>
+                                    selectOnTextChange(e.target.value, j)
                                   }
                                 />
-                              ))}
+                                <Button
+                                  size="sm"
+                                  variant="danger"
+                                  onClick={() =>
+                                    removeSelectRow(
+                                      c.options.id,
+                                      c.options.value[j]
+                                    )
+                                  }
+                                >
+                                  <i className="fa fa-times-circle" />
+                                </Button>
+                              </InputGroup>
+                            ))}
                           </>
                         )}
                       </div>
@@ -691,7 +829,7 @@ function CreateAjaxFetch(props) {
                                 }
                                 value={orderByCondition.clause}
                               >
-                                <option value="">--CLAUSE--</option>
+                                <option value="">--ORDER--</option>
                                 {orderClauses.map((c, j) => (
                                   <option key={j} value={c}>
                                     {c}
@@ -708,7 +846,7 @@ function CreateAjaxFetch(props) {
                                 }
                                 onClick={() => addOrderByClause()}
                               >
-                                <i className="fa fa-thumbs-o-up" />
+                                <i className="fa fa-plus" />
                               </Button>
                             </InputGroup>
                             {c.options.value && c.options.value.length > 0 && (
@@ -735,6 +873,73 @@ function CreateAjaxFetch(props) {
                                         className="fa fa-times-circle text-danger cursor-pointer"
                                         onClick={() =>
                                           removeRow(c.options.id, j)
+                                        }
+                                      />
+                                    </div>
+                                  </li>
+                                ))}
+                              </ul>
+                            )}
+                          </>
+                        )}
+                      </div>
+                    );
+                  case 'GroupByListField':
+                    return (
+                      <div key={i}>
+                        {isFields().length > 0 && (
+                          <>
+                            <div className="py-1 text-primary">
+                              {c.options.label}
+                            </div>
+                            <InputGroup size="sm" className="mb-1">
+                              <Form.Select
+                                size="sm"
+                                onChange={e =>
+                                  setGroupByCondition(e.target.value)
+                                }
+                                value={groupByCondition}
+                              >
+                                <option value="">--COLUMN--</option>
+                                {isFields().length > 0 &&
+                                  isFields().map((v, j) => (
+                                    <option key={j} value={v}>
+                                      {v}
+                                    </option>
+                                  ))}
+                              </Form.Select>
+                              <Button
+                                variant="primary"
+                                disabled={!groupByCondition}
+                                onClick={() => addGroupByClause()}
+                              >
+                                <i className="fa fa-plus" />
+                              </Button>
+                            </InputGroup>
+                            {c.options.value && c.options.value.length > 0 && (
+                              <ul className="list-group mb-2">
+                                {c.options.value.map((v, k) => (
+                                  <li
+                                    key={k}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
+                                      userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-light'
+                                        : 'bg-light text-dark'
+                                    }`}
+                                  >
+                                    <div className="user-select-none overflow-auto">
+                                      <div className="small">
+                                        <span>{v}</span>
+                                        <span className="ms-1 small badge bg-success">
+                                          <i className="fa fa-arrows-v" />
+                                        </span>
+                                      </div>
+                                    </div>
+                                    <div>
+                                      <i
+                                        className="fa fa-times-circle text-danger cursor-pointer"
+                                        onClick={() =>
+                                          removeRow(c.options.id, k)
                                         }
                                       />
                                     </div>

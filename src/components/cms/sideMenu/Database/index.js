@@ -2,8 +2,10 @@ import React, { useState, useContext } from 'react';
 import { Modal } from 'react-bootstrap';
 import TableConfig from './TableConfig';
 import { UserContext } from '../../../../contexts/UserContext';
+import { LayoutContext } from '../../layoutDesign';
 
 function Database(props) {
+  const layoutContext = useContext(LayoutContext);
   const userContext = useContext(UserContext);
   const [show, setShow] = useState(false); // change to false
 
@@ -15,7 +17,14 @@ function Database(props) {
         keyboard={false}
         fullscreen={true}
         show={show}
-        onHide={() => setShow(false)}
+        onHide={() => {
+          setShow(false);
+          layoutContext.setState(prevState => ({
+            ...prevState,
+            selectedNodeId: '',
+            selectedComponent: '',
+          }));
+        }} // unset selected node.
       >
         <Modal.Header
           closeButton
