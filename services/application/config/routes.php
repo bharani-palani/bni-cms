@@ -63,6 +63,7 @@ $route['dropTableColumn'] = 'cms/cms/dropTableColumn';
 $route['updateTableColumn'] = 'cms/cms/updateTableColumn';
 $route['addTableColumn'] = 'cms/cms/addTableColumn';
 $route['postAjaxForm'] = 'cms/cms/postAjaxForm';
+$route['ajaxFetch'] = 'cms/cms/ajaxFetch';
 
 // users and config
 $route['postBackend'] = 'home/postBackend';

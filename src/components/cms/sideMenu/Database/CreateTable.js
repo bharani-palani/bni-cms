@@ -79,8 +79,8 @@ function CreateTable(props) {
             <div className="col-md-3">
               <small className="badge bg-danger mb-1">
                 <em>
-                  Note: Table name can`t not start with reserved keyword
-                  &quot;az &quot;
+                  Note: Table name can`t start with reserved keyword &quot;az
+                  &quot;
                 </em>
               </small>
               <InputGroup size="sm" className="mb-2">

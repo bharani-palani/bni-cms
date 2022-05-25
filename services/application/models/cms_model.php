@@ -288,4 +288,133 @@ class cms_model extends CI_Model
             return false;
         }
     }
+
+    public function addWhereClause($array)
+    {
+        if (isset($array) && count($array) > 0) {
+            foreach ($array as $row) {
+                switch ($row['clause']) {
+                    case 'BETWEEN':
+                        list($a, $b) = explode(',', $row['condition']);
+                        return $row['column'] .
+                            ' BETWEEN "' .
+                            $a .
+                            '" AND "' .
+                            $b .
+                            '"';
+                        break;
+                    case 'EQUAL TO':
+                        return [$row['column'] => $row['condition']];
+                        break;
+                    case 'NOT EQUAL TO':
+                        return [$row['column'] . ' !=' => $row['condition']];
+                        break;
+                    case 'LESSER THAN':
+                        return [$row['column'] . ' <' => $row['condition']];
+                        break;
+                    case 'GREATER THAN':
+                        return [$row['column'] . ' >' => $row['condition']];
+                        break;
+                    case 'LESSER THAN EQUAL TO':
+                        return [$row['column'] . ' <=' => $row['condition']];
+                        break;
+                    case 'GREATER THAN EQUAL TO':
+                        return [$row['column'] . ' >=' => $row['condition']];
+                        break;
+                    case 'IS NULL':
+                        return $row['column'] . ' IS NULL';
+                        break;
+                    case 'IS NOT NULL':
+                        return $row['column'] . ' IS NOT NULL';
+                        break;
+                    default:
+                        return [];
+                }
+            }
+        }
+        return [];
+    }
+
+    public function addLikeClause($array)
+    {
+        if (isset($array) && count($array) > 0) {
+            foreach ($array as $row) {
+                switch ($row['clause']) {
+                    case 'CONTAINS':
+                        return [$row['column'], $row['condition'], 'both'];
+                        break;
+                    case 'STARTS WITH':
+                        return [$row['column'], $row['condition'], 'after'];
+                        break;
+                    case 'ENDS WITH':
+                        return [$row['column'], $row['condition'], 'before'];
+                        break;
+                    default:
+                        return [];
+                }
+            }
+        }
+        return [];
+    }
+
+    public function addNotLikeClause($array)
+    {
+        if (isset($array) && count($array) > 0) {
+            foreach ($array as $row) {
+                switch ($row['clause']) {
+                    case 'DOES NOT CONTAIN':
+                        return [$row['column'], $row['condition'], 'both'];
+                        break;
+                    case 'DOES NOT STARTS WITH':
+                        return [$row['column'], $row['condition'], 'after'];
+                        break;
+                    case 'DOES NOT ENDS WITH':
+                        return [$row['column'], $row['condition'], 'before'];
+                        break;
+                    default:
+                        return [];
+                }
+            }
+        }
+        return [];
+    }
+
+    public function addWhereInClause($array)
+    {
+        if (isset($array) && count($array) > 0) {
+            foreach ($array as $row) {
+                switch ($row['clause']) {
+                    case 'IN':
+                        return [
+                            $row['column'],
+                            explode(',', $row['condition']),
+                        ];
+                        break;
+                    default:
+                        return [];
+                }
+            }
+        }
+        return [];
+    }
+
+    public function ajaxFetch($query)
+    {
+        $this->db
+            ->select($query['select'])
+            ->from($query['fetchTable'])
+            ->where($this->addWhereClause($query['where']));
+        if (count($this->addWhereInClause($query['where'])) > 0) {
+            $this->db->where_in(...$this->addWhereInClause($query['where']));
+        }
+        if (count($this->addLikeClause($query['where'])) > 0) {
+            $this->db->like(...$this->addLikeClause($query['where']));
+        }
+        if (count($this->addNotLikeClause($query['where'])) > 0) {
+            $this->db->not_like(...$this->addNotLikeClause($query['where']));
+        }
+        $this->db->limit($query['limit']);
+        $q = $this->db->get();
+        return get_all_rows($q);
+    }
 }

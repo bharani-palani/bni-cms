@@ -506,4 +506,15 @@ class cms extends CI_Controller
             }
         }
     }
+    public function ajaxFetch()
+    {
+        $post = $this->input->post('query');
+        if (isset($post)) {
+            $query = json_decode($post, true);
+            $data['response'] = $this->cms_model->ajaxFetch($query);
+        } else {
+            $data['response'] = [];
+        }
+        $this->auth->response($data, [], 200);
+    }
 }

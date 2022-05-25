@@ -578,12 +578,12 @@ function CreateAjaxFetch(props) {
                     );
                   case 'DropDownField':
                     return (
-                      <>
+                      <div key={i}>
                         <div className="py-1 text-primary">
                           {c.options.label}
                         </div>
 
-                        <InputGroup key={i} size="sm" className="mb-1">
+                        <InputGroup size="sm" className="mb-1">
                           <Form.Select
                             id={c.options.id}
                             value={c.options.value}
@@ -600,7 +600,7 @@ function CreateAjaxFetch(props) {
                               ))}
                           </Form.Select>
                         </InputGroup>
-                      </>
+                      </div>
                     );
                   case 'AddListField':
                     return (
