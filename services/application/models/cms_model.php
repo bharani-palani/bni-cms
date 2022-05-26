@@ -408,13 +408,22 @@ class cms_model extends CI_Model
                     ? $this->addWhereClause($query['where'])
                     : []
             );
-        if (count($this->addWhereInClause($query['where'])) > 0) {
+        if (
+            isset($query['where']) &&
+            count($this->addWhereInClause($query['where'])) > 0
+        ) {
             $this->db->where_in(...$this->addWhereInClause($query['where']));
         }
-        if (count($this->addLikeClause($query['where'])) > 0) {
+        if (
+            isset($query['where']) &&
+            count($this->addLikeClause($query['where'])) > 0
+        ) {
             $this->db->like(...$this->addLikeClause($query['where']));
         }
-        if (count($this->addNotLikeClause($query['where'])) > 0) {
+        if (
+            isset($query['where']) &&
+            count($this->addNotLikeClause($query['where'])) > 0
+        ) {
             $this->db->not_like(...$this->addNotLikeClause($query['where']));
         }
         $this->db->limit($query['limit']);
