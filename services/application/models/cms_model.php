@@ -403,7 +403,11 @@ class cms_model extends CI_Model
         $this->db
             ->select($query['select'])
             ->from($query['fetchTable'])
-            ->where($this->addWhereClause($query['where']));
+            ->where(
+                isset($query['where'])
+                    ? $this->addWhereClause($query['where'])
+                    : []
+            );
         if (count($this->addWhereInClause($query['where'])) > 0) {
             $this->db->where_in(...$this->addWhereInClause($query['where']));
         }
