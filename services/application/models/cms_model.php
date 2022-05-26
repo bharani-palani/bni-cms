@@ -400,36 +400,42 @@ class cms_model extends CI_Model
 
     public function ajaxFetch($query)
     {
-        $this->db
-            ->select($query['select'])
-            ->from($query['fetchTable'])
-            ->where(
-                isset($query['where'])
-                    ? $this->addWhereClause($query['where'])
-                    : []
-            );
-        if (
-            isset($query['where']) &&
-            count($this->addWhereInClause($query['where'])) > 0
-        ) {
-            $this->db->where_in(...$this->addWhereInClause($query['where']));
+        if (isset($query)) {
+            $this->db
+                ->select($query['select'])
+                ->from($query['fetchTable'])
+                ->where(
+                    isset($query['where'])
+                        ? $this->addWhereClause($query['where'])
+                        : []
+                );
+            if (
+                isset($query['where']) &&
+                count($this->addWhereInClause($query['where'])) > 0
+            ) {
+                $this->db->where_in(
+                    ...$this->addWhereInClause($query['where'])
+                );
+            }
+            if (
+                isset($query['where']) &&
+                count($this->addLikeClause($query['where'])) > 0
+            ) {
+                $this->db->like(...$this->addLikeClause($query['where']));
+            }
+            if (
+                isset($query['where']) &&
+                count($this->addNotLikeClause($query['where'])) > 0
+            ) {
+                $this->db->not_like(
+                    ...$this->addNotLikeClause($query['where'])
+                );
+            }
+            if (isset($query['limit'])) {
+                $this->db->limit($query['limit']);
+            }
+            $q = $this->db->get();
+            return get_all_rows($q);
         }
-        if (
-            isset($query['where']) &&
-            count($this->addLikeClause($query['where'])) > 0
-        ) {
-            $this->db->like(...$this->addLikeClause($query['where']));
-        }
-        if (
-            isset($query['where']) &&
-            count($this->addNotLikeClause($query['where'])) > 0
-        ) {
-            $this->db->not_like(...$this->addNotLikeClause($query['where']));
-        }
-        if (isset($query['limit'])) {
-            $this->db->limit($query['limit']);
-        }
-        $q = $this->db->get();
-        return get_all_rows($q);
     }
 }

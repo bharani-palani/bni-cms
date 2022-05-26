@@ -707,7 +707,8 @@ function CreateAjaxFetch(props) {
                                     condition: e.target.value,
                                   }))
                                 }
-                                placeholder="Your condition ??"
+                                placeholder="Comma seperator / value"
+                                title={`Ex: ${new Date().getFullYear()}-01-01,${new Date().getFullYear()}-01-31 for BETWEEN clause or 123 or abc for other clauses`}
                               />
                               <Button
                                 variant="primary"

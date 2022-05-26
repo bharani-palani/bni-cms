@@ -32,7 +32,7 @@ function OffCanvas({ btnValue, btnClassName, label, children, ...props }) {
           <Offcanvas.Title>{label}</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body
-          className={`${
+          className={`p-1 ${
             userContext.userData.theme === 'dark'
               ? 'bg-dark text-light'
               : 'bg-light text-dark'
