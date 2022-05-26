@@ -426,7 +426,9 @@ class cms_model extends CI_Model
         ) {
             $this->db->not_like(...$this->addNotLikeClause($query['where']));
         }
-        $this->db->limit($query['limit']);
+        if (isset($query['limit'])) {
+            $this->db->limit($query['limit']);
+        }
         $q = $this->db->get();
         return get_all_rows($q);
     }
