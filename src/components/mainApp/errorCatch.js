@@ -11,7 +11,7 @@ function ErrorCatch(props) {
               <i className="fa fa-exclamation-triangle fa-5x text-danger" />
               <h1>Something went wrong!</h1>
               <p className="error-details">
-                This could be cause of some errors in your design..
+                This could be cause of some errors in the design..
               </p>
               <div className="d-grid">
                 <a className="btn btn-lg btn-success" href="/">

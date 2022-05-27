@@ -16,6 +16,7 @@ import moment from 'moment';
 import { UserContext } from '../../contexts/UserContext';
 import Select from 'react-select';
 import { statusInfo } from './ButtonMenu';
+import OffCanvas from '../shared/OffCanvas';
 
 function InfoPanel(props) {
   const layoutContext = useContext(LayoutContext);
@@ -80,12 +81,60 @@ function InfoPanel(props) {
     }));
   };
 
+  const infoHelp = [
+    '<b>Header buttons</b> - There are Save, Publish, Inactive and Delete buttons of your choice.',
+    'Save - Saves the page content to database.',
+    'Publish - Publishes the page, so only the page can be accessible to end user',
+    'In Activate - Inactivates the page temporarily. Later then it can be published when required. Note: This page cant be viewable to end user.',
+    'Delete - Deletes all the page content from database. This action cant be undone once deleted.',
+    '<b>Note</b>: A page should not be Published or Inactivated unless it is saved. This is crucial.',
+    '<b>Page Config:</b>',
+    'This field is collapsible',
+    'The page name and page link can be changed on updating the values in their text boxes. You need to click Save once you`ve updated these fields.',
+    'The page access drop down denotes who has the rights to access this page.',
+    'You can add or delete accessors from this list. Note: A Super Admin cant be deleted.',
+    'The table down, refers page information on user, created time, last updated time and page staus.',
+    '<b>View mode</b>',
+    'There are Tree, Structure and Preview modes.',
+    'Tree - Describes the hierarchical design of your layout. Selected nodes are marked as underlined. See to that you`ve selected your preferred node while adding a child component into it. You can copy / paste (to avoid repetitions), drag / drop (arrange your desired order) & delete (Delete key) nodes in tree level. Note: You cant add a component unless a node is selected.',
+    'Structure - This view gives a structural information about your page. On clicking each node, you can see your red highlighted props information.',
+    'Preview - This view is the exact UI / UX what you see in the output. Please preview often, while your components are correctly inherited, during the phase of design.',
+  ];
+
   const CustomToggle = ({ children, eventKey }) => {
     const decoratedOnClick = useAccordionButton(eventKey);
 
     return (
       <div className="row p-0 m-0">
-        <div className="col-11 d-grid p-0">
+        <OffCanvas
+          className={`text-center ${
+            userContext.userData.theme === 'dark'
+              ? 'bg-dark text-white-50'
+              : 'bg-light text-black'
+          }`}
+          btnValue="<i class='fa fa-question-circle' />"
+          btnClassName={`col-1 btn btn-sm ${
+            userContext.userData.theme === 'dark' ? 'text-light' : 'text-dark'
+          }`}
+          placement="end"
+          key={1}
+          label={'Page Settings Help'}
+        >
+          <ul className={`list-group list-group-flush`}>
+            {infoHelp.map((help, i) => (
+              <li
+                key={i}
+                className={`list-group-item ${
+                  userContext.userData.theme === 'dark'
+                    ? 'bg-dark text-white-50'
+                    : 'bg-light text-black'
+                }`}
+                dangerouslySetInnerHTML={{ __html: help }}
+              />
+            ))}
+          </ul>
+        </OffCanvas>
+        <div className="col-10 d-grid p-0">
           <button
             type="button"
             className={`btn-sm text-start btn ${

@@ -32,7 +32,10 @@ function SideMenu(props) {
         points: [
           'There are 2 types of components you can integrate,',
           'Built in and Bootstrap.',
-          'Built in - consists list of HTML components.',
+          'Built in - consists list of HTML components. Hope you ve configured google maps key and AWS keys to integrate them.',
+          'Googlemaps -  requires defaultZoom(1 to 20), lat(float), lng(float), height(in pixels) as props.',
+          'GoogleMapsMarker - This should be a child of Googlemaps. It requires lat, lng as props. If directly added as a parent, an exception will be thrown.',
+          'awsmedia - requires type, className, unsignedUrl as props. type - can be image, video & audio | className - for styling | unsignedUrl - Ex: bucketName/fileNameWithLocation which you can copy them from AWS module in config.',
           'Bootstrap - consists list of reusable components.',
           'You need some basic knowledge on <a target="_blank" href="https://www.w3schools.com/html/" class="btn-link">HTML</a>, <a target="_blank" href="https://getbootstrap.com/docs/5.1/getting-started/introduction/" class="btn-link">Bootsrap 5</a> & <a target="_blank" href="https://react-bootstrap.github.io/getting-started/introduction/" class="btn-link">React-Bootsrap</a> before starting.',
           'You can construct your layout with the above, which can be altered or updated on runtime, without changing your code base.',
@@ -40,13 +43,13 @@ function SideMenu(props) {
           'Note: ',
           'Dont forget to click your parent or child node (in Tree tab) before adding one.',
           'While your node is selected (Underlined node in tree tab), You can copy and paste anywhere in the tree, to avoid design repetition.',
-          'You can drag and drop the node to maintain order or move to a parent node.',
+          'You can drag and drop the node to maintain order or move to a particular position.',
           'You can delete the component by pressing the Delete key, whenever not required.',
           'You cant delete a parent node, which wraps all your components.',
-          'The Structure tab describes component data structure information, which can be viewed on a click. This tab is only for information purpose.',
-          'Dont forget to Save page after successful iterations.',
-          'Once Saved & done, dont forget to Publish your page.',
-          'Only Published pages can be viewable to the real world.',
+          'The Structure tab describes component data structure information, which can be viewed on a click of each node. This tab is only for information purpose.',
+          'Dont forget to Save page after successful design.',
+          'Once Saved & design is done, dont forget to Publish your page.',
+          'Only Published pages can be viewable to the end user.',
         ],
       },
     },
@@ -228,7 +231,7 @@ function SideMenu(props) {
                   }),
               }}
             >
-              <Accordion defaultActiveKey={3} alwaysOpen>
+              <Accordion defaultActiveKey={-1} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}

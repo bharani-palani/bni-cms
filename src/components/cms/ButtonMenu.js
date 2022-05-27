@@ -393,7 +393,7 @@ function ButtonMenu(props) {
             <div
               className={`col-md-2 col-12`}
               style={{
-                zIndex: 1,
+                zIndex: 3,
                 position: 'fixed',
                 bottom: '0',
                 left: '50%',
