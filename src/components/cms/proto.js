@@ -71,7 +71,7 @@ function Proto(props) {
                 {layoutDetails.state.viewMode === 'preview' && (
                   <div className="mt-2 mb-5 position-relative">
                     <i
-                      style={{ zIndex: 1 }}
+                      style={{ zIndex: 2 }}
                       onClick={() => setFullScreen(true)}
                       className="fa fa-arrows-alt position-absolute top-0 end-0 p-1 cursor-pointer bg-dark text-light"
                     />
@@ -88,7 +88,7 @@ function Proto(props) {
                         }`}
                       >
                         <i
-                          style={{ zIndex: 1 }}
+                          style={{ zIndex: 2 }}
                           onClick={() => setFullScreen(false)}
                           className="fa fa-times-circle position-fixed top-0 end-0 cursor-pointer m-2 fs-2"
                         />

@@ -33,7 +33,7 @@ function SideMenu(props) {
           'There are 2 types of components you can integrate,',
           'Built in and Bootstrap.',
           'Built in - consists list of HTML components. Hope you ve configured google maps key and AWS keys to integrate them.',
-          'Googlemaps -  requires defaultZoom(1 to 20), lat(float), lng(float), height(in pixels) as props.',
+          'Googlemaps -  requires defaultZoom(num)(1 to 20), lat(float), lng(float), height(int)(pixels) as props.',
           'GoogleMapsMarker - This should be a child of Googlemaps. It requires lat, lng as props. If directly added as a parent, an exception will be thrown.',
           'awsmedia - requires type, className, unsignedUrl as props. type - can be image, video & audio | className - for styling | unsignedUrl - Ex: bucketName/fileNameWithLocation which you can copy them from AWS module in config.',
           'Bootstrap - consists list of reusable components.',

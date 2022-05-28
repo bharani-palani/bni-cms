@@ -49,14 +49,6 @@ const BootstrapAccordionBody = ({ children, ...rest }) => {
   );
 };
 
-// const BootstrapAccordionCollapse = ({ children, ...rest }) => {
-//   return (
-//     <ReactBootstrap.Accordion.Collapse {...rest}>
-//       {children}
-//     </ReactBootstrap.Accordion.Collapse>
-//   );
-// };
-
 const BootstrapAccordionCustomButton = ({ children, eventKey, ...rest }) => {
   const decoratedOnClick = ReactBootstrap.useAccordionButton(eventKey);
 
@@ -205,30 +197,32 @@ const BootstrapListGroupItem = ({ children, ...rest }) => {
   );
 };
 
-const BootstrapCarousel = ({ children, ...rest }) => {
+import { Carousel } from 'react-bootstrap';
+
+const BootstrapCarousel = props => {
   return (
-    <ReactBootstrap.Carousel {...rest}>{children}</ReactBootstrap.Carousel>
+    <>
+      {props.children && props.children.length > 0 && (
+        <Carousel {...props}>
+          {props.children.map((c, i) => {
+            return (
+              <Carousel.Item key={i} {...c.props}>
+                {c.props.children.props.children.props.children}
+              </Carousel.Item>
+            );
+          })}
+        </Carousel>
+      )}
+    </>
   );
 };
 
-const BootstrapCarouselItem = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Carousel.Item {...rest}>
-      {children}
-    </ReactBootstrap.Carousel.Item>
-  );
+const BootstrapCarouselItem = props => {
+  return <Carousel.Item {...props} />;
 };
 
-const BootstrapCarouselCaption = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Carousel.Caption {...rest}>
-      {children}
-    </ReactBootstrap.Carousel.Caption>
-  );
-};
-
-const BootstrapCloseButton = ({ children, ...rest }) => {
-  return <ReactBootstrap.CloseButton {...rest} />;
+const BootstrapCarouselCaption = props => {
+  return <Carousel.Caption {...props} />;
 };
 
 const BootstrapRow = ({ children, ...rest }) => {
@@ -244,56 +238,6 @@ const BootstrapSplitButton = ({ children, ...rest }) => {
     <ReactBootstrap.SplitButton {...rest}>
       {children}
     </ReactBootstrap.SplitButton>
-  );
-};
-
-const BootstrapDropdown = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Dropdown {...rest}>{children}</ReactBootstrap.Dropdown>
-  );
-};
-
-const BootstrapDropdownDivider = ({ children, ...rest }) => {
-  return <ReactBootstrap.Dropdown.Divider {...rest} />;
-};
-
-const BootstrapDropdownToggle = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Dropdown.Toggle {...rest}>
-      {children}
-    </ReactBootstrap.Dropdown.Toggle>
-  );
-};
-
-const BootstrapDropdownHeader = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Dropdown.Header {...rest}>
-      {children}
-    </ReactBootstrap.Dropdown.Header>
-  );
-};
-
-const BootstrapDropdownMenu = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Dropdown.Menu {...rest}>
-      {children}
-    </ReactBootstrap.Dropdown.Menu>
-  );
-};
-
-const BootstrapDropdownItem = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Dropdown.Item {...rest}>
-      {children}
-    </ReactBootstrap.Dropdown.Item>
-  );
-};
-
-const BootstrapDropdownButton = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.DropdownButton {...rest}>
-      {children}
-    </ReactBootstrap.DropdownButton>
   );
 };
 
@@ -315,40 +259,6 @@ const BootstrapFigureCaption = ({ children, ...rest }) => {
 
 const BootstrapImage = ({ children, ...rest }) => {
   return <ReactBootstrap.Image {...rest} />;
-};
-
-const BootstrapModal = ({ children, ...rest }) => {
-  return <ReactBootstrap.Modal {...rest}>{children}</ReactBootstrap.Modal>;
-};
-
-const BootstrapModalDialog = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Modal.Dialog {...rest}>
-      {children}
-    </ReactBootstrap.Modal.Dialog>
-  );
-};
-
-const BootstrapModalHeader = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Modal.Header {...rest}>
-      {children}
-    </ReactBootstrap.Modal.Header>
-  );
-};
-
-const BootstrapModalTitle = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Modal.Title {...rest}>
-      {children}
-    </ReactBootstrap.Modal.Title>
-  );
-};
-
-const BootstrapModalBody = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Modal.Body {...rest}>{children}</ReactBootstrap.Modal.Body>
-  );
 };
 
 const BootstrapNav = ({ children, ...rest }) => {
@@ -429,133 +339,6 @@ const BootstrapNavbarOffcanvas = ({ children, ...rest }) => {
   );
 };
 
-const BootstrapOffcanvas = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Offcanvas show={true} {...rest}>
-      {children}
-    </ReactBootstrap.Offcanvas>
-  );
-};
-
-const BootstrapOffcanvasHeader = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Offcanvas.Header {...rest}>
-      {children}
-    </ReactBootstrap.Offcanvas.Header>
-  );
-};
-
-const BootstrapOffcanvasTitle = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Offcanvas.Title {...rest}>
-      {children}
-    </ReactBootstrap.Offcanvas.Title>
-  );
-};
-
-const BootstrapOffcanvasBody = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Offcanvas.Body {...rest}>
-      {children}
-    </ReactBootstrap.Offcanvas.Body>
-  );
-};
-// todo: requires customisation as useRef required
-const BootstrapOverlay = ({ children, ...rest }) => {
-  return <ReactBootstrap.Overlay {...rest}>{children}</ReactBootstrap.Overlay>;
-};
-
-// todo: requires customisation for comps as props
-const BootstrapOverlayTrigger = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.OverlayTrigger {...rest}>
-      {children}
-    </ReactBootstrap.OverlayTrigger>
-  );
-};
-
-const BootstrapPopover = ({ children, ...rest }) => {
-  return <ReactBootstrap.Popover {...rest}>{children}</ReactBootstrap.Popover>;
-};
-
-const BootstrapPopoverHeader = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Popover.Header {...rest}>
-      {children}
-    </ReactBootstrap.Popover.Header>
-  );
-};
-
-const BootstrapPopoverBody = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Popover.Body {...rest}>
-      {children}
-    </ReactBootstrap.Popover.Body>
-  );
-};
-
-const BootstrapPagination = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Pagination {...rest}>{children}</ReactBootstrap.Pagination>
-  );
-};
-
-const BootstrapPaginationFirst = ({ children, ...rest }) => {
-  return <ReactBootstrap.Pagination.First {...rest} />;
-};
-
-const BootstrapPaginationPrev = ({ children, ...rest }) => {
-  return <ReactBootstrap.Pagination.Prev {...rest} />;
-};
-
-const BootstrapPaginationNext = ({ children, ...rest }) => {
-  return <ReactBootstrap.Pagination.Next {...rest} />;
-};
-
-const BootstrapPaginationLast = ({ children, ...rest }) => {
-  return <ReactBootstrap.Pagination.Last {...rest} />;
-};
-
-const BootstrapPaginationEllipsis = ({ children, ...rest }) => {
-  return <ReactBootstrap.Pagination.Ellipsis {...rest} />;
-};
-
-const BootstrapPaginationItem = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Pagination.Item {...rest}>
-      {children}
-    </ReactBootstrap.Pagination.Item>
-  );
-};
-
-const BootstrapPlaceholder = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Placeholder {...rest}>
-      {children}
-    </ReactBootstrap.Placeholder>
-  );
-};
-
-const BootstrapPlaceholderButton = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Placeholder.Button {...rest}>
-      {children}
-    </ReactBootstrap.Placeholder.Button>
-  );
-};
-
-const BootstrapProgressBar = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.ProgressBar {...rest}>
-      {children}
-    </ReactBootstrap.ProgressBar>
-  );
-};
-
-const BootstrapSpinner = ({ children, ...rest }) => {
-  return <ReactBootstrap.Spinner {...rest}>{children}</ReactBootstrap.Spinner>;
-};
-
 const BootstrapTable = ({ children, ...rest }) => {
   return <ReactBootstrap.Table {...rest}>{children}</ReactBootstrap.Table>;
 };
@@ -588,93 +371,8 @@ const BootstrapTooltip = ({ children, ...rest }) => {
   return <ReactBootstrap.Tooltip {...rest}>{children}</ReactBootstrap.Tooltip>;
 };
 
-const BootstrapToastContainer = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.ToastContainer {...rest}>
-      {children}
-    </ReactBootstrap.ToastContainer>
-  );
-};
-
-const BootstrapToast = ({ children, ...rest }) => {
-  return <ReactBootstrap.Toast {...rest}>{children}</ReactBootstrap.Toast>;
-};
-
-const BootstrapToastHeader = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Toast.Header {...rest}>
-      {children}
-    </ReactBootstrap.Toast.Header>
-  );
-};
-
-const BootstrapToastBody = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Toast.Body {...rest}>{children}</ReactBootstrap.Toast.Body>
-  );
-};
-
-const BootstrapForm = ({ children, ...rest }) => {
-  return <ReactBootstrap.Form {...rest}>{children}</ReactBootstrap.Form>;
-};
-
-const BootstrapFormGroup = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Form.Group {...rest}>{children}</ReactBootstrap.Form.Group>
-  );
-};
-
-const BootstrapFormLabel = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Form.Label {...rest}>{children}</ReactBootstrap.Form.Label>
-  );
-};
-
-const BootstrapFormControl = ({ children, ...rest }) => {
-  return <ReactBootstrap.Form.Control {...rest} />;
-};
-
-const BootstrapFormText = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Form.Text {...rest}>{children}</ReactBootstrap.Form.Text>
-  );
-};
-
-const BootstrapFormCheck = ({ children, ...rest }) => {
-  return <ReactBootstrap.Form.Check {...rest} />;
-};
-
-const BootstrapFormSelect = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.Form.Select {...rest}>
-      {children}
-    </ReactBootstrap.Form.Select>
-  );
-};
-
-const BootstrapInputGroup = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.InputGroup {...rest}>{children}</ReactBootstrap.InputGroup>
-  );
-};
-
-const BootstrapInputGroupText = ({ children, ...rest }) => {
-  return (
-    <ReactBootstrap.InputGroup.Text {...rest}>
-      {children}
-    </ReactBootstrap.InputGroup.Text>
-  );
-};
-
-const BootstrapInputGroupCheckbox = ({ children, ...rest }) => {
-  return <ReactBootstrap.InputGroup.Checkbox {...rest} />;
-};
-
-const BootstrapInputGroupRadio = ({ children, ...rest }) => {
-  return <ReactBootstrap.InputGroup.Radio {...rest} />;
-};
-
 export {
+  Carousel,
   BootstrapAlert,
   BootstrapAlertLink,
   BootstrapAlertHeading,
@@ -682,7 +380,6 @@ export {
   BootstrapAccordionItem,
   BootstrapAccordionHeader,
   BootstrapAccordionBody,
-  //   BootstrapAccordionCollapse,
   BootstrapAccordionCustomButton,
   BootstrapBadge,
   BootstrapBreadCrumb,
@@ -708,26 +405,13 @@ export {
   BootstrapCarousel,
   BootstrapCarouselItem,
   BootstrapCarouselCaption,
-  BootstrapCloseButton,
   BootstrapRow,
   BootstrapCol,
   BootstrapSplitButton,
-  BootstrapDropdown,
-  BootstrapDropdownDivider,
-  BootstrapDropdownToggle,
-  BootstrapDropdownHeader,
-  BootstrapDropdownMenu,
-  BootstrapDropdownItem,
-  BootstrapDropdownButton,
   BootstrapFigure,
   BootstrapFigureImage,
   BootstrapFigureCaption,
   BootstrapImage,
-  BootstrapModal,
-  BootstrapModalDialog,
-  BootstrapModalHeader,
-  BootstrapModalTitle,
-  BootstrapModalBody,
   BootstrapNav,
   BootstrapNavLink,
   BootstrapNavItem,
@@ -740,44 +424,9 @@ export {
   BootstrapNavbarToggle,
   BootstrapNavbarCollapse,
   BootstrapNavbarOffcanvas,
-  BootstrapOffcanvas,
-  BootstrapOffcanvasHeader,
-  BootstrapOffcanvasTitle,
-  BootstrapOffcanvasBody,
-  BootstrapOverlay,
-  BootstrapOverlayTrigger,
-  BootstrapPopover,
-  BootstrapPopoverHeader,
-  BootstrapPopoverBody,
-  BootstrapPagination,
-  BootstrapPaginationFirst,
-  BootstrapPaginationPrev,
-  BootstrapPaginationNext,
-  BootstrapPaginationLast,
-  BootstrapPaginationEllipsis,
-  BootstrapPaginationItem,
-  BootstrapPlaceholder,
-  BootstrapPlaceholderButton,
-  BootstrapProgressBar,
-  BootstrapSpinner,
   BootstrapTable,
   BootstrapTabContainer,
   BootstrapTabContent,
   BootstrapTabPane,
   BootstrapTooltip,
-  BootstrapToastContainer,
-  BootstrapToast,
-  BootstrapToastHeader,
-  BootstrapToastBody,
-  BootstrapForm,
-  BootstrapFormGroup,
-  BootstrapFormLabel,
-  BootstrapFormControl,
-  BootstrapFormText,
-  BootstrapFormCheck,
-  BootstrapFormSelect,
-  BootstrapInputGroup,
-  BootstrapInputGroupText,
-  BootstrapInputGroupCheckbox,
-  BootstrapInputGroupRadio,
 };

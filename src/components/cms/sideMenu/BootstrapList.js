@@ -35,23 +35,6 @@ function BootstrapList(props) {
       condition: ['BootstrapBreadCrumb', 'BootstrapBreadCrumbItem'],
     },
     {
-      label: 'Button',
-      condition: [
-        'BootstrapButton',
-        'BootstrapToggleButton',
-        'BootstrapButtonToolbar',
-        'BootstrapSplitButton',
-      ],
-    },
-    {
-      label: 'Button group',
-      condition: [
-        'BootstrapToggleCheckboxButtonGroup',
-        'BootstrapToggleRadioButtonGroup',
-        'BootstrapButtonGroup',
-      ],
-    },
-    {
       label: 'Card',
       condition: [
         'BootstrapCardGroup',
@@ -74,19 +57,6 @@ function BootstrapList(props) {
         'BootstrapCarouselCaption',
       ],
     },
-    { label: 'Close button', condition: ['BootstrapCloseButton'] },
-    {
-      label: 'Form',
-      condition: [
-        'BootstrapForm',
-        'BootstrapFormGroup',
-        'BootstrapFormLabel',
-        'BootstrapFormControl',
-        'BootstrapFormText',
-        'BootstrapFormCheck',
-        'BootstrapFormSelect',
-      ],
-    },
     {
       label: 'Figure',
       condition: [
@@ -101,45 +71,10 @@ function BootstrapList(props) {
       condition: ['BootstrapRow', 'BootstrapCol', 'BootstrapContainer'],
     },
     {
-      label: 'Dropdowns',
-      condition: [
-        'BootstrapDropdown',
-        'BootstrapDropdownDivider',
-        'BootstrapDropdownToggle',
-        'BootstrapDropdownHeader',
-        'BootstrapDropdownMenu',
-        'BootstrapDropdownItem',
-        'BootstrapDropdownButton',
-      ],
-    },
-    {
-      label: 'Placeholder',
-      condition: ['BootstrapPlaceholder', 'BootstrapPlaceholderButton'],
-    },
-    {
-      label: 'Input Group',
-      condition: [
-        'BootstrapInputGroup',
-        'BootstrapInputGroupText',
-        'BootstrapInputGroupCheckbox',
-        'BootstrapInputGroupRadio',
-      ],
-    },
-    {
       label: 'List group',
       condition: ['BootstrapListGroup', 'BootstrapListGroupItem'],
     },
     { label: 'Table', condition: ['BootstrapTable'] },
-    {
-      label: 'Modal',
-      condition: [
-        'BootstrapModal',
-        'BootstrapModalDialog',
-        'BootstrapModalHeader',
-        'BootstrapModalTitle',
-        'BootstrapModalBody',
-      ],
-    },
     {
       label: 'Nav',
       condition: [
@@ -169,57 +104,15 @@ function BootstrapList(props) {
         'BootstrapNavbarOffcanvas',
       ],
     },
-    {
-      label: 'Overlay',
-      condition: ['BootstrapOverlay', 'BootstrapOverlayTrigger'],
-    },
-    {
-      label: 'Offcanvas',
-      condition: [
-        'BootstrapOffcanvas',
-        'BootstrapOffcanvasHeader',
-        'BootstrapOffcanvasTitle',
-        'BootstrapOffcanvasBody',
-      ],
-    },
-    {
-      label: 'Pagination',
-      condition: [
-        'BootstrapPagination',
-        'BootstrapPaginationFirst',
-        'BootstrapPaginationPrev',
-        'BootstrapPaginationNext',
-        'BootstrapPaginationLast',
-        'BootstrapPaginationEllipsis',
-        'BootstrapPaginationItem',
-      ],
-    },
-    {
-      label: 'Popovers',
-      condition: [
-        'BootstrapPopover',
-        'BootstrapPopoverHeader',
-        'BootstrapPopoverBody',
-      ],
-    },
-    { label: 'Progress', condition: ['BootstrapProgressBar'] },
-    { label: 'Spinners', condition: ['BootstrapSpinner'] },
-    {
-      label: 'Toast',
-      condition: [
-        'BootstrapToastContainer',
-        'BootstrapToast',
-        'BootstrapToastHeader',
-        'BootstrapToastBody',
-      ],
-    },
     { label: 'Tooltip', condition: ['BootstrapTooltip'] },
-  ].map((obj, i) => {
-    const filter = obj.condition
-      ? bootstrapList.filter(f => obj.condition.includes(f))
-      : [];
-    return { id: i, label: obj.label, list: filter };
-  });
+  ]
+    .sort((a, b) => (a.label > b.label ? 1 : -1))
+    .map((obj, i) => {
+      const filter = obj.condition
+        ? bootstrapList.filter(f => obj.condition.includes(f))
+        : [];
+      return { id: i, label: obj.label, list: filter };
+    });
 
   const addElementToNode = (key, details, element) => {
     const sample = {
