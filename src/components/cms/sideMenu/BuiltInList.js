@@ -34,7 +34,6 @@ function BuiltInList(props) {
           'Iframe',
           'Legend',
           'Pre',
-          'Style',
           'Path',
           'Tfoot',
         ].includes(f)

@@ -9,6 +9,7 @@ function PageTree(props) {
   const layoutContext = useContext(LayoutContext);
   const userContext = useContext(UserContext);
   const [pasteId, setPasteId] = useState({});
+  const [pageFocus, setPageFocus] = useState(false);
 
   const onSelect = (selectedKeys, e) => {
     layoutContext.setState(prevState => ({
@@ -83,7 +84,7 @@ function PageTree(props) {
       ).test(id);
     };
     const onKeyDown = ({ key }) => {
-      if (key === 'Delete' && layoutContext.state.selectedNodeId) {
+      if (key === 'Delete' && pageFocus && layoutContext.state.selectedNodeId) {
         const details = [{ ...layoutContext.state.pageDetails.pageObject }];
         const id = layoutContext.state.selectedNodeId;
         if (id !== details[0].key) {
@@ -106,6 +107,7 @@ function PageTree(props) {
         }
       }
     };
+
     const onCopy = e => {
       const sel =
         window.getSelection().toString().length > 0
@@ -138,7 +140,7 @@ function PageTree(props) {
       document.removeEventListener('copy', onCopy);
       document.removeEventListener('paste', onPaste);
     };
-  }, [layoutContext.state.selectedNodeId]);
+  }, [layoutContext.state.selectedNodeId, pageFocus]);
 
   const creteNewKeysToObject = arr => {
     return arr.map(item => {
@@ -212,10 +214,32 @@ function PageTree(props) {
       });
   };
 
+  let _timeoutID;
+
+  const _onBlur = () => {
+    _timeoutID = setTimeout(() => {
+      if (pageFocus) {
+        setPageFocus(false);
+      }
+    }, 0);
+  };
+
+  const _onFocus = () => {
+    clearTimeout(_timeoutID);
+    if (!pageFocus) {
+      setPageFocus(true);
+    }
+  };
+
   return (
     <LayoutContext.Consumer>
       {layoutDetails => (
-        <div className="mt-2 mb-5">
+        <div
+          className="mt-2 mb-5"
+          onFocus={_onFocus}
+          onBlur={_onBlur}
+          tabIndex="1"
+        >
           {layoutDetails.state.pageDetails &&
             Object.keys(layoutDetails.state.pageDetails).length > 0 && (
               <Tree

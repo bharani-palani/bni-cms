@@ -197,32 +197,66 @@ const BootstrapListGroupItem = ({ children, ...rest }) => {
   );
 };
 
-import { Carousel } from 'react-bootstrap';
-
 const BootstrapCarousel = props => {
   return (
     <>
-      {props.children && props.children.length > 0 && (
-        <Carousel {...props}>
+      {Array.isArray(props.children) && props.children.length > 0 && (
+        <ReactBootstrap.Carousel
+          {...props}
+          {...(props.activeIndex && {
+            activeIndex: Number(props.activeIndex),
+          })}
+          {...(props.controls && {
+            controls: props.controls === 'true',
+          })}
+          {...(props.fade && {
+            fade: props.fade === 'true',
+          })}
+          {...(props.indicators && {
+            indicators: props.indicators === 'true',
+          })}
+          {...(!isNaN(props.interval) && {
+            interval: Number(props.interval),
+          })}
+          {...(props.keyboard && {
+            keyboard: props.keyboard === 'true',
+          })}
+          {...(props.slide && {
+            slide: props.slide === 'true',
+          })}
+          {...(props.touch && {
+            touch: props.touch === 'true',
+          })}
+          {...(props.wrap && {
+            wrap: props.wrap === 'true',
+          })}
+        >
           {props.children.map((c, i) => {
             return (
-              <Carousel.Item key={i} {...c.props}>
+              <ReactBootstrap.Carousel.Item key={i} {...c.props}>
                 {c.props.children.props.children.props.children}
-              </Carousel.Item>
+              </ReactBootstrap.Carousel.Item>
             );
           })}
-        </Carousel>
+        </ReactBootstrap.Carousel>
       )}
     </>
   );
 };
 
 const BootstrapCarouselItem = props => {
-  return <Carousel.Item {...props} />;
+  return (
+    <ReactBootstrap.Carousel.Item
+      {...props}
+      {...(!isNaN(props.interval) && {
+        interval: Number(props.interval),
+      })}
+    />
+  );
 };
 
 const BootstrapCarouselCaption = props => {
-  return <Carousel.Caption {...props} />;
+  return <ReactBootstrap.Carousel.Caption {...props} />;
 };
 
 const BootstrapRow = ({ children, ...rest }) => {
@@ -372,7 +406,6 @@ const BootstrapTooltip = ({ children, ...rest }) => {
 };
 
 export {
-  Carousel,
   BootstrapAlert,
   BootstrapAlertLink,
   BootstrapAlertHeading,

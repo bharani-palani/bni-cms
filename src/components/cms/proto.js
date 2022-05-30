@@ -14,7 +14,7 @@ function Proto(props) {
   return (
     <LayoutContext.Consumer>
       {layoutDetails => (
-        <div className="min-vh-100">
+        <div className={`${window.innerWidth > 768 ? 'min-vh-100' : ''}`}>
           {layoutDetails.state.pageDetails &&
             Object.keys(layoutDetails.state.pageDetails).length > 0 && (
               <div className={`d-xl-grid`}>

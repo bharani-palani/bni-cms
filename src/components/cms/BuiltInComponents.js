@@ -252,10 +252,6 @@ const Strong = ({ children, ...rest }) => {
   return <strong {...rest}>{children}</strong>;
 };
 
-const Style = ({ children, ...rest }) => {
-  return <style {...rest}>{children}</style>;
-};
-
 const Sub = ({ children, ...rest }) => {
   return <sub {...rest}>{children}</sub>;
 };
@@ -309,15 +305,18 @@ const AwsMedia = ({ ...rest }) => {
   return <SignedUrl appData={appData} {...rest} />;
 };
 
-// Note: props -> lat,lng
 const GoogleMapsMarker = ({ ...rest }) => {
   return (
-    <Marker
-      position={{
-        lat: rest.lat ? Number(rest.lat) : 25.589679787104245,
-        lng: rest.lng ? Number(rest.lng) : 78.15448882485161,
-      }}
-    />
+    <>
+      {window.google && (
+        <Marker
+          position={{
+            lat: rest.lat ? Number(rest.lat) : 25.589679787104245,
+            lng: rest.lng ? Number(rest.lng) : 78.15448882485161,
+          }}
+        />
+      )}
+    </>
   );
 };
 
@@ -337,7 +336,6 @@ const GoogleMapMain = withScriptjs(
   })
 );
 
-// Note: props -> defaultZoom,lat,lng,height
 const GoogleMaps = ({ children, ...rest }) => {
   const [appData] = useContext(AppContext);
   const mapKey = CryptoJS.AES.decrypt(
@@ -422,7 +420,6 @@ export {
   Small,
   Source,
   Strong,
-  Style,
   Sub,
   Summary,
   Sup,
