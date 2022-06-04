@@ -18,7 +18,7 @@ function MainApp(props) {
       const isExistMenu =
         userContext.userData.menu && userContext.userData.menu.length > 0;
       apiInstance
-        .post('/getPages')
+        .get('/getPages')
         .then(res => {
           let serialisedMenu = res.data.response.filter(menu =>
             menu.hasAccessTo.includes(userContext.userData.type)

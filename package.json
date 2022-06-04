@@ -54,8 +54,10 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "develop": "NODE_ENV=development PORT=5000 node server/server.js & react-scripts start"
   },
+  "proxy": "http://localhost:5000",
   "resolutions": {
     "react-error-overlay": "6.0.9"
   },

@@ -1,10 +1,10 @@
 import Axios from 'axios';
-import { baseUrl, token } from '../environment';
+import { baseUrl } from '../environment';
 
 const apiInstance = Axios.create({
   baseURL: baseUrl(),
   headers: {
-    Authorization: token,
+    Authorization: localStorage.getItem('TOKEN'),
   },
 });
 

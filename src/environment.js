@@ -1,9 +1,7 @@
 const baseUrl = () => {
-  const dev = 'http://localhost:8080/bniReactWeb/services';
+  const dev = 'http://localhost:5000/bniReactWeb/services';
   const prod = 'https://bharani.tech/services';
   return process.env.NODE_ENV === 'development' ? dev : prod;
 };
 
-const token =
-  'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MX0.By2r2BwheJsbrEGrHOaMQwrrmlY7wHVFzWtuEmv39fM';
-export { baseUrl, token };
+export { baseUrl };

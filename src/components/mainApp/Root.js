@@ -31,6 +31,7 @@ function Root(props) {
           '--az-theme-bg-color',
           data.webThemeBackground
         );
+        localStorage.setItem('TOKEN', data.token);
       })
       .catch(error => setFetchStatus(false))
       .finally(error => false);

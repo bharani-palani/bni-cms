@@ -1,7 +1,4 @@
-## For [https://bharani.tech](https://bharani.tech) Web:
-- cPanel: [https://bharani.tech/cpanel](https://bharani.tech/cpanel)
-- Username: refer credential drive
-- password: Refer credential drive
+# [Awzy](https://awzy.org)
 
 ## Prerequisites
 
@@ -12,27 +9,38 @@
 ## Installation
 - npm install --legacy-peer-deps
 
-## DEV run
-- npm start
+## DEV run (disable web security) (Incase nginx is not installed)
+#### `Not advisable`
 
-## DEV run (disable web security)
 - in windows - win key + r run the below command
 - chrome.exe --user-data-dir="C://Chrome dev session" --disable-web-security
 
+## DEV run using nginx
+
+### Windows 
+- navigate to nginx folder and run nginx.exe
+- To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
+- Note: This will not impact your production build.
+
+### MAC
+- Check you have installed nginx
+- nginx start (to start server)
+- nginx stop (to stop server)
+- nginx reload (to reload server)
+
+## DEV run
+- npm start
+
+## Important
+- Open http://localhost:5000 to run Awzy in local without CORS issue.
+- Note: `Dont try http://localhost:3000` which will not work
+
 ## Build process:
 - run "npm run build" in your root folder
-- Dont forget to commit and push the entire files (including build folder) to repo
+- Your build folder is ready for producion deployment.
 
-## Deployment process:
-- Open Git version control in [cPanel](https://bharani.tech/cpanel)
-- Click Manage on "bniReactWebNewGit"
-- Click "Pull or Deploy"
-- Click "Update from Remote" and "Deploy HEAD Commit"
-- You are done.
-
-## _Good Luck_
-```sh
-Author: Bharani Palani | barani.potshot@gmail.com
-```
+## _Good Luck & Happy Coding_
+### Author
+```Bharani Palani | barani.potshot@gmail.com```
 
 

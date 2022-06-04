@@ -10,136 +10,69 @@ class home extends CI_Controller
     }
     public function index()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $data['response'] = $this->home_model->get_config();
-            $this->auth->response($data, [], 200);
-        }
+        $config = $this->home_model->get_config();
+        $data['response'] = [
+            array_merge($config[0], [
+                'token' => $this->auth->generateToken(),
+            ]),
+        ];
+        $this->auth->response($data);
     }
     public function getBackend()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'TableRows' => $this->input->post('TableRows'),
-                'Table' => $this->input->post('Table'),
-            ];
-            $data['response'] = $this->home_model->getBackend($post);
-            $this->auth->response($data, [], 200);
-        }
+        $post = [
+            'TableRows' => $this->input->post('TableRows'),
+            'Table' => $this->input->post('Table'),
+        ];
+        $data['response'] = $this->home_model->getBackend($post);
+        $this->auth->response($data, []);
     }
     public function postBackend()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'postData' => $this->input->post('postData'),
-            ];
-            $data['response'] = $this->home_model->postBackend($post);
-            $this->auth->response($data, [], 200);
-        }
+        $post = [
+            'postData' => $this->input->post('postData'),
+        ];
+        $data['response'] = $this->home_model->postBackend($post);
+        $this->auth->response($data, []);
     }
     public function validateUser()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'username' => $this->input->post('username'),
-                'password' => $this->input->post('password'),
-            ];
-            $data['response'] = $this->home_model->validateUser($post);
-            $this->auth->response($data, [], 200);
-        }
+        $post = [
+            'username' => $this->input->post('username'),
+            'password' => $this->input->post('password'),
+        ];
+        $data['response'] = $this->home_model->validateUser($post);
+        $this->auth->response($data, []);
     }
     public function fetchAccessLevels()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $data['response'] = $this->home_model->fetchAccessLevels();
-            $this->auth->response($data, [], 200);
-        }
+        $data['response'] = $this->home_model->fetchAccessLevels();
+        $this->auth->response($data, []);
     }
     public function fetchUsers()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $data['response'] = $this->home_model->fetchUsers();
-            $this->auth->response($data, [], 200);
-        }
+        $data['response'] = $this->home_model->fetchUsers();
+        $this->auth->response($data, []);
     }
     public function checkUserExists()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'username' => $this->input->post('username'),
-                'email' => $this->input->post('email'),
-            ];
-            $data['response'] = $this->home_model->checkUserExists($post);
-            $this->auth->response($data, [], 200);
-        }
+        $post = [
+            'username' => $this->input->post('username'),
+            'email' => $this->input->post('email'),
+        ];
+        $data['response'] = $this->home_model->checkUserExists($post);
+        $this->auth->response($data, []);
     }
     public function changePassword()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'userName' => $this->input->post('userName'),
-                'currentPass' => $this->input->post('currentPass'),
-                'newPass' => $this->input->post('newPass'),
-                'repeatPass' => $this->input->post('repeatPass'),
-            ];
-            $data['response'] = $this->home_model->changePassword($post);
-            $this->auth->response($data, [], 200);
-        }
+        $post = [
+            'userName' => $this->input->post('userName'),
+            'currentPass' => $this->input->post('currentPass'),
+            'newPass' => $this->input->post('newPass'),
+            'repeatPass' => $this->input->post('repeatPass'),
+        ];
+        $data['response'] = $this->home_model->changePassword($post);
+        $this->auth->response($data, []);
     }
     public function random_otp()
     {
@@ -168,148 +101,121 @@ class home extends CI_Controller
 
     public function resetPassword()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'otp' => $this->input->post('otp'),
-                'id' => $this->input->post('id'),
-                'email' => $this->input->post('email'),
-            ];
-            $validateOtpTime = $this->home_model->validateOtpTime($post);
-            if ($validateOtpTime) {
-                $config = $this->home_model->get_config();
-                $web = $config[0]['web'];
-                $email = $config[0]['email'];
+        $post = [
+            'otp' => $this->input->post('otp'),
+            'id' => $this->input->post('id'),
+            'email' => $this->input->post('email'),
+        ];
+        $validateOtpTime = $this->home_model->validateOtpTime($post);
+        if ($validateOtpTime) {
+            $config = $this->home_model->get_config();
+            $web = $config[0]['web'];
+            $email = $config[0]['email'];
 
-                $resetPassword = $this->random_password();
-                $update = $this->home_model->resetUpdate(
-                    $post['id'],
-                    $resetPassword
-                );
-                if ($update) {
-                    $this->email->from(
-                        'do-not-reply@' . explode('@', $email)[1],
-                        'Support Team'
-                    );
-                    $this->email->to($post['email']);
-                    $this->email->subject($web . ' Your new password!');
-                    $this->email->message(
-                        $resetPassword .
-                            ' is your new password. Please change them periodically.'
-                    );
-                    if ($this->email->send()) {
-                        $data['response'] = true;
-                    } else {
-                        $data['response'] = false;
-                    }
-                } else {
-                    $data['response'] = false;
-                }
-            } else {
-                $data['response'] = false;
-            }
-            $this->auth->response($data, [], 200);
-        }
-    }
-
-    public function sendUserInfo()
-    {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'email' => $this->input->post('email'),
-                'userName' => $this->input->post('userName'),
-                'password' => $this->input->post('password'),
-            ];
-            if (
-                isset($post['userName']) &&
-                isset($post['password']) &&
-                isset($post['email'])
-            ) {
-                $config = $this->home_model->get_config();
-                $web = $config[0]['web'];
-                $email = $config[0]['email'];
-
+            $resetPassword = $this->random_password();
+            $update = $this->home_model->resetUpdate(
+                $post['id'],
+                $resetPassword
+            );
+            if ($update) {
                 $this->email->from(
                     'do-not-reply@' . explode('@', $email)[1],
                     'Support Team'
                 );
                 $this->email->to($post['email']);
-                $this->email->subject('Your new ' . $web . ' credentials!');
+                $this->email->subject($web . ' Your new password!');
                 $this->email->message(
-                    'Hello, ' .
-                        $post['userName'] .
-                        ' is your user name and ' .
-                        $post['password'] .
-                        ' is your password. Please login with these credentials on ' .
-                        $web .
-                        '. Please contact administrator on further details.'
+                    $resetPassword .
+                        ' is your new password. Please change them periodically.'
                 );
                 if ($this->email->send()) {
                     $data['response'] = true;
                 } else {
                     $data['response'] = false;
                 }
+            } else {
+                $data['response'] = false;
+            }
+        } else {
+            $data['response'] = false;
+        }
+        $this->auth->response($data, []);
+    }
+
+    public function sendUserInfo()
+    {
+        $post = [
+            'email' => $this->input->post('email'),
+            'userName' => $this->input->post('userName'),
+            'password' => $this->input->post('password'),
+        ];
+        if (
+            isset($post['userName']) &&
+            isset($post['password']) &&
+            isset($post['email'])
+        ) {
+            $config = $this->home_model->get_config();
+            $web = $config[0]['web'];
+            $email = $config[0]['email'];
+
+            $this->email->from(
+                'do-not-reply@' . explode('@', $email)[1],
+                'Support Team'
+            );
+            $this->email->to($post['email']);
+            $this->email->subject('Your new ' . $web . ' credentials!');
+            $this->email->message(
+                'Hello, ' .
+                    $post['userName'] .
+                    ' is your user name and ' .
+                    $post['password'] .
+                    ' is your password. Please login with these credentials on ' .
+                    $web .
+                    '. Please contact administrator on further details.'
+            );
+            if ($this->email->send()) {
+                $data['response'] = true;
+            } else {
+                $data['response'] = false;
             }
         }
     }
 
     public function sendOtp()
     {
-        $validate = $this->auth->validateAll();
-        if ($validate === 2) {
-            $this->auth->invalidTokenResponse();
-        }
-        if ($validate === 3) {
-            $this->auth->invalidDomainResponse();
-        }
-        if ($validate === 1) {
-            $post = [
-                'email' => $this->input->post('email'),
-            ];
-            $userId = $this->home_model->checkValidEmail($post);
-            if ($userId !== false) {
-                $config = $this->home_model->get_config();
-                $web = $config[0]['web'];
-                $email = $config[0]['email'];
+        $post = [
+            'email' => $this->input->post('email'),
+        ];
+        $userId = $this->home_model->checkValidEmail($post);
+        if ($userId !== false) {
+            $config = $this->home_model->get_config();
+            $web = $config[0]['web'];
+            $email = $config[0]['email'];
 
-                $otp = $this->random_otp();
-                $otpAction = $this->home_model->otpUpdate($userId, $otp);
-                if ($otpAction) {
-                    $this->email->from(
-                        'do-not-reply@' . explode('@', $email)[1],
-                        'Support Team'
-                    );
-                    $this->email->to($post['email']);
-                    $this->email->subject($web . ' OTP for password reset');
-                    $this->email->message(
-                        $otp .
-                            ' is your OTP (One Time Password) to reset password. This is valid only for next 5 minutes. Please do not share with anyone. If this mail was not sent on your consent, report this to your admin immediately.'
-                    );
-                    if ($this->email->send()) {
-                        $data['response'] = $userId;
-                    } else {
-                        $data['response'] = false;
-                    }
+            $otp = $this->random_otp();
+            $otpAction = $this->home_model->otpUpdate($userId, $otp);
+            if ($otpAction) {
+                $this->email->from(
+                    'do-not-reply@' . explode('@', $email)[1],
+                    'Support Team'
+                );
+                $this->email->to($post['email']);
+                $this->email->subject($web . ' OTP for password reset');
+                $this->email->message(
+                    $otp .
+                        ' is your OTP (One Time Password) to reset password. This is valid only for next 5 minutes. Please do not share with anyone. If this mail was not sent on your consent, report this to your admin immediately.'
+                );
+                if ($this->email->send()) {
+                    $data['response'] = $userId;
                 } else {
                     $data['response'] = false;
                 }
             } else {
                 $data['response'] = false;
             }
-            $this->auth->response($data, [], 200);
+        } else {
+            $data['response'] = false;
         }
+        $this->auth->response($data, []);
     }
 }
