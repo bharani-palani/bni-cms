@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router-dom';
 import { ProtectedRoute } from '../../security/protectedRoute';
 import ErrorPage from './errorpage';
+import AppContext from '../../contexts/AppContext';
 import { UserContext } from '../../contexts/UserContext';
 import Cms from '../cms/cms';
 import apiInstance from '../../services/apiServices';
@@ -10,11 +11,15 @@ import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
 
 const Wrapper = props => {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const menu = userContext.userData.menu;
   const [structure, setStructure] = useState({});
   const [loader, setLoader] = useState(false);
   const { location } = props;
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     const fPages = menu.filter(m => m.href === location.pathname);
@@ -25,7 +30,7 @@ const Wrapper = props => {
       const formdata = new FormData();
       formdata.append('pageId', pageId);
       apiInstance
-        .post('/getConfigPageDetails', formdata)
+        .post('/getConfigPageDetails', formdata, axiosOptions)
         .then(res => {
           const resStructure = res.data.response.pageObject;
           setStructure(resStructure);
@@ -40,7 +45,7 @@ const Wrapper = props => {
         })
         .finally(() => setLoader(false));
     }
-  }, [location.pathname]);
+  }, [location.pathname, JSON.stringify(appData)]);
 
   return (
     <>

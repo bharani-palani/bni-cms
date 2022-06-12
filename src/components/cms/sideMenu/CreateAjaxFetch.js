@@ -9,12 +9,17 @@ import {
   Form,
 } from 'react-bootstrap';
 import { UserContext } from '../../../contexts/UserContext';
+import AppContext from '../../../contexts/AppContext';
 import { v4 as uuidv4 } from 'uuid';
 import apiInstance from '../../../services/apiServices';
 
 function CreateAjaxFetch(props) {
+  const [appData] = useContext(AppContext);
   const layoutContext = useContext(LayoutContext);
   const userContext = useContext(UserContext);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
   const [whereCondition, setWhereCondition] = useState({
     column: '',
     clause: '',
@@ -119,7 +124,7 @@ function CreateAjaxFetch(props) {
 
   const loadTables = () => {
     apiInstance
-      .get('/getTables')
+      .get('/getTables', axiosOptions)
       .then(res => {
         const data = res.data.response
           .map(e => Object.entries(e))

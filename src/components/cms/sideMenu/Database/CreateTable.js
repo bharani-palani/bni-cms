@@ -8,12 +8,17 @@ import {
 } from 'react-bootstrap';
 import apiInstance from '../../../../services/apiServices';
 import { TableConfigContext } from './TableConfig';
+import AppContext from '../../../../contexts/AppContext';
 import { UserContext } from '../../../../contexts/UserContext';
 import InlineForm from './InlineForm';
 
 function CreateTable(props) {
   const tableConfigContext = useContext(TableConfigContext);
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const removeField = index => {
     const filtered = [...tableConfigContext.selectedTypes].filter(
@@ -28,7 +33,7 @@ function CreateTable(props) {
     formdata.append('fields', JSON.stringify(tableConfigContext.selectedTypes));
 
     apiInstance
-      .post('/createTable', formdata)
+      .post('/createTable', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {

@@ -2,14 +2,19 @@ import React, { useEffect, useState, useContext } from 'react';
 import ReactiveForm from '../../configuration/ReactiveForm/';
 import apiInstance from '../../../services/apiServices';
 import { UserContext } from '../../../contexts/UserContext';
+import AppContext from '../../../contexts/AppContext';
 
 function AjaxForm(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const {
     config: { table, successMessage, ...restConfig },
     structure,
   } = props;
   const [formedStructure, setFormedStructure] = useState([]);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     const bStructure = [...structure].map(p => {
@@ -104,7 +109,7 @@ function AjaxForm(props) {
     formdata.append('fields', JSON.stringify(fields));
 
     apiInstance
-      .post('/postAjaxForm', formdata)
+      .post('/postAjaxForm', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {

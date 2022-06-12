@@ -14,17 +14,21 @@ function Config(props) {
   const [appData, setMaster] = useContext(AppContext);
   const [formStructure, setFormStructure] = useState(masterConfig);
   const [loader, setLoader] = useState(true);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const getBackendAjax = (Table, TableRows) => {
     const formdata = new FormData();
     formdata.append('TableRows', TableRows);
     formdata.append('Table', Table);
-    return apiInstance.post('getBackend', formdata);
+    return apiInstance.post('/getBackend', formdata, axiosOptions);
   };
 
   useEffect(() => {
     setLoader(true);
     const TableRows = formStructure.map(form => form.index);
+
     getBackendAjax('config', TableRows)
       .then(r => {
         const responseObject = r.data.response[0];
@@ -80,7 +84,7 @@ function Config(props) {
     formdata.append('postData', JSON.stringify(newPayload));
 
     apiInstance
-      .post('/postBackend', formdata)
+      .post('/postBackend', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           let backupStructure = [...formStructure];
@@ -96,7 +100,10 @@ function Config(props) {
             message: 'Configurations saved successfully',
           });
           let massageStructure = backupStructure.map(b => [b.id, b.value]);
-          massageStructure = Object.fromEntries(massageStructure);
+          massageStructure = {
+            ...Object.fromEntries(massageStructure),
+            token: appData.token,
+          };
           setMaster(massageStructure);
         }
       })

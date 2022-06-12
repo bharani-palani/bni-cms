@@ -3,6 +3,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class auth extends CI_Controller
 {
     protected $secretKey = 'awzyisawesome';
+    protected $iss = 'https://awzy.org';
+    protected $aud = 'https://awzy.org';
 
     public function __construct()
     {
@@ -28,8 +30,8 @@ class auth extends CI_Controller
     public function generateToken()
     {
         $payload = [
-            'iss' => 'https://awzy.org',
-            'aud' => 'https://awzy.org',
+            'iss' => $this->iss,
+            'aud' => $this->aud,
             'iat' => strtotime('now'),
             'exp' => strtotime('+1 day'),
         ];
@@ -46,25 +48,38 @@ class auth extends CI_Controller
     public function validateToken()
     {
         $object = apache_request_headers();
-        if (isset($object['Authorization'])) {
+        $res = [];
+        if (isset($object['Awzy-Authorization'])) {
             try {
-                $decoded = $this->decodedToken($object['Authorization']);
+                $decoded = $this->decodedToken($object['Awzy-Authorization']);
                 $check =
                     is_object($decoded) &&
-                    $decoded->iss === 'https://awzy.org' &&
-                    $decoded->iat < time() &&
-                    $decoded->exp > time();
-                // return [$check, $object, $decoded, time()];
-                return $check;
+                    $decoded->iss === $this->iss &&
+                    $decoded->iat <= time() &&
+                    $decoded->exp >= time();
+                $res = $check
+                    ? [
+                        'status' => 'success',
+                        'message' => 'Token is good',
+                    ]
+                    : [
+                        'status' => 'failed',
+                        'message' => 'Token expired',
+                        // [$check, $decoded, time()],
+                    ];
             } catch (Exception $e) {
-                return [
-                    'message' => 'Access denied',
-                    'error' => $e->getMessage(),
+                $res = [
+                    'status' => 'failed',
+                    'message' => $e->getMessage(),
                 ];
             }
         } else {
-            return false;
+            $res = [
+                'status' => 'failed',
+                'message' => 'Token not found',
+            ];
         }
+        return $res;
     }
 
     public function response($response, $passed = [])
@@ -73,9 +88,15 @@ class auth extends CI_Controller
         $ci->output->set_content_type('application/json');
         $ci->output->set_status_header(200);
 
-        $output = array_merge($this->info($passed), $response, [
-            'validate' => $this->validateToken(),
-        ]);
+        $output = array_merge($this->info($passed), $response);
         $ci->output->set_output(json_encode($output));
+    }
+
+    public function tokenException($exc)
+    {
+        $ci = &get_instance();
+        $ci->output->set_content_type('application/json');
+        $ci->output->set_status_header(401);
+        $ci->output->set_output(json_encode($exc));
     }
 }

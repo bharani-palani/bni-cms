@@ -71,7 +71,6 @@ $autoload['helper'] = [
     'form',
     'file',
     'jwt',
-    'authorization',
     'date',
     'file',
 ];

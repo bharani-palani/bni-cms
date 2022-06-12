@@ -3,8 +3,10 @@ import apiInstance from '../../services/apiServices';
 import { UserContext } from '../../contexts/UserContext';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
+import AppContext from '../../contexts/AppContext';
 
 function ResetForm(props) {
+  const [appData] = useContext(AppContext);
   const { onClose } = props;
   const userContext = useContext(UserContext);
   const [email, setEmail] = useState('');
@@ -14,6 +16,9 @@ function ResetForm(props) {
   const [sendState, setSendState] = useState(false);
   const [respId, setRespId] = useState(null);
   let [timer, setTimer] = useState(300);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     setSubmitState(
@@ -48,7 +53,7 @@ function ResetForm(props) {
     formdata.append('email', email);
 
     apiInstance
-      .post('/sendOtp', formdata)
+      .post('/sendOtp', formdata, axiosOptions)
       .then(response => {
         const userId = response.data.response;
         if (userId) {

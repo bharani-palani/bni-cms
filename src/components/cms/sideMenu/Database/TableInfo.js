@@ -5,8 +5,13 @@ import ConfirmationModal from '../../../configuration/Gallery/ConfirmationModal'
 import apiInstance from '../../../../services/apiServices';
 import { Button, Modal } from 'react-bootstrap';
 import InlineForm from './InlineForm';
+import AppContext from '../../../../contexts/AppContext';
 
 function TableInfo(props) {
+  const [appData] = useContext(AppContext);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
   const tableConfigContext = useContext(TableConfigContext);
   const userContext = useContext(UserContext);
   const modalDefOptions = {
@@ -22,7 +27,7 @@ function TableInfo(props) {
     formdata.append('field', modalOptions.field);
 
     apiInstance
-      .post('/dropTableColumn', formdata)
+      .post('/dropTableColumn', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {

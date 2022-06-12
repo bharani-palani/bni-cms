@@ -4,9 +4,11 @@ import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
 import { UserContext } from '../../contexts/UserContext';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
+import AppContext from '../../contexts/AppContext';
 
 function ChangePassword(props) {
   const { onClose, ...rest } = props;
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const [userName, setUsername] = useState('');
   const [currentPass, setCurrentPass] = useState('');
@@ -18,6 +20,10 @@ function ChangePassword(props) {
   const [CP, setCP] = useState(false);
   const [NP, setNP] = useState(false);
   const [RP, setRP] = useState(false);
+
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     const conditions = [
@@ -44,7 +50,7 @@ function ChangePassword(props) {
     formdata.append('repeatPass', repeatPass);
 
     apiInstance
-      .post('/changePassword', formdata)
+      .post('/changePassword', formdata, axiosOptions)
       .then(response => {
         const bool = response.data.response.status;
         if (bool) {

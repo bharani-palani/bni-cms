@@ -1,9 +1,11 @@
 /* eslint-disable react/display-name */
 import React from 'react';
 import apiInstance from '../../../services/apiServices';
+import AppContext from '../../../contexts/AppContext';
 
 const withFetchHOC = Component => {
   return class extends React.Component {
+    static contextType = AppContext;
     constructor(props) {
       super(props);
       this.state = {
@@ -27,8 +29,13 @@ const withFetchHOC = Component => {
       const formdata = new FormData();
       formdata.append('query', JSON.stringify(this.props.query));
 
+      const [appData] = this.context;
+      const axiosOptions = {
+        headers: { 'Awzy-Authorization': appData.token },
+      };
+
       apiInstance
-        .post('/ajaxFetch', formdata)
+        .post('/ajaxFetch', formdata, axiosOptions)
         .then(res => {
           const obj = res.data.response;
           this.setState({ ...this.state, data: obj, loading: false });

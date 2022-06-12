@@ -3,14 +3,19 @@ import apiInstance from '../../services/apiServices';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
 import { UserContext } from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 
 function LoginForm(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const { onToggle, onClose, onSuccess } = props;
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [passwordType, setPasswordType] = useState(false);
   const [loader, setLoader] = useState(false);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const onEnter = e => {
     if (e.which === 13 || e.keyCode === 13) {
@@ -25,7 +30,7 @@ function LoginForm(props) {
     formdata.append('password', password);
 
     apiInstance
-      .post('/validateUser', formdata)
+      .post('/validateUser', formdata, axiosOptions)
       .then(response => {
         const resp = response.data.response;
         if (resp) {

@@ -5,16 +5,21 @@ import TableList from './TableList';
 import TableInfo from './TableInfo';
 import apiInstance from '../../../../services/apiServices';
 import { UserContext } from '../../../../contexts/UserContext';
+import AppContext from '../../../../contexts/AppContext';
 
 export const TableConfigContext = React.createContext();
 
 function TableConfig(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const [tableList, setTableList] = useState([]);
   const [infoList, setInfoList] = useState({
     table: '',
     data: [],
   });
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
   const [loading, setLoading] = useState(false);
   const inputTypeList = [
     { value: 'INT', label: 'INT' },
@@ -76,7 +81,7 @@ function TableConfig(props) {
       formdata.append('table', infoList.table);
 
       apiInstance
-        .post('/getTableInfo', formdata)
+        .post('/getTableInfo', formdata, axiosOptions)
         .then(res => {
           setInfoList({
             table: infoList.table,
@@ -93,7 +98,7 @@ function TableConfig(props) {
   const loadTables = () => {
     setLoading(true);
     apiInstance
-      .get('/getTables')
+      .get('/getTables', axiosOptions)
       .then(res => {
         const data = res.data.response
           .map(e => Object.entries(e))
@@ -136,7 +141,7 @@ function TableConfig(props) {
     formdata.append('fields', JSON.stringify([formType]));
 
     apiInstance
-      .post('/updateTableColumn', formdata)
+      .post('/updateTableColumn', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {
@@ -173,7 +178,7 @@ function TableConfig(props) {
     formdata.append('fields', JSON.stringify([formType]));
 
     apiInstance
-      .post('/addTableColumn', formdata)
+      .post('/addTableColumn', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {

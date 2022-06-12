@@ -9,8 +9,10 @@ import md5 from 'md5';
 import ConfirmationModal from './Gallery/ConfirmationModal';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
 import generatePassword from 'password-generator';
+import AppContext from '../../contexts/AppContext';
 
 function Users(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const [formStructure, setFormStructure] = useState([]);
   const [loader, setLoader] = useState(false);
@@ -38,6 +40,10 @@ function Users(props) {
   const NUMBER_RE = /([\d])/g;
   const SPECIAL_CHAR_RE = /([\!\@\#\$\%\^\&\*])/g;
   const NON_REPEATING_CHAR_RE = /([\w\d\!\@\#\$\%\^\&\*])\1{2,}/g;
+
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const isStrongEnough = password => {
     const uc = password.match(UPPERCASE_RE);
@@ -111,7 +117,7 @@ function Users(props) {
 
   const fecthAccessAndStructure = () => {
     apiInstance
-      .post('fetchAccessLevels')
+      .get('fetchAccessLevels', axiosOptions)
       .then(res => {
         const accessLevelData = res.data.response;
         setAccessLevels(accessLevelData);
@@ -170,7 +176,7 @@ function Users(props) {
   const fetchUsers = () => {
     setLoader(true);
     apiInstance
-      .post('fetchUsers')
+      .get('fetchUsers', axiosOptions)
       .then(res => {
         setUsers(res.data.response);
       })
@@ -188,7 +194,7 @@ function Users(props) {
     const formdata = new FormData();
     formdata.append('username', checkUser);
     formdata.append('email', checkEmail);
-    return apiInstance.post('checkUserExists', formdata);
+    return apiInstance.post('checkUserExists', formdata, axiosOptions);
   };
 
   const mailInstance = form => {
@@ -202,7 +208,7 @@ function Users(props) {
       'password',
       form.filter(f => f.id === 'user_password')[0].value
     );
-    return apiInstance.post('sendUserInfo', formdata);
+    return apiInstance.post('sendUserInfo', formdata, axiosOptions);
   };
 
   const onReactiveFormSubmit = () => {
@@ -268,7 +274,7 @@ function Users(props) {
     const formdata = new FormData();
     formdata.append('postData', JSON.stringify(newPayload));
 
-    const a = apiInstance.post('/postBackend', formdata);
+    const a = apiInstance.post('/postBackend', formdata, axiosOptions);
     const b = sendMailCheck && cloned.length > 0 ? mailInstance(cloned) : 1;
     const all = [a, b];
 
@@ -316,7 +322,7 @@ function Users(props) {
     formdata.append('accessLabel', accessForm.label);
     formdata.append('accessValue', accessForm.value);
     apiInstance
-      .post('/saveOrUpdateAccessLevel', formdata)
+      .post('/saveOrUpdateAccessLevel', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           fecthAccessAndStructure();
@@ -359,7 +365,7 @@ function Users(props) {
     const formdata = new FormData();
     formdata.append('accessId', modalAccess.access_id);
     apiInstance
-      .post('/deleteAccessLevel', formdata)
+      .post('/deleteAccessLevel', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           resetForm();

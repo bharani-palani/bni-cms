@@ -31,13 +31,13 @@ const LoginUser = props => {
     setAnimateType('slideInRight');
   };
 
-  const errorGoogle = () => {
-    userContext.renderToast({
-      type: 'error',
-      icon: 'fa fa-times-circle',
-      message: 'Unable to fetch from Google API',
-    });
-  };
+  // const errorGoogle = () => {
+  //   userContext.renderToast({
+  //     type: 'error',
+  //     icon: 'fa fa-times-circle',
+  //     message: 'Unable to fetch from Google API',
+  //   });
+  // };
 
   const onLogout = () => {
     userContext.removeUserData([
@@ -155,7 +155,7 @@ const LoginUser = props => {
                 };
                 handleLoginResponse(res);
               }}
-              onFailure={errorGoogle}
+              // onFailure={() => errorGoogle()}
               cookiePolicy={'single_host_origin'}
             />
             {/*

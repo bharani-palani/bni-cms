@@ -13,6 +13,7 @@ import {
 import apiInstance from '../../services/apiServices';
 import { LayoutContext } from './layoutDesign';
 import { UserContext } from '../../contexts/UserContext';
+import AppContext from '../../contexts/AppContext';
 import AddPage from './AddPage';
 import moment from 'moment';
 import { v4 as uuidv4 } from 'uuid';
@@ -34,6 +35,7 @@ export const statusInfo = {
 };
 
 function ButtonMenu(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const layoutContext = useContext(LayoutContext);
   const [showAddPage, setShowAddPage] = useState(false);
@@ -41,6 +43,9 @@ function ButtonMenu(props) {
   const [deleteOpenModal, setDeleteOpenModal] = useState(false);
   const [scrollPosition, setScrollPosition] = useState(0);
   const minScrollValue = 100;
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     window.addEventListener('scroll', listenToScroll);
@@ -49,8 +54,8 @@ function ButtonMenu(props) {
       loading: true,
     }));
     getPages();
-    const a = apiInstance.get('/getPageStatuses');
-    const b = apiInstance.get('/getAccessLevels');
+    const a = apiInstance.get('/getPageStatuses', axiosOptions);
+    const b = apiInstance.get('/getAccessLevels', axiosOptions);
 
     Promise.all([a, b])
       .then(res => {
@@ -82,7 +87,7 @@ function ButtonMenu(props) {
 
   const getPages = () => {
     apiInstance
-      .get('/getConfigPages')
+      .get('/getConfigPages', axiosOptions)
       .then(res => {
         const list = res.data.response;
         layoutContext.setState(prevState => ({ ...prevState, pageList: list }));
@@ -106,7 +111,7 @@ function ButtonMenu(props) {
     const formdata = new FormData();
     formdata.append('pageId', obj.pageId);
     apiInstance
-      .post('/getConfigPageDetails', formdata)
+      .post('/getConfigPageDetails', formdata, axiosOptions)
       .then(res => {
         const details = res.data.response;
         layoutContext.setState(prevState => ({
@@ -152,7 +157,7 @@ function ButtonMenu(props) {
     const formdata = new FormData();
     formdata.append('postData', JSON.stringify(payLoad));
     apiInstance
-      .post('/createPage', formdata)
+      .post('/createPage', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           userContext.renderToast({ message: 'Page successfully created' });
@@ -196,7 +201,7 @@ function ButtonMenu(props) {
     formdata.append('deleteData', JSON.stringify(payLoad));
 
     apiInstance
-      .post('/deletePage', formdata)
+      .post('/deletePage', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           getPages();
@@ -251,7 +256,7 @@ function ButtonMenu(props) {
     }));
 
     apiInstance
-      .post('/updatePage', formdata)
+      .post('/updatePage', formdata, axiosOptions)
       .then(res => {
         if (res.data.response) {
           layoutContext.setState(prevState => ({

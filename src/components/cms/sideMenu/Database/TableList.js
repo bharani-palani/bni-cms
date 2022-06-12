@@ -12,10 +12,15 @@ import apiInstance from '../../../../services/apiServices';
 import { UserContext } from '../../../../contexts/UserContext';
 import ConfirmationModal from '../../../configuration/Gallery/ConfirmationModal';
 import { TableConfigContext } from './TableConfig';
+import AppContext from '../../../../contexts/AppContext';
 
 function TableList(props) {
+  const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const tableConfigContext = useContext(TableConfigContext);
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const modalDefOptions = {
     show: false,
@@ -53,7 +58,7 @@ function TableList(props) {
     formdata.append('newLabel', payload.renameLabel);
 
     apiInstance
-      .post('/renameTable', formdata)
+      .post('/renameTable', formdata, axiosOptions)
       .then(res => {
         const bool = res.data.response;
         if (bool) {
@@ -94,7 +99,7 @@ function TableList(props) {
       formdata.append('action', modalOptions.action);
 
       apiInstance
-        .post('/tableEmptyOrDrop', formdata)
+        .post('/tableEmptyOrDrop', formdata, axiosOptions)
         .then(res => {
           const bool = res.data.response;
           if (bool) {

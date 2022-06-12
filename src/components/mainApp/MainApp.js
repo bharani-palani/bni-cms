@@ -12,13 +12,16 @@ function MainApp(props) {
   const userContext = useContext(UserContext);
   const [navBarExpanded, setNavBarExpanded] = useState(false);
   document.title = appData.web;
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   useEffect(() => {
     if (userContext.userData.type) {
       const isExistMenu =
         userContext.userData.menu && userContext.userData.menu.length > 0;
       apiInstance
-        .get('/getPages')
+        .get('/getPages', axiosOptions)
         .then(res => {
           let serialisedMenu = res.data.response.filter(menu =>
             menu.hasAccessTo.includes(userContext.userData.type)
