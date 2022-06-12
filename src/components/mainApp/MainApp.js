@@ -95,7 +95,7 @@ function MainApp(props) {
                     ['sideMenuRight', 'sideMenuLeft'].includes(
                       appData.webMenuType
                     )
-                      ? 'col-sm-10'
+                      ? 'col-sm-10 col-12'
                       : 'col-sm-12'
                   }`}
                 >
