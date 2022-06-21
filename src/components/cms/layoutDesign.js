@@ -6,6 +6,7 @@ import ButtonMenu from './ButtonMenu';
 import SideMenu from './sideMenu';
 import Proto from './proto';
 import InfoPanel from './infoPanel';
+import { Helmet } from 'react-helmet';
 
 export const LayoutContext = React.createContext();
 
@@ -44,6 +45,10 @@ function LayoutDesign(props) {
           setState,
         }}
       >
+        <Helmet>
+          <title>Layout design</title>
+        </Helmet>
+
         <Row className="pt-1">
           <Col lg={9}>
             <ButtonMenu />

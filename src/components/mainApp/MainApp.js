@@ -11,7 +11,6 @@ function MainApp(props) {
   const { appData } = props;
   const userContext = useContext(UserContext);
   const [navBarExpanded, setNavBarExpanded] = useState(false);
-  document.title = appData.web;
   const axiosOptions = {
     headers: { 'Awzy-Authorization': appData.token },
   };
