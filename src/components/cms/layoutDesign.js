@@ -7,10 +7,12 @@ import SideMenu from './sideMenu';
 import Proto from './proto';
 import InfoPanel from './infoPanel';
 import { Helmet } from 'react-helmet';
+import AppContext from '../../contexts/AppContext';
 
 export const LayoutContext = React.createContext();
 
 function LayoutDesign(props) {
+  const [appData] = useContext(AppContext);
   const [state, setState] = useState({
     viewMode: 'tree',
     loading: false,
@@ -46,7 +48,7 @@ function LayoutDesign(props) {
         }}
       >
         <Helmet>
-          <title>Layout design</title>
+          <title>{appData.web} Layout design</title>
         </Helmet>
 
         <Row className="pt-1">
