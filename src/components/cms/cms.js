@@ -9,10 +9,12 @@ import * as BuiltInComponents from './BuiltInComponents';
 import * as BootstrapComponents from './BootstrapComponents';
 import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
 import AjaxFetch from '../../components/cms/sideMenu/AjaxFetch';
+import { Helmet } from 'react-helmet';
+
 export const CmsContext = React.createContext();
 
 function Cms(props) {
-  const { structure } = props;
+  const { structure, meta } = props;
   const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
 
@@ -67,6 +69,13 @@ function Cms(props) {
         setState,
       }}
     >
+      {Object.keys(meta).length > 0 && (
+        <Helmet>
+          <title>{meta.title}</title>
+          <meta name="description" content={meta.description} />
+          <meta name="keywords" content={meta.keywords} />
+        </Helmet>
+      )}
       {recursiveComponent(structure)}
     </CmsContext.Provider>
   );

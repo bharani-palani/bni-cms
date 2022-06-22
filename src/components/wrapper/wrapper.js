@@ -15,6 +15,7 @@ const Wrapper = props => {
   const userContext = useContext(UserContext);
   const menu = userContext.userData.menu;
   const [structure, setStructure] = useState({});
+  const [meta, setMeta] = useState({});
   const [loader, setLoader] = useState(false);
   const { location } = props;
   const axiosOptions = {
@@ -33,6 +34,8 @@ const Wrapper = props => {
         .post('/getConfigPageDetails', formdata, axiosOptions)
         .then(res => {
           const resStructure = res.data.response.pageObject;
+          const resMeta = res.data.response.pageMeta;
+          setMeta(resMeta);
           setStructure(resStructure);
         })
         .catch(() => {
@@ -59,6 +62,7 @@ const Wrapper = props => {
               path={menu.href}
               component={Cms}
               structure={structure}
+              meta={meta}
             />
           );
         })}

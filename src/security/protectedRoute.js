@@ -6,6 +6,7 @@ import { UserContext } from '../contexts/UserContext';
 export const ProtectedRoute = ({
   component: Component,
   structure,
+  meta,
   ...rest
 }) => {
   return (
@@ -19,7 +20,13 @@ export const ProtectedRoute = ({
                   {...rest}
                   render={props => {
                     if (rest.accessGiven.includes(userInfo.userData.type)) {
-                      return <Component {...props} structure={structure} />;
+                      return (
+                        <Component
+                          {...props}
+                          structure={structure}
+                          meta={meta}
+                        />
+                      );
                     } else {
                       return (
                         <Redirect

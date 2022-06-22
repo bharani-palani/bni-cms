@@ -62,6 +62,7 @@ class cms_model extends CI_Model
                     'a.page_route as pageRoute',
                     'a.page_label as pageLabel',
                     'a.page_object as pageObject',
+                    'a.page_meta as pageMeta',
                     'a.page_status as pageStatus',
                     'b.user_display_name as pageModifiedBy',
                     'a.page_created_at as pageCreatedAt',
@@ -152,6 +153,7 @@ class cms_model extends CI_Model
                 'page_object' => empty($post->cloneId)
                     ? json_encode($post->pageObject)
                     : $this->getPagedataFromId($post->cloneId),
+                'page_meta' => json_encode($post->pageMeta),
                 'page_modified_by' => $post->modifiedBy,
                 'page_created_at' => $post->pageCreatedAt,
                 'page_updated_at' => $post->pageUpatedAt,
@@ -186,6 +188,9 @@ class cms_model extends CI_Model
                     : false,
                 'page_object' => isset($post->pageObject)
                     ? json_encode($post->pageObject)
+                    : false,
+                'page_meta' => isset($post->pageMeta)
+                    ? json_encode($post->pageMeta)
                     : false,
                 'page_modified_by' => isset($post->pageModifiedBy)
                     ? $post->pageModifiedBy

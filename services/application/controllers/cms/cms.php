@@ -53,6 +53,7 @@ class cms extends CI_Controller
             $object->pageLabel = $result->pageLabel;
             $object->pageStatus = $result->pageStatus;
             $object->pageObject = json_decode($result->pageObject);
+            $object->pageMeta = json_decode($result->pageMeta);
             $object->pageModifiedBy = $result->pageModifiedBy;
             $object->pageCreatedAt = $result->pageCreatedAt;
             $object->pageUpdatedAt = $result->pageUpdatedAt;

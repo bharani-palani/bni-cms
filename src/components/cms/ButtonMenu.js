@@ -146,6 +146,11 @@ function ButtonMenu(props) {
         children: [],
         component: 'Main',
       },
+      pageMeta: {
+        title: '',
+        description: '',
+        keywords: '',
+      },
       cloneId: data.pageClone,
       pageCreatedAt: now,
       pageUpatedAt: now,
@@ -226,6 +231,9 @@ function ButtonMenu(props) {
       pageId: layoutContext.state.pageDetails.pageId,
       ...(type.pub_value === 'saved' && {
         pageObject: layoutContext.state.pageDetails.pageObject,
+      }),
+      ...(type.pub_value === 'saved' && {
+        pageMeta: layoutContext.state.pageDetails.pageMeta,
       }),
       ...(type.pub_value === 'saved' && {
         hasAccessTo: layoutContext.state.pageDetails.hasAccessTo,

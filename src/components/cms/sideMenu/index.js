@@ -6,6 +6,7 @@ import BootstrapList from './BootstrapList';
 import PropsList from './PropsList';
 import StyleList from './StyleList';
 import Title from './Title';
+import MetaList from './MetaList';
 import CreateAjaxForm from './CreateAjaxForm';
 import CreateAjaxFetch from './CreateAjaxFetch';
 import Database from './Database/';
@@ -22,10 +23,25 @@ function SideMenu(props) {
   const [sideMenu] = useState([
     {
       id: 0,
+      label: 'Meta',
+      body: <MetaList />,
+      help: {
+        heading: 'Meta help',
+        points: [
+          'Configure meta data for your pages for SEO (Search engine optimization)',
+          'Usually web crawlers identify your title, description and keywords information to index your pages',
+          'Title - Type a title for your page which will be displayed on your browser tab head. This helps users to know about your page.',
+          'Description - Give a compelling summary about your page',
+          'Keywords - Declare some relevant keywords which matches the information about your page.',
+        ],
+      },
+    },
+    {
+      id: 1,
       label: 'Components',
       children: [
-        { id: 0.1, label: 'Built in', body: <BuiltInList /> },
-        { id: 0.2, label: 'Bootstrap', body: <BootstrapList /> },
+        { id: 1.1, label: 'Built in', body: <BuiltInList /> },
+        { id: 1.2, label: 'Bootstrap', body: <BootstrapList /> },
       ],
       help: {
         heading: 'Components help',
@@ -54,12 +70,12 @@ function SideMenu(props) {
       },
     },
     {
-      id: 1,
+      id: 2,
       label: 'Arguments',
       children: [
-        { id: 1.1, label: 'Props', body: <PropsList /> },
-        { id: 1.2, label: 'Style', body: <StyleList /> },
-        { id: 1.3, label: 'Title', body: <Title /> },
+        { id: 2.1, label: 'Props', body: <PropsList /> },
+        { id: 2.2, label: 'Style', body: <StyleList /> },
+        { id: 2.3, label: 'Title', body: <Title /> },
       ],
       help: {
         heading: 'Arguments help',
@@ -76,7 +92,7 @@ function SideMenu(props) {
       },
     },
     {
-      id: 2,
+      id: 3,
       label: 'Ajax Form',
       body: <CreateAjaxForm />,
       help: {
@@ -118,7 +134,7 @@ function SideMenu(props) {
       },
     },
     {
-      id: 3,
+      id: 4,
       label: 'Ajax Fetch',
       body: <CreateAjaxFetch />,
       help: {
@@ -140,7 +156,7 @@ function SideMenu(props) {
       },
     },
     {
-      id: 4,
+      id: 5,
       label: 'Database',
       body: <Database />,
       help: {
