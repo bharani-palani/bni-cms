@@ -6,7 +6,6 @@ import apiInstance from '../../services/apiServices';
 import GlobalHeader from '../GlobalHeader';
 import AwsFactory from '../configuration/Gallery/AwsFactory';
 import '../../index.scss';
-import { Helmet } from 'react-helmet';
 
 function Root(props) {
   const [master, setMaster] = useState({});
@@ -59,9 +58,6 @@ function Root(props) {
     <>
       {fetchStatus && (
         <AppContext.Provider value={[master, setMaster]}>
-          <Helmet>
-            <title>{master.web}</title>
-          </Helmet>
           <UserContextProvider config={master}>
             <GlobalHeader
               onLogAction={b => {
