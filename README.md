@@ -8,16 +8,15 @@ or above
 
 ### Installation
 - Install XAMP in your machine
-- Clone Awzy code inside "htdocs" 
+- Clone Awzy repo inside "htdocs" folder
 - Navigate to the cloned folder
 
 ### Now,
 ##### 1. Install node_modules 
 - npm install --legacy-peer-deps
 
-##### 2. Install database
+##### 2. Install database (Change host, root & password based on your mysql setup)
 - npm run install-awzy host=localhost user=root password=12345
-(Change host, root & password based on your mysql setup)
 
 ### Run nginx 
 ##### Proxy server for api
@@ -52,10 +51,10 @@ or above
 
 ### Build process:
 - run "npm run build" in your root folder
-- Your build folder is ready for producion deployment.
+- Your build folder is ready for production deployment.
 
-#### _Good Luck & Happy Coding_
-#### Author
+#### Good Luck & Happy Coding
+#### _Author_
 ```Bharani Palani - barani.potshot@gmail.com```
 
 
