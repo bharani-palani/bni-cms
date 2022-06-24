@@ -14,6 +14,7 @@
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
     "bootstrap": "^5.1.3",
+    "cli-progress": "^3.11.1",
     "crypto-js": "^4.1.1",
     "flat-icons": "^1.0.0",
     "font-awesome": "^4.7.0",
@@ -22,6 +23,8 @@
     "lodash": "^4.17.21",
     "md5": "^2.3.0",
     "moment": "^2.29.1",
+    "mysql": "^2.18.1",
+    "node-banner": "^1.4.0",
     "password-generator": "^2.3.2",
     "popper.js": "^1.16.1",
     "prop-types": "^15.8.1",
@@ -56,7 +59,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "develop": "NODE_ENV=development PORT=5000 node server/server.js & react-scripts start"
+    "develop": "NODE_ENV=development PORT=5000 node server/server.js & react-scripts start",
+    "install-awzy": "node installAwzy.js",
+    "removeNodeModules": "rmdir /Q/S node_modules"
   },
   "proxy": "http://localhost:5000",
   "resolutions": {
