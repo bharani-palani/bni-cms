@@ -1,4 +1,5 @@
-### [Awzy](https://awzy.org)
+### Welcome to [Awzy](https://awzy.org)
+Your awesome headless CMS
 
 ### Prerequisites
 - Node version: 14.17.2
@@ -19,7 +20,7 @@ or above
 - npm run install-awzy host=localhost user=root password=12345
 
 ### Run nginx 
-##### Proxy server for api
+**Proxy server for api**
 
 #### Windows 
 - navigate to nginx folder and run nginx.exe

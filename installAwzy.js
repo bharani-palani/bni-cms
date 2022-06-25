@@ -7,6 +7,7 @@ const TITLECOLOR = 'green';
 const SUBTITLE = 'Welcome to simplified headless CMS';
 const SUBTITLECOLOR = 'red';
 const CLPREFIX = '> ';
+const ENCNIL = 'U2FsdGVkX1+YToNGHBREr5YPCY+XjeiGuxMTeYWEeXg=';
 
 const config = process.argv.slice(2);
 console.log(config);
@@ -128,8 +129,8 @@ params = Object.assign({}, ...params);
     config_id: '',
     web: 'yourdomain.com',
     email: 'support@yourdomain.com',
-    google_map_api_key: 'NIL',
-    google_login_auth_token: 'NIL',
+    google_map_api_key: ENCNIL,
+    google_login_auth_token: ENCNIL,
     bgSong: 'aws/s3/root/audio/yoursong.mp3',
     bgVideo: 'aws/s3/root/videos/yourvideo.mp4',
     bgSongDefaultPlay: '0',
@@ -145,10 +146,10 @@ params = Object.assign({}, ...params);
     webTheme: 'dark',
     webThemeColor: '#000000',
     webThemeBackground: '#c2d82e',
-    aws_s3_access_key_id: 'NIL',
-    aws_s3_secret_access_key: 'NIL',
+    aws_s3_access_key_id: ENCNIL,
+    aws_s3_secret_access_key: ENCNIL,
     aws_s3_bucket: 'awsS3BucketName',
-    aws_s3_region: 'NIL',
+    aws_s3_region: ENCNIL,
     social_media_facebook: 'https://www.facebook.com/your.id',
     social_media_twitter: 'https://twitter.com/your.id/',
     social_media_linkedIn: 'https://www.linkedin.com/in/your.id/',
@@ -309,6 +310,18 @@ params = Object.assign({}, ...params);
       '10001',
       '1',
     ],
+    [
+      '10002',
+      'Welcome',
+      '/',
+      '{"key": "f297e017-8777-4883-a396-b28766613888", "props": {"className":"mt-5 p-5 bg-danger text-center"}, "title": "Welcome to Awzy CMS", "children": [], "component": "H2"}',
+      '{"title": "Awzy welcome page", "description": "This is the first entry point to configure awzy pages", "keywords":"awzy,awzy.org"}',
+      '100000',
+      '',
+      '',
+      '10001',
+      '0',
+    ],
   ];
 
   await connection.query(
@@ -344,6 +357,8 @@ params = Object.assign({}, ...params);
   const addPageAccessData = [
     ['1000', '1002', '10000'],
     ['1001', '1002', '10001'],
+    ['1002', '1001', '10002'],
+    ['1003', '1002', '10002'],
   ];
 
   await connection.query(
@@ -370,12 +385,14 @@ params = Object.assign({}, ...params);
       );
       console.log(
         CLPREFIX +
-          '4. Click the top right grid icon to login as super admin to add, edit or delete pages.'
+          '4. Once application is read, click the top right grid icon to login as super admin to add, edit or delete pages.'
       );
       console.log(
         CLPREFIX + '5. User name: "superadmin" & Password: "Success@123"'
       );
-      console.log(CLPREFIX + 'Happy coding...');
+      console.log(
+        CLPREFIX + 'For more information, see the readme.md file. Happy CMS...'
+      );
     }
   );
 

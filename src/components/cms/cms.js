@@ -69,7 +69,7 @@ function Cms(props) {
         setState,
       }}
     >
-      {Object.keys(meta).length > 0 && (
+      {meta && Object.keys(meta).length > 0 && (
         <Helmet>
           <title>{meta.title}</title>
           <meta name="description" content={meta.description} />

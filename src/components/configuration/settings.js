@@ -87,7 +87,7 @@ const Settings = props => {
           <h2 className="">Settings</h2>
           <hr className="my-3" />
           <i className="fa fa-gears fa-2x py-2" />
-          <p className="">Configure your appliation settings</p>
+          <p className="">Configure your application settings</p>
         </div>
       </div>
       <div className="settings">
