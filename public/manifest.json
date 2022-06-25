@@ -1,12 +1,7 @@
 {
   "short_name": "",
   "name": "",
-  "icons": [
-    {
-      "src": "bharani.tech-logo.svg",
-      "sizes": "512x512"
-    }
-  ],
+  "icons": [],
   "start_url": ".",
   "display": "fullscreen",
   "theme_color": "#ffffff",

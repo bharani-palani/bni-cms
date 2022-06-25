@@ -1,6 +1,6 @@
 const baseUrl = () => {
-  const dev = 'http://localhost:5000/bniReactWeb/services';
-  const prod = 'https://bharani.tech/services';
+  const dev = process.env.React_App_HOST_LOCAL;
+  const prod = process.env.React_App_HOST_REMOTE;
   return process.env.NODE_ENV === 'development' ? dev : prod;
 };
 
