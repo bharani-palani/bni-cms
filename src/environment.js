@@ -1,6 +1,7 @@
 const baseUrl = () => {
-  const dev = process.env.React_App_HOST_LOCAL;
-  const prod = process.env.React_App_HOST_REMOTE;
+  console.log('bbb', process.env);
+  const dev = process.env.React_App_LOCALHOST_BASE_URL;
+  const prod = process.env.React_App_PRODUCTION_BASE_URL;
   return process.env.NODE_ENV === 'development' ? dev : prod;
 };
 

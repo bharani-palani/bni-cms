@@ -26,21 +26,31 @@
 */
 date_default_timezone_set('Asia/Kolkata');
 
-$host = $_SERVER['HTTP_HOST'];
-if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-    // if ssl connection
-    $ssl_set = 's';
-} else {
-    $ssl_set = '';
-}
+$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/awzy-cms/.env');
+$config = [
+    'LOCALHOST' => $env['React_App_LOCALHOST'],
+    'LOCALHOST_BASE_URL' => $env['React_App_LOCALHOST_BASE_URL'],
+    'LOCALHOST_HOST_NAME' => $env['React_App_LOCALHOST_HOST_NAME'],
+    'LOCALHOST_USER_NAME' => $env['React_App_LOCALHOST_USER_NAME'],
+    'LOCALHOST_PASSWORD' => $env['React_App_LOCALHOST_PASSWORD'],
+    'LOCALHOST_DATABASE' => $env['React_App_LOCALHOST_DATABASE'],
 
+    'PRODUCTION_HOST' => $env['React_App_PRODUCTION_HOST'],
+    'PRODUCTION_BASE_URL' => $env['React_App_PRODUCTION_BASE_URL'],
+    'PRODUCTION_HOST_NAME' => $env['React_App_PRODUCTION_HOST_NAME'],
+    'PRODUCTION_USER_NAME' => $env['React_App_PRODUCTION_USER_NAME'],
+    'PRODUCTION_PASSWORD' => $env['React_App_PRODUCTION_PASSWORD'],
+    'PRODUCTION_DATABASE' => $env['React_App_PRODUCTION_DATABASE'],
+];
+// print_r($config);
+
+$host = $_SERVER['HTTP_HOST'];
 switch ($host) {
-    case 'localhost:8080':
-        $config['base_url'] =
-            'http' . $ssl_set . '://localhost:8080/bniReactWeb/services/';
+    case $config['LOCALHOST']:
+        $config['base_url'] = $config['LOCALHOST_BASE_URL'];
         break;
-    case 'bharani.tech':
-        $config['base_url'] = 'http' . $ssl_set . '://bharani.tech/services/';
+    case $config['PRODUCTION_HOST']:
+        $config['base_url'] = $config['PRODUCTION_BASE_URL'];
         break;
 }
 

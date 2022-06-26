@@ -46,19 +46,21 @@
 | The $active_record variables lets you determine whether or not to load
 | the active record class
 */
+$ci = &get_instance();
+// print_r($ci->config->config);
 
 $active_group = 'default';
 $active_record = true;
 
 $host = $_SERVER['HTTP_HOST'];
 switch ($host) {
-    case 'localhost:8080':
+    case $ci->config->config['LOCALHOST']:
         $db['default'] = [
             'dsn' => '',
-            'hostname' => 'localhost',
-            'username' => 'root',
-            'password' => '',
-            'database' => 'cms',
+            'hostname' => $ci->config->config['LOCALHOST_HOST_NAME'],
+            'username' => $ci->config->config['LOCALHOST_USER_NAME'],
+            'password' => $ci->config->config['LOCALHOST_PASSWORD'],
+            'database' => $ci->config->config['LOCALHOST_DATABASE'],
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => false,
@@ -75,13 +77,13 @@ switch ($host) {
             'save_queries' => true,
         ];
         break;
-    case 'bharani.tech':
+    case $ci->config->config['PRODUCTION_HOST']:
         $db['default'] = [
             'dsn' => '',
-            'hostname' => '199.79.62.121',
-            'username' => 'bharatvz',
-            'password' => 'Bnisuccess@!123',
-            'database' => 'bharatvz_BniReactWeb',
+            'hostname' => $ci->config->config['PRODUCTION_HOST_NAME'],
+            'username' => $ci->config->config['PRODUCTION_USER_NAME'],
+            'password' => $ci->config->config['PRODUCTION_PASSWORD'],
+            'database' => $ci->config->config['PRODUCTION_DATABASE'],
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => false,
