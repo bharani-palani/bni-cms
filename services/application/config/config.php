@@ -26,7 +26,10 @@
 */
 date_default_timezone_set('Asia/Kolkata');
 
-$root = $_SERVER['HTTP_HOST'] === 'localhost' ? '/awzy-cms/.env' : '/.env';
+$root =
+    strpos($_SERVER['HTTP_HOST'], 'localhost') !== false
+        ? '/awzy-cms/.env'
+        : '/.env';
 $env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $root);
 
 $config = [
