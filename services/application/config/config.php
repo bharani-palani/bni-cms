@@ -26,7 +26,9 @@
 */
 date_default_timezone_set('Asia/Kolkata');
 
-$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . '/awzy-cms/.env');
+$root = $_SERVER['HTTP_HOST'] === 'localhost' ? '/awzy-cms/.env' : '/.env';
+$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $root);
+
 $config = [
     'LOCALHOST' => $env['React_App_LOCALHOST'],
     'LOCALHOST_BASE_URL' => $env['React_App_LOCALHOST_BASE_URL'],
