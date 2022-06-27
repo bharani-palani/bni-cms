@@ -10,7 +10,6 @@ const CLPREFIX = '> ';
 const ENCNIL = 'U2FsdGVkX1+YToNGHBREr5YPCY+XjeiGuxMTeYWEeXg=';
 
 const config = process.argv.slice(2);
-console.log(config);
 
 let params = config.map(c => {
   const pieces = c.split('=');
