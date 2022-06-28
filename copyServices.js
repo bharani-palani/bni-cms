@@ -1,6 +1,6 @@
 const copyfiles = require('copyfiles');
 
-copyfiles(['./services/**/*', './build'], '-a -u 1', () => {
+copyfiles(['./services/**/*', './build'], '-a -F -u 1', () => {
   console.log('Awzy API service directory is ready for production..');
 });
 

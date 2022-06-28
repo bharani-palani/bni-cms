@@ -4,7 +4,7 @@ deployment:
     - export DEPLOYPATH=/home/bharatvz/public_html/
     - /bin/rm -Rf $DEPLOYPATH
     - /bin/mkdir $DEPLOYPATH
-    - /bin/cp build/* -r $DEPLOYPATH
+    - /bin/cp build/* -R $DEPLOYPATH
     # - /bin/cp ./.htaccess $DEPLOYPATH
     # - /bin/cp ./services -r $DEPLOYPATH
     # - /bin/cp ./.env $DEPLOYPATH
