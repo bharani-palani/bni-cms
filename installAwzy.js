@@ -1,5 +1,7 @@
+/* eslint-disable no-unused-vars */
 const showBanner = require('node-banner');
 const mysql = require('mysql');
+const md5 = require('md5');
 
 const DB = 'awzy';
 const TITLE = 'AWZY';
@@ -18,6 +20,7 @@ let params = config.map(c => {
   };
 });
 params = Object.assign({}, ...params);
+console.log('bbb', params, md5(123));
 
 // Banner
 (async () => {
@@ -32,7 +35,7 @@ params = Object.assign({}, ...params);
     if (err) {
       console.log(
         CLPREFIX +
-          'Error in establishing mysql connection.. Please check your application is inside the www or htdocs directory..'
+          'Error in establishing mysql connection.. Please check your repo is inside the htdocs directory..'
       );
       throw err;
     }
@@ -197,10 +200,10 @@ params = Object.assign({}, ...params);
   const addUserssql = [
     [
       '100000',
-      'superadmin',
-      'Display Name',
+      params.username,
+      params.username.toUpperCase(),
       'Profile Name',
-      'f7876f0bc281ac72a2e4931438657287', // Success@123
+      md5(params.userpassword),
       'youremail@mailbox.com',
       '9000012345',
       'aws/s3/images/yourAvatar.png',

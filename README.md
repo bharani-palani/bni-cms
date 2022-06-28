@@ -16,8 +16,24 @@ or above
 ##### 1. Install node_modules 
 - npm install --legacy-peer-deps
 
-##### 2. Install database (Change host, root & password based on your mysql setup)
-- npm run install-awzy host=localhost user=root password=12345
+##### 2. Install database 
+- Hope you have installed XAMP in your machine and your repo is inside "htdocs" folder
+- Add your host, root & password, based on your mysql setup as shown below,
+- Run Ex:  **npm run install-awzy host=localhost user=root password=12345 username=superadmin userpassword=Success@123**
+
+##### Parameter details:
+- `<host>` MySql host name
+- `<user>` - MySql user name
+- `<password>` - MySql password
+- `<username>` - Awzy super admin user name (Remeber this.. )
+- `<userpassword>` - Awzy super admin password (Remeber this.. )
+- This will install awzy database w.r.t above credentials.
+- Login Awzy with the remebered `<username>` and `<userpassword>`
+
+##### 3. Open .env file, inside src folder, to configure local and production variables
+- Set your **host & base_url** for local and production
+- **Database** - Host name, user name, password and database name.
+- **Important**: If these variables are unless configured good, you can't run awzy in local and production environment
 
 ### Run nginx 
 **Proxy server for api**
@@ -27,7 +43,7 @@ or above
 - To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
 
 #### MAC
-- Check you have installed nginx
+- Check you have installed nginx (Homebrew)
 - nginx start (to start server)
 - nginx stop (to stop server)
 - nginx reload (to reload server)
@@ -44,7 +60,7 @@ or above
 - Browse in http://localhost:3000
 -->
 
-### Important
+### Browse
 - Open http://localhost:5000 to run Awzy CMS in local
 - Click the top right grid icon to login as super admin.
 - User name: "superadmin" & Password: "Success@123"
