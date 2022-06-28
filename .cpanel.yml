@@ -5,5 +5,6 @@ deployment:
     - /bin/rm -Rf $DEPLOYPATH
     - /bin/mkdir $DEPLOYPATH
     - /bin/cp build/* -R $DEPLOYPATH
+    - /bin/cp build/.* -R $DEPLOYPATH
     - /bin/cp build/.env -R $DEPLOYPATH
     - /bin/cp build/.htaccess -R $DEPLOYPATH
