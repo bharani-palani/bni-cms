@@ -56,10 +56,10 @@ switch ($host) {
     case $ci->config->config['LOCALHOST']:
         $db['default'] = [
             'dsn' => '',
-            'hostname' => $ci->config->config['LOCALHOST_HOST_NAME'],
-            'username' => $ci->config->config['LOCALHOST_USER_NAME'],
-            'password' => $ci->config->config['LOCALHOST_PASSWORD'],
-            'database' => $ci->config->config['LOCALHOST_DATABASE'],
+            'hostname' => $ci->config->config['LOCALHOST_DB_HOST_NAME'],
+            'username' => $ci->config->config['LOCALHOST_DB_USER_NAME'],
+            'password' => $ci->config->config['LOCALHOST_DB_PASSWORD'],
+            'database' => $ci->config->config['LOCALHOST_DB_NAME'],
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => false,
@@ -79,10 +79,10 @@ switch ($host) {
     case $ci->config->config['PRODUCTION_HOST']:
         $db['default'] = [
             'dsn' => '',
-            'hostname' => $ci->config->config['PRODUCTION_HOST_NAME'],
-            'username' => $ci->config->config['PRODUCTION_USER_NAME'],
-            'password' => $ci->config->config['PRODUCTION_PASSWORD'],
-            'database' => $ci->config->config['PRODUCTION_DATABASE'],
+            'hostname' => $ci->config->config['PRODUCTION_DB_HOST_NAME'],
+            'username' => $ci->config->config['PRODUCTION_DB_USER_NAME'],
+            'password' => $ci->config->config['PRODUCTION_DB_PASSWORD'],
+            'database' => $ci->config->config['PRODUCTION_DB_NAME'],
             'dbdriver' => 'mysqli',
             'dbprefix' => '',
             'pconnect' => false,

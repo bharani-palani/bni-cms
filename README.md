@@ -34,17 +34,17 @@ or above
 
 - REACT_APP_LOCALHOST='localhost:8080'
 - REACT_APP_LOCALHOST_BASE_URL='http://localhost:5000/awzy-cms/services' (port 5000 as you configured in proxy)
-- REACT_APP_LOCALHOST_HOST_NAME='localhost'
-- REACT_APP_LOCALHOST_USER_NAME='root'
-- REACT_APP_LOCALHOST_PASSWORD='12345'
-- REACT_APP_LOCALHOST_DATABASE='awzy'
+- REACT_APP_LOCALHOST_DB_HOST_NAME='localhost'
+- REACT_APP_LOCALHOST_DB_USER_NAME='root'
+- REACT_APP_LOCALHOST_DB_PASSWORD='12345'
+- REACT_APP_LOCALHOST_DB_NAME='awzy'
 
 - REACT_APP_PRODUCTION_HOST='yourdomain.com'
 - REACT_APP_PRODUCTION_BASE_URL='https://yourdomain.com/services'
-- REACT_APP_PRODUCTION_HOST_NAME='192.168.0.1'
-- REACT_APP_PRODUCTION_USER_NAME='dbusername'
-- REACT_APP_PRODUCTION_PASSWORD='dbpassword'
-- REACT_APP_PRODUCTION_DATABASE='dbname'
+- REACT_APP_PRODUCTION_DB_HOST_NAME='192.168.0.1'
+- REACT_APP_PRODUCTION_DB_USER_NAME='dbusername'
+- REACT_APP_PRODUCTION_DB_PASSWORD='dbpassword'
+- REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: ".env" variable file is crucial for DB connection.  Unless these variables are configured good, you can't run awzy in local and production environment
 
