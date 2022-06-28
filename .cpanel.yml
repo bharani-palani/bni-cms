@@ -7,4 +7,3 @@ deployment:
     - /bin/cp build/* -R $DEPLOYPATH
     - /bin/cp build/.env -R $DEPLOYPATH
     - /bin/cp build/.htaccess -R $DEPLOYPATH
-    - /bin/cp build/services/application/.htaccess $DEPLOYPATH/services/application/
