@@ -47,7 +47,6 @@
 | the active record class
 */
 $ci = &get_instance();
-// print_r($ci->config->config);
 
 $active_group = 'default';
 $active_record = true;
