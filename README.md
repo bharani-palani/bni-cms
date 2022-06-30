@@ -46,7 +46,9 @@ or above
 - REACT_APP_PRODUCTION_DB_PASSWORD='dbpassword'
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
-##### Important: ".env" variable file is crucial for DB connection.  Unless these variables are configured good, you can't run awzy in local and production environment
+##### Important: 
+- .env variable file is crucial for DB connection.  Unless these variables are configured good, you can't run awzy in local or production environment 
+- **npm run start** is required after .env changes
 
 ### Run nginx 
 **Proxy server for api**
