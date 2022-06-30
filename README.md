@@ -1,4 +1,4 @@
-### Welcome to [Awzy](https://awzy.org)
+# Welcome to [Awzy](https://awzy.org)
 Your awesome headless CMS
 
 ### Prerequisites
