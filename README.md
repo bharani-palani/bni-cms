@@ -64,7 +64,7 @@ or above
 - nginx reload (to reload server)
 
 ##### 5. DEV run
-- npm start
+- npm run start
 
 <!---
 ## 2. DEV run (disable web security) (Incase nginx is not installed)
@@ -78,7 +78,7 @@ or above
 ##### Browse
 - Open http://localhost:5000 to run Awzy CMS in local
 - Click the top right grid icon to login as super admin.
-- User name: `<username>` & Password: `<userpassword>` which you should have remebered during database setup
+- User name: `<username>` & Password: `<userpassword>` what you should have remebered during database setup
 - Now login as super admin to add, edit or delete pages
 
 ##### Build:
