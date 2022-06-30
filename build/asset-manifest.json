@@ -2,20 +2,20 @@
   "files": {
     "main.js": "./static/js/main.45457230.chunk.js",
     "main.js.map": "./static/js/main.45457230.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.99d409e8.js",
-    "runtime-main.js.map": "./static/js/runtime-main.99d409e8.js.map",
+    "runtime-main.js": "./static/js/runtime-main.78d55d16.js",
+    "runtime-main.js.map": "./static/js/runtime-main.78d55d16.js.map",
     "static/css/2.a2d6fb67.chunk.css": "./static/css/2.a2d6fb67.chunk.css",
-    "static/js/2.b3b8318c.chunk.js": "./static/js/2.b3b8318c.chunk.js",
-    "static/js/2.b3b8318c.chunk.js.map": "./static/js/2.b3b8318c.chunk.js.map",
-    "static/css/3.57fc44a4.chunk.css": "./static/css/3.57fc44a4.chunk.css",
+    "static/js/2.1242a320.chunk.js": "./static/js/2.1242a320.chunk.js",
+    "static/js/2.1242a320.chunk.js.map": "./static/js/2.1242a320.chunk.js.map",
+    "static/css/3.df3bced5.chunk.css": "./static/css/3.df3bced5.chunk.css",
     "static/js/3.56bd3ed7.chunk.js": "./static/js/3.56bd3ed7.chunk.js",
     "static/js/3.56bd3ed7.chunk.js.map": "./static/js/3.56bd3ed7.chunk.js.map",
     "static/js/4.46c99eec.chunk.js": "./static/js/4.46c99eec.chunk.js",
     "static/js/4.46c99eec.chunk.js.map": "./static/js/4.46c99eec.chunk.js.map",
     "index.html": "./index.html",
     "static/css/2.a2d6fb67.chunk.css.map": "./static/css/2.a2d6fb67.chunk.css.map",
-    "static/css/3.57fc44a4.chunk.css.map": "./static/css/3.57fc44a4.chunk.css.map",
-    "static/js/2.b3b8318c.chunk.js.LICENSE.txt": "./static/js/2.b3b8318c.chunk.js.LICENSE.txt",
+    "static/css/3.df3bced5.chunk.css.map": "./static/css/3.df3bced5.chunk.css.map",
+    "static/js/2.1242a320.chunk.js.LICENSE.txt": "./static/js/2.1242a320.chunk.js.LICENSE.txt",
     "static/js/4.46c99eec.chunk.js.LICENSE.txt": "./static/js/4.46c99eec.chunk.js.LICENSE.txt",
     "static/media/animateLoaderGlobe.cf6fdf2a.svg": "./static/media/animateLoaderGlobe.cf6fdf2a.svg",
     "static/media/ban.99659585.svg": "./static/media/ban.99659585.svg",
@@ -23,7 +23,7 @@
     "static/media/spinner-1.svg": "./static/media/spinner-1.650efd36.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.99d409e8.js",
+    "static/js/runtime-main.78d55d16.js",
     "static/js/4.46c99eec.chunk.js",
     "static/js/main.45457230.chunk.js"
   ]
