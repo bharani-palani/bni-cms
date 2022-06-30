@@ -14,10 +14,6 @@ copyfiles(['./.htaccess', './build'], () => {
   );
 });
 
-copyfiles(['./.env', './build'], () => {
-  console.log('Environment variable is ready for production..');
-});
-
 copyfiles(['./.env', './build/services/application/config'], () => {
   console.log('Environment variable is ready for production..');
 });
