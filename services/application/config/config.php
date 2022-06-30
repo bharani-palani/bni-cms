@@ -30,12 +30,8 @@ $root =
     strpos($_SERVER['HTTP_HOST'], 'localhost') !== false
         ? '/awzy-cms/.env'
         : '/.env';
-$r = $_SERVER['DOCUMENT_ROOT'] . '/**/.env';
-$arr = glob($r);
-var_dump($r);
-print_r($arr);
 
-$env = parse_ini_file($_SERVER['DOCUMENT_ROOT'] . $root);
+$env = parse_ini_file('.env');
 
 $config = [
     'LOCALHOST' => $env['REACT_APP_LOCALHOST'],

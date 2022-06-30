@@ -61,7 +61,8 @@
     "eject": "react-scripts eject",
     "develop": "NODE_ENV=development PORT=5000 node server/server.js & react-scripts start",
     "install-awzy": "node installAwzy.js",
-    "removeNodeModules": "rmdir /Q/S node_modules"
+    "removeNodeModules": "rmdir /Q/S node_modules",
+    "prestart": "copyfiles ./.env ./services/application/config"
   },
   "proxy": "http://localhost:5000",
   "resolutions": {
