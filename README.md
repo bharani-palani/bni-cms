@@ -50,20 +50,20 @@ or above
 - .env variable file is crucial for DB connection.  Unless these variables are configured good, you can't run awzy in local or production environment 
 - **npm run start** is required after .env changes
 
-### Run nginx 
-**Proxy server for api**
+##### 4. Run nginx 
+**Proxy server for api in localhost**
 
-#### Windows 
+##### Windows 
 - navigate to nginx folder and run nginx.exe
 - To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
 
-#### MAC
+##### MAC
 - Check you have installed nginx (Homebrew)
 - nginx start (to start server)
 - nginx stop (to stop server)
 - nginx reload (to reload server)
 
-#### DEV run
+##### 5. DEV run
 - npm start
 
 <!---
@@ -75,17 +75,17 @@ or above
 - Browse in http://localhost:3000
 -->
 
-### Browse
+##### Browse
 - Open http://localhost:5000 to run Awzy CMS in local
 - Click the top right grid icon to login as super admin.
 - User name: `<username>` & Password: `<userpassword>` which you should have remebered during database setup
 - Now login as super admin to add, edit or delete pages
 
-### Build process:
+##### Build:
 - run "npm run build" in your root folder
 - Your "build" folder is ready for production deployment which includes env variables and API setup.
 
-#### Good Luck & Happy Coding
+##### Good Luck & Happy Coding
 ##### _Author_
 ```Bharani Palani - barani.potshot@gmail.com```
 
