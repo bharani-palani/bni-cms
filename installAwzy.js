@@ -2,6 +2,7 @@
 const showBanner = require('node-banner');
 const mysql = require('mysql');
 const md5 = require('md5');
+const moment = require('moment');
 
 const DB = 'awzy';
 const TITLE = 'AWZY';
@@ -10,6 +11,7 @@ const SUBTITLE = 'Welcome to simplified headless CMS';
 const SUBTITLECOLOR = 'red';
 const CLPREFIX = '> ';
 const ENCNIL = 'U2FsdGVkX1+YToNGHBREr5YPCY+XjeiGuxMTeYWEeXg=';
+const NOW = moment(new Date(), 'YYYY/MMM/DD').format('YYYY-MM-DD:HH:mm:ss');
 
 const config = process.argv.slice(2);
 
@@ -20,7 +22,6 @@ let params = config.map(c => {
   };
 });
 params = Object.assign({}, ...params);
-console.log('bbb', params, md5(123));
 
 // Banner
 (async () => {
@@ -209,8 +210,8 @@ console.log('bbb', params, md5(123));
       'aws/s3/images/yourAvatar.png',
       '1002',
       '1',
-      '',
-      '',
+      NOW,
+      NOW,
       '000000',
       '0',
     ],
@@ -287,6 +288,8 @@ console.log('bbb', params, md5(123));
     console.log(CLPREFIX + 'Creating pages table..');
   });
 
+  const welcomeKit =
+    '{"key":"f297e017-8777-4883-a396-b28766613888","props":{"className":"mt-5 p-3 mx-2 rounded w-100","style":{"backgroundColor":"var(--bs-indigo)"}},"title":"div","children":[{"key":"9e236640-0648-4397-b158-6bdf0b2ac978","props":{"className":"text-center text-info"},"children":[],"component":"H3","title":"Welcome to Awzy CMS"},{"key":"27e27c64-771d-40ec-85d5-a2120d26ed3f","props":{"className":"text-center"},"children":[],"component":"P","title":"Your first sample page"},{"key":"c11f0739-ee2e-496b-84c2-e22a7e173eec","props":{"as":"ol","numbered":"true"},"children":[{"key":"29d4a6f7-b37d-472d-bc03-2f8c02e55901","props":{"as":"li"},"children":[],"component":"BootstrapListGroupItem","title":"Start adding pages on selecting the +Add Page option from Pages drop down.."},{"key":"70ab83fe-8b58-4d5d-a1f0-e9af9bdc6ffc","props":{"as":"li"},"children":[],"component":"BootstrapListGroupItem","title":"Click the ? help icon (right pane) for documentation, to handle components in your page."},{"key":"57f14e98-9bf8-4cb4-a5ae-556de26e436d","props":{"as":"li"},"children":[],"component":"BootstrapListGroupItem","title":"Use the Preview & Tree tabs to view changes on the fly."},{"key":"7d129205-e122-4159-945e-68407e51b82e","props":{"as":"li"},"children":[],"component":"BootstrapListGroupItem","title":"Once components added, don`t forget to Save & Publish your page. Create n number of pages as you wish."},{"key":"ed7707aa-b197-42c2-8e1e-97f517d683f7","props":{"as":"li"},"children":[],"component":"BootstrapListGroupItem","title":"Happy CMS.."}],"component":"BootstrapListGroup","title":"ListGroup"},{"key":"172760c2-6bc5-4991-861e-f78b1390f647","props":{"className":"text-end py-2"},"children":[{"key":"e3d122d1-37da-4115-87af-05cbdd965d3c","props":{},"children":[],"component":"Span","title":"Visit "},{"key":"97ae9274-f039-438b-82ab-3e67585e4fa9","props":{"href":"https://awzy.org/documentation","target":"_blank","className":"link-info"},"children":[],"component":"A","title":"https://awzy.org/documentation"}],"component":"Div","title":"Div"}],"component":"Div"}';
   const addPageData = [
     [
       '10000',
@@ -295,8 +298,8 @@ console.log('bbb', params, md5(123));
       '{"key": "f297e017-8777-4883-a396-b28766613888", "props": {}, "title": "Hello Settings", "children": [], "component": "az-settings"}',
       '{"title": "Settings", "description": "", "keywords":""}',
       '100000',
-      '',
-      '',
+      NOW,
+      NOW,
       '10001',
       '1',
     ],
@@ -307,8 +310,8 @@ console.log('bbb', params, md5(123));
       '{"key": "f297e017-8777-4883-a396-b28766613888", "props": {}, "title": "Hello Layout", "children": [], "component": "az-layoutDesign"}',
       '{"title": "Layout Design", "description": "", "keywords":""}',
       '100000',
-      '',
-      '',
+      NOW,
+      NOW,
       '10001',
       '1',
     ],
@@ -316,11 +319,11 @@ console.log('bbb', params, md5(123));
       '10002',
       'Welcome',
       '/',
-      '{"key": "f297e017-8777-4883-a396-b28766613888", "props": {"className":"mt-5 p-5 bg-danger text-center"}, "title": "Welcome to Awzy CMS", "children": [], "component": "H2"}',
+      welcomeKit,
       '{"title": "Awzy welcome page", "description": "This is the first entry point to configure awzy pages", "keywords":"awzy,awzy.org"}',
       '100000',
-      '',
-      '',
+      NOW,
+      NOW,
       '10001',
       '0',
     ],
