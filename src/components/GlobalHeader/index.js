@@ -5,6 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 import Switch from 'react-switch';
 import LoginUser from './loginUser';
 import { UserContext } from '../../contexts/UserContext';
+import AwsFactory from '../configuration/Gallery/AwsFactory';
 
 const socialMedias = [
   {
@@ -87,6 +88,37 @@ function GlobalHeader(props) {
     const win = window.open(url, '_blank');
     win.focus();
   };
+
+  const checkValidPath = data => {
+    const pieces = data.bannerImg.split('/');
+    const bucket = pieces[0];
+    const path = data.bannerImg
+      .split('/')
+      .slice(1, data.bannerImg.split('/').length)
+      .join('/');
+    new AwsFactory(data)
+      .getSignedUrl(path, 24 * 60 * 60, bucket)
+      .then(url => {
+        const p = fetch(url, { method: 'HEAD' });
+        p.then(r => {
+          if (
+            r.status === 200 &&
+            r.headers.get('content-type') === 'image/jpeg'
+          ) {
+            // start here
+            console.log('bbb', 'success image');
+          }
+        }).catch(e => {
+          //
+          console.log('bbb', 'fail image');
+        });
+      })
+      .catch(e => console.log('bbb', e));
+  };
+
+  useEffect(() => {
+    checkValidPath(appData);
+  }, []);
 
   return (
     <div>
