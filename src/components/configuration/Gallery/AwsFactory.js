@@ -177,4 +177,14 @@ export default class AwsFactory {
       document.body.removeChild(link);
     });
   };
+
+  isValidImage = url => {
+    const pieces = url.split('/');
+    const bucket = pieces[0];
+    const path = url.split('/').slice(1, url.split('/').length).join('/');
+    return this.getSignedUrl(path, 24 * 60 * 60, bucket).then(url => {
+      const p = fetch(url, { method: 'PUT' });
+      return p;
+    });
+  };
 }

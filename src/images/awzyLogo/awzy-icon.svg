@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Creator: CorelDRAW X6 -->
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="1.73228in" height="2.04724in" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 1732 2047"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil5 {fill:none}
+    .fil4 {fill:none;fill-rule:nonzero}
+    .fil1 {fill:#0098DA}
+    .fil2 {fill:#92C84A}
+    .fil0 {fill:#ED3237}
+    .fil3 {fill:#FFF212}
+   ]]>
+  </style>
+    <clipPath id="id0" style="clip-rule:nonzero">
+     <path d="M1119 1127l-293 -683 -294 683 587 0zm520 704l-218 0 -230 -535 -735 0 -228 535 -218 0 816 -1818 813 1818z"/>
+    </clipPath>
+    <clipPath id="id1" style="clip-rule:nonzero">
+     <path d="M1722 910l-497 995 463 0 0 130 -768 0 511 -991 -444 0 0 -134 735 0z"/>
+    </clipPath>
+ </defs>
+ <g id="Layer_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_1014281024">
+   <g>
+   </g>
+   <g style="clip-path:url(#id0)">
+    <g id="_1014284544">
+     <polygon class="fil0" points="0,12 826,12 826,1127 0,1127 "/>
+     <polygon class="fil1" points="1652,12 826,12 826,1127 1652,1127 "/>
+     <polygon class="fil0" points="-118,1296 708,1296 708,2411 -118,2411 "/>
+     <polygon class="fil2" points="904,1296 1729,1296 1729,2411 904,2411 "/>
+     <polygon class="fil3" points="0,1297 1636,1297 1636,1127 0,1127 "/>
+    </g>
+   </g>
+   <polygon class="fil4" points="1722,910 1225,1905 1688,1905 1688,2035 920,2035 1431,1044 987,1044 987,910 "/>
+   <g>
+   </g>
+   <g style="clip-path:url(#id1)">
+    <g>
+     <rect class="fil1" transform="matrix(0.846101 -0.495399 1.03019 1.75948 582.285 1520.24)" width="1673" height="392"/>
+     <rect class="fil0" transform="matrix(0.548315 -0.321043 0.667614 1.14023 749.335 928.352)" width="1673" height="392"/>
+     <rect class="fil3" transform="matrix(0.549268 -0.319409 0.664216 1.14221 747.598 2090.93)" width="1673" height="392"/>
+    </g>
+   </g>
+  </g>
+  <rect class="fil5" width="1732" height="2047"/>
+ </g>
+</svg>

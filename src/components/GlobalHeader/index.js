@@ -6,6 +6,7 @@ import Switch from 'react-switch';
 import LoginUser from './loginUser';
 import { UserContext } from '../../contexts/UserContext';
 import AwsFactory from '../configuration/Gallery/AwsFactory';
+import awzyBanner from '../../images/awzyLogo/awzy-banner.svg';
 
 const socialMedias = [
   {
@@ -39,6 +40,10 @@ function GlobalHeader(props) {
   const [audioShown, setAudioShown] = useState(false);
   const [videoShown, setVideoShown] = useState(false);
   const [downloadStatus, setDownloadStatus] = useState(false);
+  const [logoStatus, setLogoStatus] = useState({
+    status: false,
+    validated: false,
+  });
   const [social, setSocial] = useState([]);
   const [theme, setTheme] = useState(userContext.userData.theme);
 
@@ -81,6 +86,21 @@ function GlobalHeader(props) {
         return s;
       });
       setSocial(soc);
+      // set banner image
+      new AwsFactory(appData)
+        .isValidImage(appData.bannerImg)
+        .then(d =>
+          setLogoStatus({
+            status: true,
+            validated: true,
+          })
+        )
+        .catch(e =>
+          setLogoStatus({
+            status: true,
+            validated: false,
+          })
+        );
     }
   }, [appData]);
 
@@ -88,37 +108,6 @@ function GlobalHeader(props) {
     const win = window.open(url, '_blank');
     win.focus();
   };
-
-  const checkValidPath = data => {
-    const pieces = data.bannerImg.split('/');
-    const bucket = pieces[0];
-    const path = data.bannerImg
-      .split('/')
-      .slice(1, data.bannerImg.split('/').length)
-      .join('/');
-    new AwsFactory(data)
-      .getSignedUrl(path, 24 * 60 * 60, bucket)
-      .then(url => {
-        const p = fetch(url, { method: 'HEAD' });
-        p.then(r => {
-          if (
-            r.status === 200 &&
-            r.headers.get('content-type') === 'image/jpeg'
-          ) {
-            // start here
-            console.log('bbb', 'success image');
-          }
-        }).catch(e => {
-          //
-          console.log('bbb', 'fail image');
-        });
-      })
-      .catch(e => console.log('bbb', e));
-  };
-
-  useEffect(() => {
-    checkValidPath(appData);
-  }, []);
 
   return (
     <div>
@@ -152,13 +141,22 @@ function GlobalHeader(props) {
         } fixed-top`}
       >
         <div>
-          <SignedUrl
-            type="image"
-            appData={appData}
-            unsignedUrl={appData.bannerImg}
-            className="brand global img-fluid"
-            optionalAttr={{ width: '150', height: '40' }}
-          />
+          {logoStatus.status && logoStatus.validated && (
+            <SignedUrl
+              type="image"
+              appData={appData}
+              unsignedUrl={appData.bannerImg}
+              className="brand global img-fluid"
+              optionalAttr={{ width: '150', height: '40' }}
+            />
+          )}
+          {logoStatus.status && !logoStatus.validated && (
+            <img
+              className="brand global img-fluid"
+              alt="logoImage"
+              src={awzyBanner}
+            />
+          )}
         </div>
         <div className="text-end">
           <Dropdown show={dropDownShown} onToggle={onToggleHandler}>
