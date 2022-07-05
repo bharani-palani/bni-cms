@@ -20,6 +20,7 @@ let params = config.map(c => {
   const pieces = c.split('=');
   return {
     [pieces[0]]: pieces[1],
+    socketPath: '/Applications/MAMP/tmp/mysql/mysql.sock'
   };
 });
 params = Object.assign({}, ...params);
@@ -130,7 +131,7 @@ params = Object.assign({}, ...params);
 
   // 4. Add config data
   const addConfigsql = {
-    config_id: '',
+    config_id: 1,
     web: 'yourdomain.com',
     email: 'support@yourdomain.com',
     google_map_api_key: ENCNIL,
