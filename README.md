@@ -8,7 +8,7 @@ Your awesome headless CMS
 or above
 
 ### Installation
-- Install XAMP
+- Install XAMP or MAMP
 - Clone Awzy repo inside "htdocs" folder
 - Navigate to the cloned folder in your terminal
 
@@ -47,21 +47,31 @@ or above
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: 
-- .env variable file is crucial for DB connection.  Unless these variables are configured good, you can't run awzy in local or production environment 
+- .env variable file is crucial for DB connection.  Unless these variables are configured good, you cant run awzy in local or production environment 
 - **npm run start** is required after .env changes
 
-##### 4. Run nginx 
-**Proxy server for api in localhost**
+##### 4. Configure nginx (Not for production)
+**Proxy server setup for api in localhost**
 
 ##### Windows 
-- navigate to nginx folder and run nginx.exe
+- Open **/awzy-cms/nginx/conf/nginx.conf** to change proxy_pass settings in line 25 based on apache listen port
+- Open nginx folder and run nginx.exe
 - To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
 
 ##### MAC
 - Check you have installed nginx (Homebrew)
-- nginx start (to start server)
-- nginx stop (to stop server)
-- nginx reload (to reload server)
+- Open **/usr/local/etc/nginx/nginx.conf** file
+- Copy **/awzy-cms/nginx/conf/nginx.conf** content and paste it in **/usr/local/etc/nginx/nginx.conf**
+In terminal run,
+- **sudo brew services start nginx** (Start nginx instance)
+- **sudo brew services restart nginx** (Restart nginx instance)
+- **sudo brew services stop nginx** (Stop nginx instance)
+
+##### If port 5000 is blocked, follow below, else skip this step
+- Update package.json - Change **proxy: http://localhost:5001**
+- Update .env file - Change REACT_APP_LOCALHOST_BASE_URL to **http://localhost:5001/awzy-cms/services**
+- Restart nginx
+- Should use **http://localhost:5001** in browser, as you have changed the port settings to **5001**
 
 ##### 5. DEV run
 - npm run start
