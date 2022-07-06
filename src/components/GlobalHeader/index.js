@@ -5,7 +5,6 @@ import { Dropdown } from 'react-bootstrap';
 import Switch from 'react-switch';
 import LoginUser from './loginUser';
 import { UserContext } from '../../contexts/UserContext';
-import AwsFactory from '../configuration/Gallery/AwsFactory';
 import awzyBanner from '../../images/awzyLogo/awzy-banner.svg';
 
 const socialMedias = [
@@ -40,10 +39,6 @@ function GlobalHeader(props) {
   const [audioShown, setAudioShown] = useState(false);
   const [videoShown, setVideoShown] = useState(false);
   const [downloadStatus, setDownloadStatus] = useState(false);
-  const [logoStatus, setLogoStatus] = useState({
-    status: false,
-    validated: false,
-  });
   const [social, setSocial] = useState([]);
   const [theme, setTheme] = useState(userContext.userData.theme);
 
@@ -86,21 +81,6 @@ function GlobalHeader(props) {
         return s;
       });
       setSocial(soc);
-      // set banner image
-      new AwsFactory(appData)
-        .isValidImage(appData.bannerImg)
-        .then(d =>
-          setLogoStatus({
-            status: true,
-            validated: true,
-          })
-        )
-        .catch(e =>
-          setLogoStatus({
-            status: true,
-            validated: false,
-          })
-        );
     }
   }, [appData]);
 
@@ -141,7 +121,7 @@ function GlobalHeader(props) {
         } fixed-top`}
       >
         <div>
-          {logoStatus.status && logoStatus.validated && (
+          {userContext.userData.type === 'public' && (
             <SignedUrl
               type="image"
               appData={appData}
@@ -150,7 +130,7 @@ function GlobalHeader(props) {
               optionalAttr={{ width: '150', height: '40' }}
             />
           )}
-          {logoStatus.status && !logoStatus.validated && (
+          {userContext.userData.type !== 'public' && (
             <img
               className="brand global img-fluid"
               alt="logoImage"
