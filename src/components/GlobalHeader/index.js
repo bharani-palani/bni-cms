@@ -132,7 +132,7 @@ function GlobalHeader(props) {
           )}
           {userContext.userData.type !== 'public' && (
             <img
-              className="brand global img-fluid"
+              className="brand img-fluid"
               alt="logoImage"
               src={awzyBanner}
             />
