@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import React, { Suspense, lazy } from 'react';
 import ErrorBoundary from './components/mainApp/ErrorBoundary';
-import logo from './images/awzyLogo/awzy-icon.svg';
+import logo from './images/awzyLogo/awzy-icon.png';
 const Root = lazy(() => import('./components/mainApp/Root'));
 
 // const Root = lazy(() => {

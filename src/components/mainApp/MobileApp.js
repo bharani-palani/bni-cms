@@ -4,7 +4,7 @@ import { Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import SignedUrl from '../configuration/Gallery/SignedUrl';
 import { UserContext } from '../../contexts/UserContext';
-import awzyIcon from '../../images/awzyLogo/awzy-icon.svg';
+import awzyIcon from '../../images/awzyLogo/awzy-icon.png';
 
 const MobileApp = props => {
   const userContext = useContext(UserContext);

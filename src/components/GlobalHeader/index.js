@@ -5,7 +5,7 @@ import { Dropdown } from 'react-bootstrap';
 import Switch from 'react-switch';
 import LoginUser from './loginUser';
 import { UserContext } from '../../contexts/UserContext';
-import awzyBanner from '../../images/awzyLogo/awzy-banner.svg';
+import awzyBanner from '../../images/awzyLogo/awzy-banner.png';
 
 const socialMedias = [
   {
