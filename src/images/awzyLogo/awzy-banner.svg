@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Generator: Adobe Illustrator 26.3.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
 <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-	 width="95.95px" height="48.07px" viewBox="0 0 95.95 48.07" style="enable-background:new 0 0 95.95 48.07;" xml:space="preserve"
-	>
-<text transform="matrix(1.0997 0 0 1 0 40.3867)" style="fill:#E71E6B; font-family:'ArialRoundedMTBold'; font-size:36.4053px;">A</text>
-<text transform="matrix(1.0997 0 0 1 24.7432 40.0186)" style="fill:#27A94E; font-family:'ArialRoundedMTBold'; font-size:36.4053px;">w</text>
-<text transform="matrix(1.0096 -0.3476 0.3758 0.9267 55.723 40.7612)" style="fill:#31ADE4; font-family:'ArialRoundedMTBold'; font-size:36.5523px;">Z</text>
-<text transform="matrix(1.0997 0 0 1 74.251 34.7041)" style="fill:#EB5F17; font-family:'ArialRoundedMTBold'; font-size:36.4053px;">y</text>
+	 width="83.8px" height="44.4px" viewBox="0 0 83.8 44.4" style="enable-background:new 0 0 83.8 44.4;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#F90606;}
+	.st1{font-family:'Futura-Medium';}
+	.st2{font-size:36.4053px;}
+	.st3{fill:#06A2F9;}
+	.st4{fill:#F9F906;}
+	.st5{font-size:32.5643px;}
+	.st6{fill:#5AF906;}
+	.st7{font-size:31.2027px;}
+</style>
+<text transform="matrix(1.0657 0 0 1 0.125 33.8022)" class="st0 st1 st2">A</text>
+<text transform="matrix(1.105 0 0 1 20.9219 32.1841)" class="st3 st1 st2">w</text>
+<text transform="matrix(1.3717 0 0 1 59.4048 32.1841)" class="st4 st1 st5">y</text>
+<text transform="matrix(1.1967 -0.1613 6.381312e-02 0.998 42.6852 34.2571)" class="st6 st1 st7">Z</text>
 </svg>
