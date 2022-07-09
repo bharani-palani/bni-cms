@@ -98,5 +98,3 @@ In terminal run,
 ##### Good Luck & Happy Coding
 ##### _Author_
 ```Bharani Palani - barani.potshot@gmail.com```
-
-
