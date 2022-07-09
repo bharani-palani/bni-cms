@@ -29,7 +29,7 @@ const DesktopApp = props => {
                   optionalAttr={{ width: '40', height: '40' }}
                 />
               )}
-              {userContext.userData.type !== 'public' && (
+              <span className='text-danger'>A</span>{userContext.userData.type !== 'public' && (
                 <img
                   className="brand img-fluid"
                   alt="iconImage"
