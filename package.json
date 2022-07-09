@@ -49,11 +49,11 @@
     "preinstall": "npx npm-force-resolutions",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "postbuild": "node copyServices.js",
+    "postbuild": "node awzy-cli/copyServices.js",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "develop": "NODE_ENV=development PORT=5001 node server/server.js & react-scripts start",
-    "install-awzy": "node installAwzy.js",
+    "install-awzy": "node awzy-cli/installAwzy.js",
     "removeNodeModules": "rmdir /Q/S node_modules",
     "prestart": "copyfiles ./.env ./services/application/config"
   },
