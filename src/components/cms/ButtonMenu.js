@@ -103,14 +103,14 @@ function ButtonMenu(props) {
       });
   };
 
-  const getPageDetails = obj => {
+  const getPageDetails = async obj => {
     layoutContext.setState(prevState => ({
       ...prevState,
       loading: true,
     }));
     const formdata = new FormData();
     formdata.append('pageId', obj.pageId);
-    apiInstance
+    await apiInstance
       .post('/getConfigPageDetails', formdata, axiosOptions)
       .then(res => {
         const details = res.data.response;
