@@ -17,11 +17,6 @@ const LoginUser = props => {
   const [openModal, setOpenModal] = useState(false); // change to false
   const [openAppLoginModal, setOpenAppLoginModal] = useState(false); // change to false
 
-  /*
-    Bounce types available @
-    https://github.com/animate-css/animate.css/tree/a8d92e585b1b302f7749809c3308d5e381f9cb17
-    */
-
   const handleLoginResponse = response => {
     const data = JSON.stringify(response);
     localStorage.setItem('userData', data);

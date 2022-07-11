@@ -73,9 +73,41 @@ function SideMenu(props) {
       id: 2,
       label: 'Arguments',
       children: [
-        { id: 2.1, label: 'Props', body: <PropsList /> },
-        { id: 2.2, label: 'Style', body: <StyleList /> },
-        { id: 2.3, label: 'Title', body: <Title /> },
+        {
+          id: 2.1, label: 'Props', body: <PropsList />, help: {
+            heading: 'Props help',
+            points: [
+              'Add className or other valid props',
+              'It can be component or element level props',
+              'Only strings and number property value types are allowed',
+              'Some build in classNames are available from the below,',
+              '<a class="link-primary" target="_blank" href="https://github.com/animate-css/animate.css/tree/a8d92e585b1b302f7749809c3308d5e381f9cb17#animations">Animate.css</a>',
+              '<a class="link-primary" target="_blank" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap</a>',
+              '<a class="link-primary" target="_blank" href="https://fontawesome.com/v4/icons/">Font Awesome</a>'
+            ]
+          }
+        },
+        {
+          id: 2.2, label: 'Style', body: <StyleList />, help: {
+            heading: 'Style help',
+            points: [
+              'You can use camel case key values to style component in line.',
+              'Ex: {"background-color": "blue"} can be declared as {"backgroundColor": "blue"}',
+              'Explore more on,',
+              '<a class="link-primary" target="_blank" href="https://reactjs.org/docs/dom-elements.html#style">React Camel case</a>',
+              '<a class="link-primary" target="_blank" href="https://www.w3schools.com/jsref/dom_obj_style.asp">W3Schools Camel case</a>',
+            ]
+          }
+        },
+        {
+          id: 2.3, label: 'Title', body: <Title />, help: {
+            heading: 'Title help',
+            points: [
+              'Set an innerHTML title for your component',
+              'Ex: Use "I am a paragraph" for component &#60;p&#62;I am a paragraph&#60;/p&#62;',
+            ]
+          }
+        },
       ],
       help: {
         heading: 'Arguments help',
@@ -208,9 +240,8 @@ function SideMenu(props) {
     return (
       <button
         type="button"
-        className={`col-11 btn-sm text-start btn ${
-          userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-        }`}
+        className={`col-11 btn-sm text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+          }`}
         onClick={decoratedOnClick}
       >
         {children}
@@ -218,81 +249,82 @@ function SideMenu(props) {
     );
   };
 
+  const CustomOffCanvas = ({ side }) => {
+    return (
+      <OffCanvas
+        className={`text-center ${userContext.userData.theme === 'dark'
+          ? 'bg-dark text-white-50'
+          : 'bg-light text-black'
+          }`}
+        btnValue="<i class='fa fa-question-circle' />"
+        btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark'
+          ? 'text-light'
+          : 'text-dark'
+          }`}
+        placement="end"
+        key={side.id}
+        label={side.help && side.help.heading}
+      >
+        {side.help && side.help.points && side.help.points.length > 0 && (
+          <ul className={`list-group list-group-flush`}>
+            {side.help.points.map((point, j) => (
+              <li
+                key={j}
+                className={`list-group-item ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white-50'
+                  : 'bg-light text-black'
+                  }`}
+                dangerouslySetInnerHTML={{ __html: point }}
+              ></li>
+            ))}
+          </ul>
+        )}
+      </OffCanvas>
+    );
+  }
+
   return (
     <div ref={ref}>
       {layoutContext.state.pageDetails &&
         Object.keys(layoutContext.state.pageDetails).length > 0 && (
           <div
-            className={`pt-2 pb-5 ${
-              userContext.userData.theme === 'light' ? 'bg-light' : 'bg-dark'
-            }`}
+            className={`pt-2 pb-5 ${userContext.userData.theme === 'light' ? 'bg-light' : 'bg-dark'
+              }`}
             style={{
               ...(scrollPosition > 100 &&
                 window.innerWidth > 820 && {
-                  position: 'fixed',
-                  top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
-                  width: `${ref.current.offsetWidth}px`,
-                }),
+                position: 'fixed',
+                top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
+                width: `${ref.current.offsetWidth}px`,
+              }),
             }}
           >
             <div
               style={{
                 ...(scrollPosition > 100 &&
                   window.innerWidth > 768 && {
-                    overflowY: 'auto',
-                    height:
-                      appData.webMenuType === 'topMenu'
-                        ? 'calc(100vh - 150px)'
-                        : 'calc(100vh - 100px)',
-                  }),
+                  overflowY: 'auto',
+                  height:
+                    appData.webMenuType === 'topMenu'
+                      ? 'calc(100vh - 150px)'
+                      : 'calc(100vh - 100px)',
+                }),
               }}
             >
               <Accordion defaultActiveKey={-1} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}
-                    className={`mb-1 ${
-                      userContext.userData.theme === 'dark'
-                        ? 'bg-dark text-light'
-                        : 'bg-light text-dark'
-                    }`}
+                    className={`mb-1 ${userContext.userData.theme === 'dark'
+                      ? 'bg-dark text-light'
+                      : 'bg-light text-dark'
+                      }`}
                   >
                     <Card.Header className="row m-0 p-0">
                       <CustomToggle eventKey={side.id} object={side}>
                         {side.label}
                       </CustomToggle>
-                      <OffCanvas
-                        className={`text-center ${
-                          userContext.userData.theme === 'dark'
-                            ? 'bg-dark text-white-50'
-                            : 'bg-light text-black'
-                        }`}
-                        btnValue="<i class='fa fa-question-circle' />"
-                        btnClassName={`col-1 btn btn-sm ${
-                          userContext.userData.theme === 'dark'
-                            ? 'text-light'
-                            : 'text-dark'
-                        }`}
-                        placement="end"
-                        key={side.id}
-                        label={side.help.heading}
-                      >
-                        {side.help.points.length > 0 && (
-                          <ul className={`list-group list-group-flush`}>
-                            {side.help.points.map((point, j) => (
-                              <li
-                                key={j}
-                                className={`list-group-item ${
-                                  userContext.userData.theme === 'dark'
-                                    ? 'bg-dark text-white-50'
-                                    : 'bg-light text-black'
-                                }`}
-                                dangerouslySetInnerHTML={{ __html: point }}
-                              ></li>
-                            ))}
-                          </ul>
-                        )}
-                      </OffCanvas>
+                      {side.help && <CustomOffCanvas side={side} />}
                     </Card.Header>
                     <Accordion.Collapse eventKey={side.id}>
                       <Card.Body className="p-1">
@@ -309,16 +341,16 @@ function SideMenu(props) {
                               {/* defaultActiveKey={[0.2]} alwaysOpen */}
                               <Card
                                 key={ch.id}
-                                className={`mb-1 ${
-                                  userContext.userData.theme === 'dark'
-                                    ? 'bg-dark text-light'
-                                    : 'bg-light text-dark'
-                                }`}
+                                className={`mb-1 ${userContext.userData.theme === 'dark'
+                                  ? 'bg-dark text-light'
+                                  : 'bg-light text-dark'
+                                  }`}
                               >
                                 <Card.Header className="row m-0 p-0">
-                                  <CustomToggle eventKey={ch.id} object={side}>
+                                  <CustomToggle eventKey={ch.id} object={ch}>
                                     {ch.label}
                                   </CustomToggle>
+                                  {ch.help && <CustomOffCanvas side={ch} />}
                                 </Card.Header>
                                 <Accordion.Collapse eventKey={ch.id}>
                                   <Card.Body className="p-1">
