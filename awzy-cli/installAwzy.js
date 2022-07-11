@@ -374,14 +374,16 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating page access table..');
+    console.log(CLPREFIX + 'Creating page access table');
   });
 
   const addPageAccessData = [
-    ['1000', '1002', '10000'],
-    ['1001', '1002', '10001'],
-    ['1002', '1001', '10002'],
-    ['1003', '1002', '10002'],
+    ['100', '1002', '10000'], // super admin settings
+    ['101', '1002', '10001'], // super admin layout
+    ['102', '1003', '10001'], // admin layout
+    ['103', '1001', '10002'], // Welcome public
+    ['104', '1002', '10002'], // Welcome super admin
+    ['105', '1003', '10002'], // Welcome admin
   ];
 
   await connection.query(
@@ -391,7 +393,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding page access rights..');
+      console.log(CLPREFIX + 'Adding page access rights');
       console.log(' ----------------------------------');
       console.log(
         CLPREFIX + 'You have successfully installed awzy database setup, Now'

@@ -69,7 +69,7 @@ function ButtonMenu(props) {
         userContext.renderToast({
           type: 'error',
           icon: 'fa fa-times-circle',
-          message: 'Unable to fetch pages. Please try again later',
+          message: 'Unable to fetch pages and access levels. Please try again later',
         });
       })
       .finally(() => {
@@ -102,7 +102,7 @@ function ButtonMenu(props) {
         userContext.renderToast({
           type: 'error',
           icon: 'fa fa-times-circle',
-          message: 'Unable to fetch pages. Please try again later',
+          message: 'Unable to fetch page list. Please try again later',
         });
       });
   };
