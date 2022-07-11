@@ -701,7 +701,7 @@ const userCreateForm = [
     id: 'user_id',
     index: 'user_id',
     elementType: 'hidden',
-    value: '',
+    value: null,
     className: '',
   },
   {

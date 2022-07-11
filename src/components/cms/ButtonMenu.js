@@ -91,8 +91,12 @@ function ButtonMenu(props) {
       .then(res => {
         const list = res.data.response;
         layoutContext.setState(prevState => ({ ...prevState, pageList: list }));
-        const lastPageAdded = list[list.length - 1];
-        lastPageAdded && getPageDetails(lastPageAdded);
+        if(list.length > 0) {
+          const lastPageAdded = list[list.length - 1];
+          lastPageAdded && getPageDetails(lastPageAdded);
+        } else {
+          layoutContext.setState(prevState => ({ ...prevState, pageDetails: {} }));
+        }
       })
       .catch(() => {
         userContext.renderToast({

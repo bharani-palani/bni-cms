@@ -43,7 +43,7 @@ params = Object.assign({}, ...params);
       throw err;
     }
     console.log(' ----------------------------------');
-    console.log(CLPREFIX + 'Mysql connection successfully established...');
+    console.log(CLPREFIX + 'Mysql connection successfully established');
   });
 
   // 1. create database
@@ -52,7 +52,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Database created..');
+    console.log(CLPREFIX + 'Database created');
   });
   connection.query(`USE ${DB}`);
 
@@ -68,7 +68,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating access level table..');
+    console.log(CLPREFIX + 'Creating access level table');
   });
 
   const addAccessLevelsql = [
@@ -84,7 +84,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding access config data..');
+      console.log(CLPREFIX + 'Adding access config data');
     }
   );
 
@@ -126,7 +126,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating application configuration table..');
+    console.log(CLPREFIX + 'Creating application configuration table');
   });
 
   // 4. Add config data
@@ -168,7 +168,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding configuration data..');
+      console.log(CLPREFIX + 'Adding configuration data');
     }
   );
 
@@ -184,11 +184,11 @@ params = Object.assign({}, ...params);
     'user_mobile varchar(10) NOT NULL,' +
     'user_image_url varchar(100) NOT NULL,' +
     'user_type int(11) NOT NULL,' +
-    'user_is_founder tinyint(1) NOT NULL,' +
-    'user_last_login datetime NOT NULL,' +
-    'user_current_login datetime NOT NULL,' +
-    'user_otp char(6) NOT NULL,' +
-    'user_otp_expiry int(11) NOT NULL,' +
+    'user_is_founder tinyint(1) NOT NULL DEFAULT 0,' +
+    'user_last_login datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,' +
+    'user_current_login datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,' +
+    'user_otp char(6) NOT NULL DEFAULT "000000",' +
+    'user_otp_expiry int(11) NOT NULL DEFAULT 0,' +
     'PRIMARY KEY (user_id),' +
     'KEY userKey (user_type),' +
     'CONSTRAINT userKey FOREIGN KEY (user_type) REFERENCES az_access_levels (access_id) ON UPDATE CASCADE' +
@@ -197,7 +197,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating users table..');
+    console.log(CLPREFIX + 'Creating users table');
   });
 
   const addUserssql = [
@@ -205,13 +205,29 @@ params = Object.assign({}, ...params);
       '100000',
       params.username,
       params.username.toUpperCase(),
-      'Profile Name',
+      'Super Admin Profile Name',
       md5(params.userpassword),
-      'youremail@mailbox.com',
+      'superAdminEmail@mailbox.com',
       '9000012345',
-      'aws/s3/images/yourAvatar.png',
+      'aws/s3/images/superAdminAvatar.png',
       '1002',
       '1',
+      NOW,
+      NOW,
+      '000000',
+      '0',
+    ],
+    [
+      '100001',
+      'admin',
+      'ADMIN',
+      'Admin Profile Name',
+      md5(params.userpassword),
+      'adminEmail@mailbox.com',
+      '9000056789',
+      'aws/s3/images/adminAvatar.png',
+      '1003',
+      '0',
       NOW,
       NOW,
       '000000',
@@ -226,7 +242,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding a super admin as user..');
+      console.log(CLPREFIX + 'Adding a super admin and admin as users');
     }
   );
 
@@ -243,7 +259,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating pages publication table..');
+    console.log(CLPREFIX + 'Creating pages publication table');
   });
 
   const addPublicationStatusql = [
@@ -260,7 +276,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding publication config data..');
+      console.log(CLPREFIX + 'Adding publication config data');
     }
   );
 
@@ -287,7 +303,7 @@ params = Object.assign({}, ...params);
     if (err) {
       throw err;
     }
-    console.log(CLPREFIX + 'Creating pages table..');
+    console.log(CLPREFIX + 'Creating pages table');
   });
 
   const welcomeKit =
@@ -338,7 +354,7 @@ params = Object.assign({}, ...params);
       if (err) {
         throw err;
       }
-      console.log(CLPREFIX + 'Adding settings & layout design page..');
+      console.log(CLPREFIX + 'Adding settings & layout design page');
     }
   );
 
@@ -398,7 +414,7 @@ params = Object.assign({}, ...params);
         CLPREFIX + '5. User name: "superadmin" & Password: "Success@123"'
       );
       console.log(
-        CLPREFIX + 'For more information, see the readme.md file. Happy CMS...'
+        CLPREFIX + 'For more information, see the readme.md file. Happy awzy CMS...'
       );
     }
   );

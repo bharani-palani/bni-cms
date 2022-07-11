@@ -121,7 +121,7 @@ class cms_model extends CI_Model
         ) {
             if ($post['accessId'] === '') {
                 $this->db->insert('az_access_levels', [
-                    'access_id ' => '',
+                    'access_id ' => NULL,
                     'access_value ' => $post['accessValue'],
                     'access_label ' => $post['accessLabel'],
                 ]);
@@ -147,7 +147,7 @@ class cms_model extends CI_Model
         // Note: This isset is very important for checking. Dont remove this. Else, api will throw CORS exception
         if (isset($post->pageLabel)) {
             $this->db->insert('az_pages', [
-                'page_id' => '',
+                'page_id' => NULL,
                 'page_label' => $post->pageLabel,
                 'page_route' => $post->pageRoute,
                 'page_object' => empty($post->cloneId)
@@ -163,7 +163,7 @@ class cms_model extends CI_Model
             $pageId = $this->db->insert_id();
             foreach ($post->pageAccess as $i => $value) {
                 $array[$i] = [
-                    'page_access_index' => '',
+                    'page_access_index' => NULL,
                     'access_id' => $value,
                     'page_id' => $pageId,
                 ];
@@ -215,7 +215,7 @@ class cms_model extends CI_Model
                 // insert list of new accessors
                 foreach ($post->hasAccessTo as $i => $value) {
                     $array[$i] = [
-                        'page_access_index' => '',
+                        'page_access_index' => NULL,
                         'access_id' => $value,
                         'page_id' => $post->pageId,
                     ];
