@@ -10,6 +10,7 @@ import * as BootstrapComponents from './BootstrapComponents';
 import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
 import AjaxFetch from '../../components/cms/sideMenu/AjaxFetch';
 import { Helmet } from 'react-helmet';
+import moment from 'moment';
 
 export const CmsContext = React.createContext();
 
@@ -39,6 +40,20 @@ function Cms(props) {
     ),
   };
 
+  const renderInterpolations = (title) => {
+    let enhanced = title;
+    const check = [...title.matchAll(/\{{([^}}]+)\}}/g)];
+    if (check && check.length > 0) {
+      check.forEach(ch => {
+        // todo: start, end, add functions to be done
+        const mom = moment(new Date()).format(ch[1]);
+        enhanced = enhanced.replace(ch[0], mom)
+      })
+    }
+    return enhanced;
+  }
+
+
   const recursiveComponent = str => {
     if (str && str.component) {
       const element = componentMap[str.component];
@@ -50,11 +65,11 @@ function Cms(props) {
               str.props && Object.keys(str.props).length > 0 ? str.props : {},
               str.children && str.children.length > 0
                 ? str.children.map((c, i) => (
-                    <React.Fragment key={c.key}>
-                      {recursiveComponent(c)}
-                    </React.Fragment>
-                  ))
-                : str.title
+                  <React.Fragment key={c.key}>
+                    {recursiveComponent(c)}
+                  </React.Fragment>
+                ))
+                : renderInterpolations(str.title)
             )}
           </React.Fragment>
         );
