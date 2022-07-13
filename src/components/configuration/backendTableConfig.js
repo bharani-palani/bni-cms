@@ -132,6 +132,7 @@ const masterConfig = [
         `Go to https://developers.facebook.com/`,
         `Signup an account, if you dont have one`,
         `Once logged in your APP ID will be available on the top header`,
+        `Dont forget to toggle "Enforce HTTPS" to Yes`,
         `Copy & Paste here.`,
         `You're done.`,
         `Now you allow public to login via facebook login`,

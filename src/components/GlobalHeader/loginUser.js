@@ -27,14 +27,6 @@ const LoginUser = props => {
     setAnimateType('slideInRight');
   };
 
-  // const errorGoogle = () => {
-  //   userContext.renderToast({
-  //     type: 'error',
-  //     icon: 'fa fa-times-circle',
-  //     message: 'Unable to fetch from Google API',
-  //   });
-  // };
-
   const onLogout = () => {
     userContext.removeUserData([
       'email',
@@ -96,16 +88,17 @@ const LoginUser = props => {
             <div className="welcomeText pb-10">{userContext.userData.name}</div>
           </div>
           <div className="options pt-3">
-            {userContext.userData.imageUrl && (
-              <img
-                className="userImage"
-                alt="userImage"
-                src={
-                  userContext.userData.imageUrl ||
-                  require('../../images/spinner-1.svg')
-                }
-              />
-            )}
+            {['facebook', 'google'].includes(userContext.userData.source) &&
+              userContext.userData.imageUrl && (
+                <img
+                  className="userImage"
+                  alt="userImage"
+                  src={
+                    userContext.userData.imageUrl ||
+                    require('../../images/spinner-1.svg')
+                  }
+                />
+              )}
             {userContext.userData.source === 'self' &&
               userContext.userData.imageUrl && (
                 <SignedUrl
@@ -156,7 +149,7 @@ const LoginUser = props => {
             />
             {/*
               Note: 
-              Maintain the above style for FB, instagram, twitter or any social login
+              Maintain the above snippet for twitter or any social login
               Plese dont change data structure. It will impact expected results.
             */}
           </div>
