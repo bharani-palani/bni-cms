@@ -115,6 +115,30 @@ const masterConfig = [
     },
   },
   {
+    id: 'facebook_app_id',
+    index: 'facebook_app_id',
+    label: 'Facebook App ID',
+    elementType: 'textArea',
+    value: '',
+    placeHolder: '100Xxxxxyyy',
+    className: 'col-md-4 col-sm-6',
+    options: {
+      required: true,
+      rowLength: '100',
+      validation: /([^\s])/,
+      errorMsg: 'Facebook app id required',
+      help: [
+        `How to get them?`,
+        `Go to https://developers.facebook.com/`,
+        `Signup an account, if you dont have one`,
+        `Once logged in your APP ID will be available on the top header`,
+        `Copy & Paste here.`,
+        `You're done.`,
+        `Now you allow public to login via facebook login`,
+      ],
+    },
+  },
+  {
     id: 'bgSong',
     index: 'bgSong',
     label: 'Theme Background Music',
@@ -644,8 +668,8 @@ const wizardData = [
   {
     id: 0,
     label: 'Google',
-    icon: 'fa fa-google',
-    filterArray: ['google_map_api_key', 'google_login_auth_token'],
+    icon: 'fa fa-key',
+    filterArray: ['google_map_api_key', 'google_login_auth_token', 'facebook_app_id'],
   },
   {
     id: 1,

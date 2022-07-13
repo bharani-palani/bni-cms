@@ -96,17 +96,16 @@ const LoginUser = props => {
             <div className="welcomeText pb-10">{userContext.userData.name}</div>
           </div>
           <div className="options pt-3">
-            {userContext.userData.source === 'google' &&
-              userContext.userData.imageUrl && (
-                <img
-                  className="userImage"
-                  alt="userImage"
-                  src={
-                    userContext.userData.imageUrl ||
-                    require('../../images/spinner-1.svg')
-                  }
-                />
-              )}
+            {userContext.userData.imageUrl && (
+              <img
+                className="userImage"
+                alt="userImage"
+                src={
+                  userContext.userData.imageUrl ||
+                  require('../../images/spinner-1.svg')
+                }
+              />
+            )}
             {userContext.userData.source === 'self' &&
               userContext.userData.imageUrl && (
                 <SignedUrl
@@ -137,6 +136,7 @@ const LoginUser = props => {
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
                   className="fa fa-google text-secondary cursor-pointer fs-4"
+                  title="Sign in with Google"
                 />
               )}
               onSuccess={data => {
@@ -156,38 +156,38 @@ const LoginUser = props => {
             />
             {/*
               Note: 
-              Maintain the above style for FB, instagram or any social login
-              const res = {
-                userId: data.profileObj.googleId,
-                type: appData.google_id === data.profileObj.googleId ? "superAdmin" : "public", // deffered no logic
-                type: "public",
-                source: "google",
-                email: data.profileObj.email,
-                name: data.profileObj.name,
-                imageUrl: data.profileObj.imageUrl,			
-                rest: data
-              }
+              Maintain the above style for FB, instagram, twitter or any social login
               Plese dont change data structure. It will impact expected results.
             */}
           </div>
           <FacebookLogin
-            appId="187552054652071"
-            // autoLoad={true}
-            // size="small"
+            appId={CryptoJS.AES.decrypt(
+              appData.facebook_app_id,
+              appData[encryptSaltKey]
+            ).toString(CryptoJS.enc.Utf8)}
             fields="name,email,picture"
-            callback={(e) => console.log('bbb', e)}
+            callback={(data) => {
+              const res = {
+                userId: data.id,
+                type: 'public',
+                source: 'facebook',
+                email: data.email,
+                name: data.name,
+                imageUrl: data.picture.data.url,
+                rest: data,
+              };
+              handleLoginResponse(res);
+            }}
             cssClass=""
-            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-4" />}
+            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-4" title="Sign in with Facebook" />}
             textButton=""
-            // render={renderProps => (
-            //   <button><i onClick={renderProps.onClick} className="fa fa-facebook text-secondary cursor-pointer fs-4" /></button>
-            // )}
-            tag="a"
+            tag="span"
           />
           <div>
             <i
               onClick={() => setOpenAppLoginModal(true)}
               className="fa fa-user text-secondary cursor-pointer fs-4"
+              title="Sign in with Awzy"
             />
           </div>
         </div>

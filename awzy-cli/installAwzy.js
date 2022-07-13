@@ -38,7 +38,7 @@ params = Object.assign({}, ...params);
     if (err) {
       console.log(
         CLPREFIX +
-          'Error in establishing mysql connection.. Please check your repo is inside the htdocs directory..'
+        'Error in establishing mysql connection.. Please check your repo is inside the htdocs directory..'
       );
       throw err;
     }
@@ -96,6 +96,7 @@ params = Object.assign({}, ...params);
     'email varchar(50) NOT NULL,' +
     'google_map_api_key text NOT NULL,' +
     'google_login_auth_token text NOT NULL,' +
+    'facebook_app_id text NOT NULL,' +
     'bgSong text NOT NULL,' +
     'bgVideo text NOT NULL,' +
     'bgSongDefaultPlay tinyint(1) NOT NULL,' +
@@ -136,10 +137,11 @@ params = Object.assign({}, ...params);
     email: 'support@yourdomain.com',
     google_map_api_key: ENCNIL,
     google_login_auth_token: ENCNIL,
+    facebook_app_id: ENCNIL,
     bgSong: 'aws/s3/root/audio/yoursong.mp3',
     bgVideo: 'aws/s3/root/videos/yourvideo.mp4',
     bgSongDefaultPlay: '0',
-    bgVideoDefaultPlay: '1',
+    bgVideoDefaultPlay: '0',
     switchSongFeatureRequired: '1',
     switchVideoFeatureRequired: '1',
     switchThemeFeatureRequired: '1',
@@ -401,16 +403,16 @@ params = Object.assign({}, ...params);
       console.log('');
       console.log(
         CLPREFIX +
-          '1. Start nginx (Windows: Double click ./nginx/nginx.exe) | Mac: Run "nginx start" in ./nginx directory on your terminal'
+        '1. Start nginx (Windows: Double click ./nginx/nginx.exe) | Mac: Run "nginx start" in ./nginx directory on your terminal'
       );
       console.log(CLPREFIX + '2. Run "npm run start" in your terminal');
       console.log(
         CLPREFIX +
-          '3. Open "http://localhost:5000" in your browser to run AWZY CMS.'
+        '3. Open "http://localhost:5000" in your browser to run AWZY CMS.'
       );
       console.log(
         CLPREFIX +
-          '4. Once application is read, click the top right grid icon to login as super admin to add, edit or delete pages.'
+        '4. Once application is read, click the top right grid icon to login as super admin to add, edit or delete pages.'
       );
       console.log(
         CLPREFIX + '5. User name: "superadmin" & Password: "Success@123"'
