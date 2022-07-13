@@ -8,6 +8,7 @@ import AdminLogin from './adminLogin';
 import SignedUrl from '../configuration/Gallery/SignedUrl';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
+import FacebookLogin from 'react-facebook-login';
 
 const LoginUser = props => {
   const { onLogAction } = props;
@@ -169,6 +170,20 @@ const LoginUser = props => {
               Plese dont change data structure. It will impact expected results.
             */}
           </div>
+          <FacebookLogin
+            appId="187552054652071"
+            // autoLoad={true}
+            // size="small"
+            fields="name,email,picture"
+            callback={(e) => console.log('bbb', e)}
+            cssClass=""
+            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-4" />}
+            textButton=""
+            // render={renderProps => (
+            //   <button><i onClick={renderProps.onClick} className="fa fa-facebook text-secondary cursor-pointer fs-4" /></button>
+            // )}
+            tag="a"
+          />
           <div>
             <i
               onClick={() => setOpenAppLoginModal(true)}

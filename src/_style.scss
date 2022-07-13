@@ -9,30 +9,36 @@ Author: Bharani Palani (barani.potshot@gmail.com)
 .icon-az {
   color: var(--az-theme-bg-color) !important;
 }
+
 .btn-az {
   background: var(--az-theme-bg-color);
   color: var(--az-theme-color);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+
   &:active,
   &:focus,
   &:hover {
     background: var(--az-theme-bg-color);
     opacity: 0.9;
   }
+
   &:active {
     opacity: 0.5 !important;
   }
+
   &.dark {
     background: $black-color;
     color: var(--az-theme-bg-color);
   }
+
   &.sm {
     padding: 8px;
     font-weight: 450;
     border-radius: 5px;
   }
+
   i {
     font-size: 14px;
   }
@@ -41,6 +47,7 @@ Author: Bharani Palani (barani.potshot@gmail.com)
 .hr {
   margin-bottom: 0;
 }
+
 a {
   color: #337ab7;
   text-decoration: none;
@@ -53,10 +60,12 @@ a:focus {
 
 .brand {
   height: 40px;
+
   &.global {
     max-width: 200px;
     padding: 5px;
   }
+
   @include view-mobile {
     // margin-top: 50px;
   }
@@ -68,25 +77,31 @@ a:focus {
   grid-template-columns: 100%;
   margin: 4px auto 0 auto;
   opacity: 0.9;
+
   .application-content {
     display: flex;
+
     .fixed-content {
       position: fixed;
       z-index: 1;
       width: 100%;
     }
+
     &.sideMenuLeft {
       flex-direction: row;
     }
+
     &.sideMenuRight {
       flex-direction: row-reverse;
     }
+
     &.topMenu {
       .fixed-content {
         height: auto;
         width: 100%;
       }
     }
+
     &.sideMenuLeft,
     &.sideMenuRight {
       .fixed-content {
@@ -94,79 +109,97 @@ a:focus {
         width: 16.67%;
       }
     }
+
     .wrapper {
       padding: 10px 0px;
       position: relative;
       overflow: hidden;
       display: block;
       min-height: 100vh;
+
       &.topMenu {
         margin-top: 100px;
+
         @media (max-width: 768px) {
           margin-top: 50px;
         }
       }
+
       &.sideMenuLeft,
       &.sideMenuRight {
         margin-top: 50px;
       }
     }
+
     .mobile-menu {
       display: none;
     }
+
     @include view-mobile {
       .mobile-menu {
         display: block;
         background: $black-color;
         width: 100%;
         z-index: 9999;
+
         .header-menu {
           list-style: none;
           padding-left: 5px;
           min-height: calc(100vh - 100px);
+
           li {
             padding: 5px 0;
+
             a {
               text-decoration: none;
             }
           }
         }
       }
+
       .vertical-header {
         display: none;
       }
     }
+
     @include view-tablet-potrait {
       .mobile-menu {
         display: none;
       }
     }
+
     @include view-tablet-landscape {
       .mobile-menu {
         display: none;
       }
     }
   }
+
   @include view-mobile {
     .application-content {
       flex-direction: column !important;
+
       .fixed-content {
         width: 100%;
         height: auto;
       }
     }
   }
+
   @include view-desktop-large {
     &.default {
       grid-template-columns: 100%;
     }
+
     &.classic {
       grid-template-columns: auto 70% auto;
+
       .sideMenuLeft {
         .fixed-content {
           width: 11.67%;
         }
       }
+
       .sideMenuRight {
         .fixed-content {
           width: 11.67%;
@@ -174,10 +207,12 @@ a:focus {
       }
     }
   }
+
   @include view-desktop-x-large {
     &.default {
       grid-template-columns: 100%;
     }
+
     &.classic {
       grid-template-columns: auto 70% auto;
     }
@@ -187,14 +222,17 @@ a:focus {
   @media (max-width: 768px) {
     margin-top: 50px;
   }
+
   //landscape
   @media (min-width: 992px) and (max-width: 1199px) {
     margin-top: 4px;
   }
+
   // portrait
   @media (min-width: 768px) and (max-width: 991px) {
     margin-top: 50px;
   }
+
   //print
   @media print {
     margin-top: 0;
@@ -203,31 +241,39 @@ a:focus {
 
 .vertical-header {
   padding-top: 45px;
+
   li {
     list-style: none;
   }
+
   @include view-tablet-potrait {
     padding-top: 0;
   }
+
   &.topMenu {
     height: 50px;
   }
+
   .vertical-header-wrapper {
     z-index: 10;
+
     // scroll impacts topmenu
     // overflow: scroll;
     &.sideMenu {
       height: 100%;
       background: transparent;
     }
+
     .nav-menu {
       display: flex;
+
       &.sideMenuLeft,
       &.sideMenuRight {
         flex-direction: column;
         padding: 0 15px;
         height: 100vh;
       }
+
       &.sideMenuRight {
         text-align: right;
       }
@@ -235,9 +281,11 @@ a:focus {
       &.topMenu {
         flex-direction: row;
         align-items: center;
+
         .nav-header {
           padding: 5px 10px;
         }
+
         &.classic {
           @include view-desktop-large {
             width: 70%;
@@ -248,6 +296,7 @@ a:focus {
       .nav-header {
         padding: 5px 0;
       }
+
       .header-menu {
         height: auto;
         overflow: auto;
@@ -256,19 +305,23 @@ a:focus {
         margin-bottom: 0px;
         display: flex;
         flex-grow: 1;
+
         &.sideMenuLeft,
         &.sideMenuRight {
           flex-direction: column;
         }
+
         &.topMenu {
           flex-direction: row;
           justify-content: space-evenly;
         }
+
         li {
           font-size: 12px;
           margin: 0 !important;
           text-transform: capitalize;
           white-space: nowrap;
+
           a {
             display: block;
             width: 100%;
@@ -279,10 +332,12 @@ a:focus {
             word-break: break-all;
             white-space: normal;
           }
+
           &:last-child {
             border-bottom: 0;
           }
         }
+
         &.sideMenuLeft,
         &.sideMenuRight {
           li {
@@ -299,12 +354,15 @@ a:focus {
   width: 100%;
   height: calc(100vh - 50px);
   overflow: hidden;
+
   @media only screen and (max-width: 767px) {
     margin: 0;
   }
+
   @media (min-width: 768px) and (max-width: 991px) {
     margin-top: -3px;
   }
+
   .banner-img {
     opacity: 0.8;
     object-fit: cover;
@@ -321,19 +379,23 @@ a:focus {
   background: var(--az-theme-color);
   opacity: 0.8;
   padding: 10px 0;
+
   .skillset {
     color: var(--az-theme-bg-color);
   }
+
   @media (max-width: 767px) {
     position: fixed;
   }
 }
+
 @media (max-width: 767px) {
   .nameHeading {
     left: 0;
     width: 100%;
   }
 }
+
 /* Landscape tablets and medium desktops */
 @media (min-width: 992px) and (max-width: 1199px) {
   .nameHeading {
@@ -341,6 +403,7 @@ a:focus {
     left: auto;
   }
 }
+
 /* Portrait tablets and small desktops */
 @media (min-width: 768px) and (max-width: 991px) {
   .nameHeading {
@@ -365,45 +428,53 @@ a:focus {
 .globalHeader {
   padding: 5px 15px 5px 5px;
   user-select: none;
+
   .gIcon {
     font-size: 40px;
     cursor: pointer;
   }
+
   .options {
     display: flex;
     align-items: center;
     justify-content: space-around;
     padding-bottom: 2px;
   }
+
   .userImage {
     width: 40px;
     height: 40px;
     border-radius: 5px;
   }
+
   .welcomeText {
     padding: 0 5px;
     font-size: 12px;
     @include ellipsis();
   }
+
   .labelText {
     font-size: 12px;
     cursor: pointer;
   }
+
   .social-icons {
     font-size: 14px;
     color: inherit;
   }
+
   .dropdown-toggle::after {
     display: none;
   }
+
   .dropdown {
     .dropdown-menu {
       padding: 0;
+
       a {
         display: inline-block;
         padding-left: 0;
         padding-top: 0;
-        padding-bottom: 1rem;
         border-bottom: none;
         font-size: 1.2rem;
         word-break: break-word;
@@ -411,6 +482,7 @@ a:focus {
         text-decoration: none;
         font-size: 12px;
         padding-right: 0;
+
         &:hover,
         &:focus,
         &:active {
@@ -418,15 +490,19 @@ a:focus {
         }
       }
     }
+
     .dropdown-item {
       padding: 0.5rem 0;
       color: inherit;
+
       &:first-child {
         padding-top: 10px;
       }
+
       &:last-child {
         border-bottom: none;
       }
+
       &:hover {
         color: inherit;
         background-color: inherit;
@@ -434,6 +510,7 @@ a:focus {
     }
   }
 }
+
 .google {
   button {
     border-radius: 50% !important;
@@ -444,6 +521,7 @@ a:focus {
     display: inline-block !important;
     box-shadow: none !important;
     font-size: inherit;
+
     div {
       background: transparent !important;
       padding: 5px !important;
@@ -458,31 +536,38 @@ a:focus {
     // background: $black-one;
     overflow: auto;
     padding-left: 0;
+
     .bucketName {
       @include ellipsis;
       padding: 10px 0;
       margin: 0;
       text-align: center;
     }
+
     .listContainer {
       padding: 10px 0;
       max-height: 50vh;
+
       .ul {
         padding-left: 10px;
         list-style: none;
+
         .li {
           cursor: pointer;
           padding: 2px 0;
         }
       }
+
       .icon {
         padding-right: 5px;
         color: #aaa;
       }
+
       .rc-tree {
         .rc-tree-treenode {
           user-select: none;
         }
+
         .rc-tree-node-selected {
           box-shadow: none;
           background-color: transparent;
@@ -492,15 +577,18 @@ a:focus {
       }
     }
   }
+
   .rightPane {
     @include fixedScrollHeight;
     padding: 0;
+
     .header {
       .breadCrumb {
         overflow-x: auto;
         overflow-y: hidden;
         display: flex;
         align-items: center;
+
         .breadButton {
           font-size: 12px;
           outline: 0;
@@ -511,69 +599,85 @@ a:focus {
           margin: 8px 0;
           white-space: nowrap;
         }
+
         .breadIcon {
           margin: 7px 15px;
           font-size: 30px;
         }
       }
     }
+
     .viewButtons {
       font-size: 16px;
       cursor: pointer;
       margin-right: 10px;
+
       &:last-child {
         margin-right: 0;
       }
     }
+
     .dropZone {
       position: relative;
+
       .dropZoneWrapper {
         min-height: 20vh;
         line-height: 17vh;
         display: flex;
         align-items: center;
         justify-content: space-around;
+
         &.disabled {
           cursor: not-allowed;
           align-items: flex-end;
         }
       }
+
       .progress {
         background-color: var(--az-theme-color);
         height: 2px;
+
         .progress-bar {
           background-color: var(--az-theme-bg-color) !important;
           border-color: var(--az-theme-bg-color) !important;
           height: 2px;
         }
       }
+
       .upload-error {
         color: $red-color;
       }
+
       .upload-success {
         color: $green-color;
       }
+
       .border-success {
         border: dashed 3px $green-color;
         margin: 10px auto;
         width: 95%;
       }
+
       .border-danger {
         border: dashed 3px $red-color;
         margin: 10px auto;
         width: 95%;
       }
+
       .progressWrapper {
         padding-top: 5px;
+
         .gridLabels {
           display: grid;
           grid-template-columns: 80% 20%;
+
           * {
             @include ellipsis;
           }
         }
       }
     }
+
     .tableGrid {
       .headerGrid {
         padding: 10px;
@@ -582,84 +686,107 @@ a:focus {
         justify-content: space-between;
         justify-items: stretch;
         align-items: center;
+
         .input-group-text {
           max-width: 200px;
           border: 0;
           cursor: pointer;
           @include ellipsis();
+
           @media (max-width: 768px) {
             max-width: 100px;
           }
+
           @media (min-width: 768px) and (max-width: 991px) {
             max-width: 100px;
           }
+
           @media (min-width: 992px) and (max-width: 1199px) {
             max-width: 100px;
           }
         }
+
         .dirLabel {
           @include ellipsis;
         }
       }
+
       .gridWrapper {
         overflow: auto;
+
         .responsive-gallery-grid {
           display: grid;
+
           &.table-grid {
             grid-template-columns: repeat(3, 33.33%);
             column-gap: 1px;
             row-gap: 5px;
             overflow: hidden;
+
             @media (max-width: 768px) {
               grid-template-columns: repeat(1, 100%);
             }
+
             @media (min-width: 768px) and (max-width: 991px) {
               grid-template-columns: repeat(2, 50%);
             }
+
             @media (min-width: 992px) and (max-width: 1199px) {
               grid-template-columns: repeat(2, 50%);
             }
           }
+
           &.list-grid {
             grid-template-columns: auto;
             row-gap: 1px;
+
             @media (max-width: 768px) {
               min-width: 200vw;
             }
           }
+
           .thumbnail-height {
             display: grid;
             align-items: center;
             margin: auto;
             min-height: 150px;
+
             .noPreview {
               color: var(--az-theme-bg-color);
               font-size: 50px;
             }
+
             .audioThumb {
               zoom: 0.85;
             }
           }
+
           .copyable {
             padding: 5px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+
             &.info {
               background: transparent;
             }
+
             .ellipsis {
               @include ellipsis;
             }
           }
+
           .child {
             display: grid;
+
             &:first-child {
               border-left: 0;
             }
+
             &.table-child {
               grid-template-columns: 100%;
             }
+
             &.list-child {
               grid-template-columns: repeat(3, 33.33%);
             }
@@ -669,6 +796,7 @@ a:focus {
     }
   }
 }
+
 .wizard {
   ul {
     list-style: none;
@@ -676,19 +804,23 @@ a:focus {
     margin: 0;
   }
 }
+
 .reactive-form {
-  textarea {
-  }
+  textarea {}
+
   .password {
     position: relative;
   }
+
   .help {
     position: absolute;
     top: 3px;
     right: 3px;
   }
+
   i {
     cursor: pointer;
+
     &.eye {
       position: absolute;
       right: 5px;
@@ -701,6 +833,7 @@ a:focus {
 
 // print options
 @media print {
+
   .col-lg-1,
   .col-md-1,
   .col-sm-1,
@@ -788,6 +921,7 @@ a:focus {
   .print-visible {
     display: block !important;
   }
+
   .wrapper.toggleOff {
     padding-left: 0;
   }
@@ -795,29 +929,35 @@ a:focus {
 
 .passwordArea {
   position: relative;
+
   i {
     position: absolute;
     right: 9px;
     top: 10px;
     color: var(--az-theme-color);
     cursor: pointer;
+
     &.good {
       color: var(--az-theme-bg-color);
     }
+
     &.bad {
       color: $red-color;
     }
   }
 }
+
 // utils
 .cursor-pointer {
   cursor: pointer !important;
 }
+
 .relativeSpinner {
   text-align: center;
   padding: 1rem;
   width: 100%;
 }
+
 .spinner {
   position: fixed;
   top: 50%;
@@ -826,6 +966,7 @@ a:focus {
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
 }
+
 // scrollbar styles
 ::-webkit-scrollbar {
   height: 2px;
@@ -841,40 +982,50 @@ a:focus {
 ::-webkit-scrollbar-corner {
   background: $black-color;
 }
+
 :root {
   scrollbar-color: var(--az-theme-bg-color) var(--az-theme-color);
   scrollbar-width: thin !important;
 }
+
 .azToaster {
   z-index: 10000;
+
   .Toastify__toast {
     font-size: 0.8rem;
+
     &.Toastify__toast--success {
       background: var(--az-theme-bg-color);
       color: var(--az-theme-color);
     }
+
     color: #fff;
+
     i {
       &:before {
         margin-left: 0;
         font-size: 16px;
       }
+
       &.trash {
         position: absolute;
         right: 7px;
       }
     }
+
     a {
       color: #fff;
       text-decoration: underline !important;
     }
   }
 }
+
 .layoutDesign {
   .rc-tree {
     .rc-tree-treenode {
       user-select: none;
     }
+
     .rc-tree-node-selected {
       box-shadow: none;
       background-color: transparent;
@@ -882,6 +1033,7 @@ a:focus {
     }
   }
 }
+
 .modal {
   .modal-content {
     border: 0;
