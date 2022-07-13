@@ -668,7 +668,7 @@ const masterConfig = [
 const wizardData = [
   {
     id: 0,
-    label: 'Google',
+    label: 'Credentials',
     icon: 'fa fa-key',
     filterArray: ['google_map_api_key', 'google_login_auth_token', 'facebook_app_id'],
   },
