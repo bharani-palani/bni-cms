@@ -107,7 +107,8 @@ function SideMenu(props) {
               'Ex: Use "I am a paragraph" for component &#60;p&#62;I am a paragraph&#60;/p&#62;',
               'You can also use interpolations enclosed in double curly braces.',
               'Ex: Add "{{YYYY-MM-DD}}" in title to render current date.',
-              'Refer <a class="link-primary" target="_blank" href="https://momentjs.com/">https://momentjs.com</a> for documentaion of other methods.'
+              'Refer <a class="link-primary" target="_blank" href="https://momentjs.com/">https://momentjs.com</a> for documentaion.',
+              'Interpolation works only on date format.'
             ]
           }
         },

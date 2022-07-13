@@ -45,8 +45,7 @@ function Cms(props) {
     const check = [...title.matchAll(/\{{([^}}]+)\}}/g)];
     if (check && check.length > 0) {
       check.forEach(ch => {
-        // todo: start, end, add functions to be done
-        const mom = moment(new Date()).format(ch[1]);
+        const mom = moment().format(ch[1]);
         enhanced = enhanced.replace(ch[0], mom)
       })
     }
