@@ -111,7 +111,7 @@ const LoginUser = props => {
             <i
               onClick={onLogoutInit}
               title="Logout"
-              className="fa fa-sign-out text-secondary cursor-pointer fs-4"
+              className="fa fa-sign-out text-secondary cursor-pointer fs-5"
             />
           </div>
         </div>
@@ -128,7 +128,7 @@ const LoginUser = props => {
                 <i
                   onClick={renderProps.onClick}
                   disabled={renderProps.disabled}
-                  className="fa fa-google text-secondary cursor-pointer fs-4"
+                  className="fa fa-google text-secondary cursor-pointer fs-5"
                   title="Sign in with Google"
                 />
               )}
@@ -171,15 +171,14 @@ const LoginUser = props => {
               };
               handleLoginResponse(res);
             }}
-            cssClass=""
-            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-4" title="Sign in with Facebook" />}
+            cssClass="facebook-container"
+            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-5" title="Sign in with Facebook" />}
             textButton=""
-            tag="span"
           />
           <div>
             <i
               onClick={() => setOpenAppLoginModal(true)}
-              className="fa fa-user text-secondary cursor-pointer fs-4"
+              className="fa fa-user text-secondary cursor-pointer fs-5"
               title="Sign in with Awzy"
             />
           </div>
