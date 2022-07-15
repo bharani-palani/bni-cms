@@ -360,6 +360,26 @@ params = Object.assign({}, ...params);
     }
   );
 
+  // 6.5. Create log table
+  const createLogTable =
+    'CREATE TABLE az_logs (' +
+    'log_id bigint(20) NOT NULL AUTO_INCREMENT,' +
+    'log_name varchar(100) NOT NULL,' +
+    'log_email varchar(100) NOT NULL,' +
+    'log_source varchar(100) NOT NULL,' +
+    'log_type varchar(100) NOT NULL,' +
+    'log_user_id varchar(100) NOT NULL,' +
+    'log_time varchar(100) NOT NULL,' +
+    'log_ip varchar(15) NOT NULL,' +
+    'PRIMARY KEY (log_id)' +
+    ') ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8';
+  await connection.query(createLogTable, (err, res) => {
+    if (err) {
+      throw err;
+    }
+    console.log(CLPREFIX + 'Creating log table');
+  });
+
   // 7. create page access table
   const createPageAccessTablesql =
     'CREATE TABLE az_page_access (' +

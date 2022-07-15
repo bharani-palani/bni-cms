@@ -256,4 +256,13 @@ class home extends CI_Controller
             $this->auth->tokenException($this->check);
         }
     }
+    public function saveLog()
+    {
+        if ($this->check['status'] === 'success') {
+            $post = json_decode($this->input->post('log'));
+            $this->home_model->saveLog($post);
+        } else {
+            $this->auth->tokenException($this->check);
+        }
+    }
 }

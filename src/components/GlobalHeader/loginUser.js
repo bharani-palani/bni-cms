@@ -9,6 +9,7 @@ import SignedUrl from '../configuration/Gallery/SignedUrl';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
 import FacebookLogin from 'react-facebook-login';
+import apiInstance from '../../services/apiServices';
 
 const LoginUser = props => {
   const { onLogAction } = props;
@@ -17,6 +18,9 @@ const LoginUser = props => {
   const [animateType, setAnimateType] = useState('');
   const [openModal, setOpenModal] = useState(false); // change to false
   const [openAppLoginModal, setOpenAppLoginModal] = useState(false); // change to false
+  const axiosOptions = {
+    headers: { 'Awzy-Authorization': appData.token },
+  };
 
   const handleLoginResponse = response => {
     const data = JSON.stringify(response);
@@ -24,8 +28,20 @@ const LoginUser = props => {
     userContext.addUserData(JSON.parse(data));
     userContext.updateUserData('type', response.type);
     onLogAction(response);
+    saveLog(response);
     setAnimateType('slideInRight');
   };
+
+  const saveLog = (response) => {
+    fetch('https://geolocation-db.com/json/').then(response => {
+      return response.json();
+    }).then((res) => {
+      const spread = { ...response, ...{ time: new Date().toString(), ip: res.IPv4 } }
+      const formdata = new FormData();
+      formdata.append('log', JSON.stringify(spread));
+      apiInstance.post('/saveLog', formdata, axiosOptions)
+    })
+  }
 
   const onLogout = () => {
     userContext.removeUserData([

@@ -4,13 +4,13 @@ copyfiles(
   ['./services/**/*', './services/**/.*', './build'],
   '-a -F -u 1',
   () => {
-    console.log('Awzy API service directory is ready for production..');
+    console.log('Awzy API service directory,');
   }
 );
 
 copyfiles(['./.htaccess', './build'], () => {
   console.log(
-    'htaccess for public_html / www folder is ready for production..'
+    'htaccess for public_html / www folder,'
   );
 });
 

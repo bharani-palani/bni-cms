@@ -76,6 +76,7 @@ $route['resetPassword'] = 'home/resetPassword';
 $route['sendOtp'] = 'home/sendOtp';
 $route['getBackend'] = 'home/getBackend';
 $route['sendUserInfo'] = 'home/sendUserInfo';
+$route['saveLog'] = 'home/saveLog';
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

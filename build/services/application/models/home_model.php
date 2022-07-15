@@ -229,4 +229,19 @@ class home_model extends CI_Model
         $this->db->trans_complete();
         return $this->db->trans_status() === false ? false : true;
     }
+
+    public function saveLog($post)
+    {
+        $this->db->insert('az_logs', [
+            'log_id' => NULL,
+            'log_name' => $post->name,
+            'log_email' => $post->email,
+            'log_source' => $post->source,
+            'log_type' => $post->type,
+            'log_user_id' => $post->userId,
+            'log_time' => $post->time,
+            'log_ip' => $post->ip,
+        ]);
+        return $this->db->affected_rows() > 0;
+    }
 }
