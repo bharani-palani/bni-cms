@@ -26,7 +26,7 @@
 */
 date_default_timezone_set('Asia/Kolkata');
 
-$env = parse_ini_file('.env');
+$env = parse_ini_file('connection.ini');
 
 $config = [
     'LOCALHOST' => $env['REACT_APP_LOCALHOST'],
