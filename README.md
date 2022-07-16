@@ -8,16 +8,16 @@ Your awesome headless CMS
 or above
 
 ### Installation
-- Install XAMP or MAMP
+- Install XAMP or MAMP on your preferred OS
 - Clone Awzy repo inside "htdocs" folder
-- Navigate to the cloned folder in your terminal
+- Go to cloned folder in your terminal & run the following commands,
 
 ### Now,
 ##### 1. Install node_modules 
 - npm install --legacy-peer-deps
 
 ##### 2. Install database 
-- Hope you have installed XAMP in your machine and your repo is inside "htdocs" folder
+- Hope you have installed XAMP and your repo is inside "htdocs" folder
 - Add your host, root & password, etc.., based on your mysql setup as shown below,
 - Ex:  Run **npm run install-awzy host=localhost user=root password=12345 username=superadmin userpassword=Success@123** in your terminal
 
@@ -25,12 +25,12 @@ or above
 - `<host>` MySql host name
 - `<user>` - MySql user name
 - `<password>` - MySql password
-- `<username>` - Awzy super admin user name (Remeber this.. )
-- `<userpassword>` - Awzy super admin password (Remeber this.. )
+- `<username>` - Awzy super admin user name (Remeber this.. It cannot be revoked)
+- `<userpassword>` - Awzy super admin password (Remeber this.. It cannot be revoked)
 - This will install awzy database w.r.t above credentials.
 - Login Awzy with the remebered `<username>` and `<userpassword>`
 
-##### 3. Open .env file, inside src folder, to configure local and production variables
+##### 3. Create .env file, inside src folder, to configure local and production variables. Here is a sample,
 
 - REACT_APP_LOCALHOST='localhost:8080'
 - REACT_APP_LOCALHOST_BASE_URL='http://localhost:5000/awzy-cms/services' (port 5000 as you configured in proxy)
@@ -47,7 +47,9 @@ or above
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: 
-- .env variable file is crucial for DB connection.  Unless these variables are configured good, you cant run awzy in local or production environment 
+- .env variable file is crucial for DB connection
+- This file should not be committed
+- Unless the above variables are configured good, you cant run awzy in local or production environment 
 - **npm run start** is required after .env changes
 
 ##### 4. Configure nginx (Not for production)
@@ -63,15 +65,15 @@ or above
 - Open **/usr/local/etc/nginx/nginx.conf** file
 - Copy **/awzy-cms/nginx/conf/nginx.conf** content and paste it in **/usr/local/etc/nginx/nginx.conf**
 In terminal run,
-- **sudo brew services start nginx** (Start nginx instance)
-- **sudo brew services restart nginx** (Restart nginx instance)
-- **sudo brew services stop nginx** (Stop nginx instance)
+- **sudo brew services start nginx** (Start nginx)
+- **sudo brew services restart nginx** (Restart nginx)
+- **sudo brew services stop nginx** (Stop nginx)
 
 ##### If port 5000 is blocked, follow below, else skip this step
 - Update package.json - Change **proxy: http://localhost:5001**
 - Update .env file - Change REACT_APP_LOCALHOST_BASE_URL to **http://localhost:5001/awzy-cms/services**
 - Restart nginx
-- Should use **http://localhost:5001** in browser, as you have changed the port settings to **5001**
+- Browse awzy in **http://localhost:5001**, as you have changed the port settings to **5001**
 
 ##### 5. DEV run
 - npm run start
@@ -87,13 +89,16 @@ In terminal run,
 
 ##### Browse
 - Open http://localhost:5000 to run Awzy CMS in local
-- Click the top right grid icon to login as super admin.
+- Click the top right grid icon to login as admin or super admin with.
 - User name: `<username>` & Password: `<userpassword>` what you should have remebered during database setup
-- Now login as super admin to add, edit or delete pages
+- The password is common for admin and superAdmin. You can login and change them later.
+- Now login,
+- As super admin to maintain global settings, AWS S3 space & add/edit/delete pages in layout design with full access permissions
+- Or as an admin who has limited access, only to layout design
 
 ##### Build:
 - run "npm run build" in your root folder
-- Your "build" folder is ready for production deployment which includes env variables and API setup.
+- Your "build" folder is ready for production deployment which includes bundles and API setup.
 
 ##### Good Luck & Happy Coding
 ##### _Author_
