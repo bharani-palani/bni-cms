@@ -1,16 +1,15 @@
 const copyfiles = require('copyfiles');
+const { setConnection } = require('./preStart.js')
 
 copyfiles(
   ['./services/**/*', './services/**/.*', './build'],
   '-a -F -u 1',
   () => {
-    console.log('Awzy API service directory,');
+    console.log('Setting up your production build...');
     copyfiles(['./.htaccess', './build'], () => {
-      console.log(
-        'htaccess for public_html / www folder,'
-      );
-      copyfiles(['./.env', './build/services/application/config'], () => {
-        console.log('Environment variable is ready for production..');
+      setConnection(() => {
+        console.log(`✋ Preparing your connection file`);
+        console.log('👍 Awzy Production build is ready');
       });
     });
   }
