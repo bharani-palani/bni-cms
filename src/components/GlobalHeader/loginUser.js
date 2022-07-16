@@ -33,10 +33,14 @@ const LoginUser = props => {
   };
 
   const saveLog = (response) => {
+    let spread = {};
     fetch('https://geolocation-db.com/json/').then(response => {
       return response.json();
     }).then((res) => {
-      const spread = { ...response, ...{ time: new Date().toString(), ip: res.IPv4 } }
+      spread = { ...response, ...{ time: new Date().toString(), ip: res.IPv4 } }
+    }).catch(() => {
+      spread = { ...response, ...{ time: new Date().toString(), ip: '127.0.0.1' } }
+    }).finally(() => {
       const formdata = new FormData();
       formdata.append('log', JSON.stringify(spread));
       apiInstance.post('/saveLog', formdata, axiosOptions)
