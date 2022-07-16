@@ -57,7 +57,6 @@ or above
 
 ##### Windows 
 - Open **/awzy-cms/nginx/conf/nginx.conf** to change proxy_pass settings in line 25 based on apache listen port
-- In line 11 Change listen 5000 to 5001
 - Open nginx folder and run nginx.exe
 - To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
 
@@ -73,6 +72,7 @@ In terminal run,
 ##### If port 5000 is blocked, follow below, else skip this step
 - Update package.json - Change **proxy: http://localhost:5001**
 - Update .env file - Change REACT_APP_LOCALHOST_BASE_URL to **http://localhost:5001/awzy-cms/services**
+- In line 11 Change listen 5000 to 5001
 - Restart nginx
 - Browse awzy in **http://localhost:5001**, as you have changed the port settings to **5001**
 
