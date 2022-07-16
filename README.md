@@ -57,6 +57,7 @@ or above
 
 ##### Windows 
 - Open **/awzy-cms/nginx/conf/nginx.conf** to change proxy_pass settings in line 25 based on apache listen port
+- In line 11 Change listen 5000 to 5001
 - Open nginx folder and run nginx.exe
 - To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
 
