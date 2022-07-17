@@ -43,7 +43,7 @@ function Cms(props) {
   const renderInterpolations = (title) => {
     let enhanced = title;
     const matches = title.matchAll(/\{{([^}}]+)\}}/g);
-    if (matches) {
+    if (matches !== undefined) {
       const check = [...matches];
       if (check && check.length > 0) {
         check.forEach(ch => {
