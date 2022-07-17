@@ -71,7 +71,7 @@ function Cms(props) {
                     {recursiveComponent(c)}
                   </React.Fragment>
                 ))
-                : renderInterpolations(str.title)
+                : str.title && renderInterpolations(str.title)
             )}
           </React.Fragment>
         );
