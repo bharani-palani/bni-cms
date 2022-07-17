@@ -42,12 +42,15 @@ function Cms(props) {
 
   const renderInterpolations = (title) => {
     let enhanced = title;
-    const check = [...title.matchAll(/\{{([^}}]+)\}}/g)];
-    if (check && check.length > 0) {
-      check.forEach(ch => {
-        const mom = moment().format(ch[1]);
-        enhanced = enhanced.replace(ch[0], mom)
-      })
+    const matches = title.matchAll(/\{{([^}}]+)\}}/g);
+    if (matches) {
+      const check = [...matches];
+      if (check && check.length > 0) {
+        check.forEach(ch => {
+          const mom = moment().format(ch[1]);
+          enhanced = enhanced.replace(ch[0], mom)
+        })
+      }
     }
     return enhanced;
   }

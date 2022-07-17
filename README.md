@@ -47,10 +47,11 @@ or above
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: 
+- Use the above snippet for declaring your variables. Other
 - .env variable file is crucial for DB connection
 - This file should not be committed
 - Unless the above variables are configured good, you cant run awzy in local or production environment 
-- **npm run start** is required after .env changes
+- **npm run start** or **npm run build** is required after .env changes
 
 ##### 4. Configure nginx (Not for production)
 **Proxy server setup for api in localhost**
