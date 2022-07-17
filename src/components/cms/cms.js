@@ -11,6 +11,7 @@ import AjaxForm from '../../components/cms/sideMenu/AjaxForm';
 import AjaxFetch from '../../components/cms/sideMenu/AjaxFetch';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
+import matchAll from 'string.prototype.matchall';
 
 export const CmsContext = React.createContext();
 
@@ -42,7 +43,7 @@ function Cms(props) {
 
   const renderInterpolations = (title) => {
     let enhanced = title;
-    const matches = title.matchAll(/\{{([^}}]+)\}}/g);
+    const matches = matchAll(title, /\{{([^}}]+)\}}/g);
     if (matches !== undefined) {
       const check = [...matches];
       if (check && check.length > 0) {
@@ -71,7 +72,7 @@ function Cms(props) {
                     {recursiveComponent(c)}
                   </React.Fragment>
                 ))
-                : str.title && renderInterpolations(str.title)
+                : renderInterpolations(str.title)
             )}
           </React.Fragment>
         );
