@@ -90,7 +90,7 @@ In terminal run,
 
 ##### Browse
 - Open http://localhost:5000 to run Awzy CMS in local
-- Click the top right grid icon to login as admin or super admin with.
+- Click the top right grid icon to awzy login as admin or super admin with
 - User name: `<username>` & Password: `<userpassword>` what you should have remebered during database setup
 - The password is common for admin and superAdmin. You can login and change them later.
 - Now login,
