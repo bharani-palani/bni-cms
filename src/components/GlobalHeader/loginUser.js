@@ -179,6 +179,7 @@ const LoginUser = props => {
               appData[encryptSaltKey]
             ).toString(CryptoJS.enc.Utf8)}
             fields="name,email,picture"
+            isMobile={true}
             callback={(data) => {
               const res = {
                 userId: data.id,
