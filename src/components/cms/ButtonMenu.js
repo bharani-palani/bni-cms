@@ -91,7 +91,7 @@ function ButtonMenu(props) {
       .then(res => {
         const list = res.data.response;
         layoutContext.setState(prevState => ({ ...prevState, pageList: list }));
-        if(list.length > 0) {
+        if (list.length > 0) {
           const lastPageAdded = list[list.length - 1];
           lastPageAdded && getPageDetails(lastPageAdded);
         } else {
@@ -334,7 +334,7 @@ function ButtonMenu(props) {
                       variant={
                         userContext.userData.theme === 'dark'
                           ? 'light'
-                          : 'secondary'
+                          : 'default border border-1'
                       }
                       as={ButtonGroup}
                     >
@@ -419,9 +419,8 @@ function ButtonMenu(props) {
             >
               <div className="d-flex btn-group btn-group-sm">
                 <button
-                  className={`px-2 py-1 btn btn-secondary ${
-                    layoutDetails.state.viewMode === 'preview' ? 'active' : ''
-                  }`}
+                  className={`px-2 py-1 btn btn-secondary ${layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                    }`}
                   onClick={scrollTop}
                 >
                   <i className="fa fa-arrow-circle-up" />
@@ -451,9 +450,8 @@ function ButtonMenu(props) {
                         }
                       >
                         <Button
-                          className={`px-2 py-1 ${
-                            statusInfo[status.pub_value].rowClass
-                          }`}
+                          className={`px-2 py-1 ${statusInfo[status.pub_value].rowClass
+                            }`}
                           disabled={!layoutDetails.state.pageDetails}
                           onClick={() => onPushAction(status)}
                         >
@@ -466,9 +464,8 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Tree</Tooltip>}
                 >
                   <button
-                    className={`px-2 py-1 btn btn-secondary ${
-                      layoutDetails.state.viewMode === 'tree' ? 'active' : ''
-                    }`}
+                    className={`px-2 py-1 btn btn-secondary ${layoutDetails.state.viewMode === 'tree' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -484,9 +481,8 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Structure</Tooltip>}
                 >
                   <button
-                    className={`px-2 py-1 btn btn-secondary ${
-                      layoutDetails.state.viewMode === 'design' ? 'active' : ''
-                    }`}
+                    className={`px-2 py-1 btn btn-secondary ${layoutDetails.state.viewMode === 'design' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -502,9 +498,8 @@ function ButtonMenu(props) {
                   overlay={<Tooltip {...props}>Preview</Tooltip>}
                 >
                   <button
-                    className={`px-2 py-1 btn btn-secondary ${
-                      layoutDetails.state.viewMode === 'preview' ? 'active' : ''
-                    }`}
+                    className={`px-2 py-1 btn btn-secondary ${layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -516,9 +511,8 @@ function ButtonMenu(props) {
                   </button>
                 </OverlayTrigger>
                 <button
-                  className={`px-2 py-1 btn btn-secondary ${
-                    layoutDetails.state.viewMode === 'preview' ? 'active' : ''
-                  }`}
+                  className={`px-2 py-1 btn btn-secondary ${layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                    }`}
                   onClick={scrollBottom}
                 >
                   <i className="fa fa-arrow-circle-down" />

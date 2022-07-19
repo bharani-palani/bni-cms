@@ -14,7 +14,6 @@ function Database(props) {
       <Modal
         style={{ zIndex: 9999 }}
         backdrop="static"
-        keyboard={false}
         fullscreen={true}
         show={show}
         onHide={() => {
@@ -24,24 +23,22 @@ function Database(props) {
             selectedNodeId: '',
             selectedComponent: '',
           }));
-        }} // unset selected node.
+        }}
       >
         <Modal.Header
           closeButton
-          className={`rounded-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`rounded-0 ${userContext.userData.theme === 'dark'
+            ? 'bg-dark text-light'
+            : 'bg-white text-dark'
+            }`}
         >
           <Modal.Title as="p">Database - Table config</Modal.Title>
         </Modal.Header>
         <Modal.Body
-          className={`pt-0 pb-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`pt-0 pb-0 ${userContext.userData.theme === 'dark'
+            ? 'bg-dark text-light'
+            : 'bg-white text-dark'
+            }`}
         >
           <TableConfig />
         </Modal.Body>

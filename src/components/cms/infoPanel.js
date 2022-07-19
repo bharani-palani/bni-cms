@@ -107,15 +107,13 @@ function InfoPanel(props) {
     return (
       <div className="row p-0 m-0">
         <OffCanvas
-          className={`text-center ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-white-50'
-              : 'bg-light text-black'
-          }`}
+          className={`text-center ${userContext.userData.theme === 'dark'
+            ? 'bg-dark text-white-50'
+            : 'bg-light text-black'
+            }`}
           btnValue="<i class='fa fa-question-circle' />"
-          btnClassName={`col-1 btn btn-sm ${
-            userContext.userData.theme === 'dark' ? 'text-light' : 'text-dark'
-          }`}
+          btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark' ? 'text-light' : 'text-dark'
+            }`}
           placement="end"
           key={1}
           label={'Page Settings Help'}
@@ -124,11 +122,10 @@ function InfoPanel(props) {
             {infoHelp.map((help, i) => (
               <li
                 key={i}
-                className={`list-group-item ${
-                  userContext.userData.theme === 'dark'
-                    ? 'bg-dark text-white-50'
-                    : 'bg-light text-black'
-                }`}
+                className={`list-group-item ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white-50'
+                  : 'bg-light text-black'
+                  }`}
                 dangerouslySetInnerHTML={{ __html: help }}
               />
             ))}
@@ -137,9 +134,8 @@ function InfoPanel(props) {
         <div className="col-10 d-grid p-0">
           <button
             type="button"
-            className={`btn-sm text-start btn ${
-              userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-            }`}
+            className={`btn-sm text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+              }`}
             onClick={decoratedOnClick}
           >
             {children}
@@ -172,11 +168,10 @@ function InfoPanel(props) {
           <Accordion defaultActiveKey={0} className="mt-2">
             <Card
               key={1}
-              className={`mb-1 ${
-                userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-light'
-                  : 'bg-light text-dark'
-              }`}
+              className={`mb-1 ${userContext.userData.theme === 'dark'
+                ? 'bg-dark text-light'
+                : 'bg-light text-dark'
+                }`}
             >
               <Card.Header className="row m-0 p-0">
                 <CustomToggle eventKey={0}>Page Config</CustomToggle>
@@ -224,9 +219,14 @@ function InfoPanel(props) {
                             </InputGroup>
                           </Col>
                           <Col sm={12} className="pt-2">
+                            <div className="alert alert-primary py-1 px-1 small" role="alert">
+                              <i className="fa fa-link fw-bold px-2" />{`<a href="${formDefaults.pageRoute}">${formDefaults.pageLabel}</a>`}
+                            </div>
+                          </Col>
+                          <Col sm={12} className="pt-2">
                             {accessorList.length > 0 && (
                               <>
-                                <label className="p-2 badge bg-primary pill mb-1 fw-normal">
+                                <label className="py-2 small">
                                   Page access for
                                 </label>
                                 <Select

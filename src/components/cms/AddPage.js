@@ -1,13 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Modal } from 'react-bootstrap';
-import { UserContext } from '../../contexts/UserContext';
 import ReactiveForm from '../configuration/ReactiveForm';
 import { LayoutContext } from './layoutDesign';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
 
 function AddPage(props) {
-  const userContext = useContext(UserContext);
   const layoutContext = useContext(LayoutContext);
   const { onFormSubmit, ...rest } = props;
   const [loader, setLoader] = useState(false);
@@ -146,28 +144,16 @@ function AddPage(props) {
       <Modal.Dialog className="m-0">
         <Modal.Header
           closeButton
-          className={`rounded-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`rounded-0`}
         >
           <Modal.Title as="div">Add Page</Modal.Title>
         </Modal.Header>
         <Modal.Body
-          className={`rounded-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`rounded-0`}
         >
           {!loader ? (
             <ReactiveForm
-              parentClassName={`reactive-form ${
-                userContext.userData.theme === 'dark'
-                  ? 'text-light'
-                  : 'text-dark'
-              }`}
+              parentClassName={`reactive-form`}
               structure={formStructure}
               onChange={onMassagePayload}
               onSubmit={onReactiveFormSubmit}
