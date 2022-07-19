@@ -35,7 +35,7 @@ or above
 - SKIP_PREFLIGHT_CHECK=true
 - FAST_REFRESH=false
 - REACT_APP_LOCALHOST='localhost:8888'
-- REACT_APP_LOCALHOST_BASE_URL='http://localhost:5000/awzy-cms/services' (port 5000 as you configured in proxy)
+- REACT_APP_LOCALHOST_BASE_URL='http://localhost:1234/awzy-cms/services'
 - REACT_APP_LOCALHOST_DB_HOST_NAME='localhost'
 - REACT_APP_LOCALHOST_DB_USER_NAME='root'
 - REACT_APP_LOCALHOST_DB_PASSWORD='12345'
@@ -49,35 +49,37 @@ or above
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: 
-- Use the above snippet for declaring your variables.
+- Use the above snippet for .env variables.
 - .env variable file is crucial for DB connection.
-- This file should not be committed
+- This file should not be committed.
 - Unless the above variables are configured good, you cant run awzy in local or production environment 
 - **npm run start** or **npm run build** is required after .env changes
 
 ##### 4. Configure nginx (Not for production)
 **Proxy server setup for api in localhost**
 
+Open **/awzy-cms/nginx/conf/nginx.conf** to change proxy_pass settings in line 11, 21 & 25 for port and endpoint setup
+
 ##### Windows 
-- Open **/awzy-cms/nginx/conf/nginx.conf** to change proxy_pass settings in line 25 based on apache listen port
+- complete the setup in nginx.conf file
 - Open nginx folder and run nginx.exe
-- To stop / reload server - Open task manager and delete your nginx instances and run nginx.exe
+- To stop / reload server - Open task manager to delete your nginx instance and run nginx.exe to restart
 
 ##### MAC
 - Check you have installed nginx (Homebrew)
-- Open **vim /usr/local/etc/nginx/nginx.conf** file
-- Copy **/awzy-cms/nginx/conf/nginx.conf** content and paste it in **/usr/local/etc/nginx/nginx.conf**
+- Run "**vim /usr/local/etc/nginx/nginx.conf**" in terminal
+- Copy **/awzy-cms/nginx/conf/nginx.conf** content with neccessary setup and paste it in "**/usr/local/etc/nginx/nginx.conf**"
 In terminal run,
 - **sudo brew services start nginx** (Start nginx)
 - **sudo brew services restart nginx** (Restart nginx)
 - **sudo brew services stop nginx** (Stop nginx)
 
-##### If port 5000 is blocked, follow below, else skip this step
-- Update package.json - Change **proxy: http://localhost:5001**
-- Update .env file - Change REACT_APP_LOCALHOST_BASE_URL to **http://localhost:5001/awzy-cms/services**
-- In line 11 Change listen 5000 to 5001
+##### If port 1234 is blocked, follow below, else skip this step
+- Update package.json - Change **proxy: http://localhost:1235**
+- Update .env file - Change REACT_APP_LOCALHOST_BASE_URL to **http://localhost:1235/awzy-cms/services**
+- In line 11 Change listen 1234 to 1235
 - Restart nginx
-- Browse awzy in **http://localhost:5001**, as you have changed the port settings to **5001**
+- Browse awzy in **http://localhost:1235**, as you have changed the port settings to **1235**
 
 ##### 5. DEV run
 - npm run start
@@ -92,7 +94,7 @@ In terminal run,
 -->
 
 ##### Browse
-- Open http://localhost:5000 to run Awzy CMS in local
+- Open http://localhost:1234 to run Awzy CMS in local
 - Click the top right grid icon to awzy login as admin or super admin with
 - User name: `<username>` & Password: `<userpassword>` what you should have remebered during database setup
 - The password is common for admin and superAdmin. You can login and change them later.
