@@ -6,7 +6,7 @@ import ChangePassword from './changePassword';
 
 function AdminLogin(props) {
   const { onClose, onSuccess } = props;
-  const [view, setView] = useState('Admin login');
+  const [view, setView] = useState('Awzy login');
 
   return (
     <Modal {...props} className="" size={'sm'} centered>
@@ -15,9 +15,9 @@ function AdminLogin(props) {
           className={`rounded-0`}
         >
           <Modal.Title as="div">
-            {view !== 'Admin login' && (
+            {view !== 'Awzy login' && (
               <button
-                onClick={() => setView('Admin login')}
+                onClick={() => setView('Awzy login')}
                 className="btn btn-sm btn-default me-2"
               >
                 <i className="fa fa-chevron-left" />
@@ -30,7 +30,7 @@ function AdminLogin(props) {
           className={`rounded-0`}
         >
           <div className="text-dark">
-            {view === 'Admin login' && (
+            {view === 'Awzy login' && (
               <LoginForm
                 onToggle={val => setView(val)}
                 onClose={onClose}

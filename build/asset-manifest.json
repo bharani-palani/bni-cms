@@ -2,14 +2,14 @@
   "files": {
     "main.js": "./static/js/main.2e7f3679.chunk.js",
     "main.js.map": "./static/js/main.2e7f3679.chunk.js.map",
-    "runtime-main.js": "./static/js/runtime-main.ed8a0e45.js",
-    "runtime-main.js.map": "./static/js/runtime-main.ed8a0e45.js.map",
+    "runtime-main.js": "./static/js/runtime-main.7deb3ae0.js",
+    "runtime-main.js.map": "./static/js/runtime-main.7deb3ae0.js.map",
     "static/css/2.7be6c6c8.chunk.css": "./static/css/2.7be6c6c8.chunk.css",
     "static/js/2.c1f172d8.chunk.js": "./static/js/2.c1f172d8.chunk.js",
     "static/js/2.c1f172d8.chunk.js.map": "./static/js/2.c1f172d8.chunk.js.map",
     "static/css/3.6efba7d8.chunk.css": "./static/css/3.6efba7d8.chunk.css",
-    "static/js/3.0e689a8b.chunk.js": "./static/js/3.0e689a8b.chunk.js",
-    "static/js/3.0e689a8b.chunk.js.map": "./static/js/3.0e689a8b.chunk.js.map",
+    "static/js/3.87e29121.chunk.js": "./static/js/3.87e29121.chunk.js",
+    "static/js/3.87e29121.chunk.js.map": "./static/js/3.87e29121.chunk.js.map",
     "static/js/4.0fda19a2.chunk.js": "./static/js/4.0fda19a2.chunk.js",
     "static/js/4.0fda19a2.chunk.js.map": "./static/js/4.0fda19a2.chunk.js.map",
     "index.html": "./index.html",
@@ -22,7 +22,7 @@
     "static/media/spinner-1.svg": "./static/media/spinner-1.650efd36.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.ed8a0e45.js",
+    "static/js/runtime-main.7deb3ae0.js",
     "static/js/4.0fda19a2.chunk.js",
     "static/js/main.2e7f3679.chunk.js"
   ]
