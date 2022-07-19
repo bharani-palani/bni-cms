@@ -172,14 +172,14 @@ function ResetForm(props) {
                   <button
                     disabled={submitState}
                     onClick={() => sendOtpAction()}
-                    className="btn btn-az"
+                    className="btn border border-success text-success"
                   >
                     Reset
                   </button>
                 ) : (
                   <button
                     onClick={() => validateOtpAction()}
-                    className="btn btn-az"
+                    className="btn border border-success text-success"
                   >
                     Send
                   </button>
@@ -188,7 +188,7 @@ function ResetForm(props) {
             </div>
             <div className="col-lg-6 py-2">
               <div className="d-grid">
-                <button onClick={onClose} className="btn btn-secondary">
+                <button onClick={onClose} className="btn border border-danger text-danger">
                   Cancel
                 </button>
               </div>

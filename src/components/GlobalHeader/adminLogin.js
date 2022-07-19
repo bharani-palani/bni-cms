@@ -1,24 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import LoginForm from './loginForm';
 import ResetForm from './resetForm';
 import ChangePassword from './changePassword';
-import { UserContext } from '../../contexts/UserContext';
 
 function AdminLogin(props) {
   const { onClose, onSuccess } = props;
-  const userContext = useContext(UserContext);
   const [view, setView] = useState('Admin login');
 
   return (
     <Modal {...props} className="" size={'sm'} centered>
       <Modal.Dialog className="m-0">
         <Modal.Header
-          className={`rounded-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`rounded-0`}
         >
           <Modal.Title as="div">
             {view !== 'Admin login' && (
@@ -26,18 +20,14 @@ function AdminLogin(props) {
                 onClick={() => setView('Admin login')}
                 className="btn btn-sm btn-default me-2"
               >
-                <i className="fa fa-chevron-left text-danger" />
+                <i className="fa fa-chevron-left" />
               </button>
             )}
             <span className="pl-5">{view}</span>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body
-          className={`rounded-0 ${
-            userContext.userData.theme === 'dark'
-              ? 'bg-dark text-light'
-              : 'bg-white text-dark'
-          }`}
+          className={`rounded-0`}
         >
           <div className="text-dark">
             {view === 'Admin login' && (

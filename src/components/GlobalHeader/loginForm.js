@@ -116,14 +116,14 @@ function LoginForm(props) {
             <div className="row">
               <div className="col-lg-6 pb-3">
                 <div className="d-grid gap-2">
-                  <button onClick={() => loginAction()} className="btn btn-az">
+                  <button onClick={() => loginAction()} className="btn border border-success text-success">
                     Submit
                   </button>
                 </div>
               </div>
               <div className="col-lg-6">
                 <div className="d-grid gap-2">
-                  <button onClick={onClose} className="btn btn-secondary">
+                  <button onClick={onClose} className="btn border border-danger text-danger">
                     Cancel
                   </button>
                 </div>

@@ -165,9 +165,8 @@ function ChangePassword(props) {
               />
               {CP && (
                 <i
-                  className={`fa fa-${
-                    currentPass.length > 0 ? 'check good' : 'times bad'
-                  }`}
+                  className={`fa fa-${currentPass.length > 0 ? 'check good' : 'times bad'
+                    }`}
                 />
               )}
               <label htmlFor="currentPassword">Current Password</label>
@@ -188,9 +187,8 @@ function ChangePassword(props) {
               />
               {NP && (
                 <i
-                  className={`fa fa-${
-                    newPass.length > 0 ? 'check good' : 'times bad'
-                  }`}
+                  className={`fa fa-${newPass.length > 0 ? 'check good' : 'times bad'
+                    }`}
                 />
               )}
               <label htmlFor="newPassword">New Password</label>
@@ -211,11 +209,10 @@ function ChangePassword(props) {
               />
               {RP && (
                 <i
-                  className={`fa fa-${
-                    repeatPass.length > 0 && repeatPass === newPass
-                      ? 'check good'
-                      : 'times bad'
-                  }`}
+                  className={`fa fa-${repeatPass.length > 0 && repeatPass === newPass
+                    ? 'check good'
+                    : 'times bad'
+                    }`}
                 />
               )}
               <label htmlFor="repeatPassword">Re-type Password</label>
@@ -228,7 +225,7 @@ function ChangePassword(props) {
                   <button
                     disabled={submitState}
                     onClick={() => changeAction()}
-                    className="btn btn-az"
+                    className="btn border border-success text-success"
                   >
                     Submit
                   </button>
@@ -236,7 +233,7 @@ function ChangePassword(props) {
               </div>
               <div className="col-lg-6">
                 <div className="d-grid">
-                  <button onClick={onClose} className="btn btn-secondary">
+                  <button onClick={onClose} className="btn border border-danger text-danger">
                     Cancel
                   </button>
                 </div>

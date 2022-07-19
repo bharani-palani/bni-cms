@@ -19,7 +19,7 @@ or above
 ##### 2. Install database 
 - Hope you have installed XAMP and your repo is inside "htdocs" folder
 - Add your host, root & password, etc.., based on your mysql setup as shown below,
-- Ex:  Run **npm run install-awzy host=localhost user=root password=12345 username=superadmin userpassword=Success@123** in your terminal
+- Ex:  Run "**npm run install-awzy host=localhost user=root password=12345 username=superadmin userpassword=Success@123**" in your terminal
 
 ##### Parameter help:
 - `<host>` MySql host name
@@ -32,7 +32,9 @@ or above
 
 ##### 3. Create .env file, inside src folder, to configure local and production variables. Here is a sample,
 
-- REACT_APP_LOCALHOST='localhost:8080'
+- SKIP_PREFLIGHT_CHECK=true
+- FAST_REFRESH=false
+- REACT_APP_LOCALHOST='localhost:8888'
 - REACT_APP_LOCALHOST_BASE_URL='http://localhost:5000/awzy-cms/services' (port 5000 as you configured in proxy)
 - REACT_APP_LOCALHOST_DB_HOST_NAME='localhost'
 - REACT_APP_LOCALHOST_DB_USER_NAME='root'
@@ -47,8 +49,8 @@ or above
 - REACT_APP_PRODUCTION_DB_NAME='dbname'
 
 ##### Important: 
-- Use the above snippet for declaring your variables. Other
-- .env variable file is crucial for DB connection
+- Use the above snippet for declaring your variables.
+- .env variable file is crucial for DB connection.
 - This file should not be committed
 - Unless the above variables are configured good, you cant run awzy in local or production environment 
 - **npm run start** or **npm run build** is required after .env changes
@@ -63,7 +65,7 @@ or above
 
 ##### MAC
 - Check you have installed nginx (Homebrew)
-- Open **/usr/local/etc/nginx/nginx.conf** file
+- Open **vim /usr/local/etc/nginx/nginx.conf** file
 - Copy **/awzy-cms/nginx/conf/nginx.conf** content and paste it in **/usr/local/etc/nginx/nginx.conf**
 In terminal run,
 - **sudo brew services start nginx** (Start nginx)
@@ -104,4 +106,4 @@ In terminal run,
 
 ##### Good Luck & Happy Coding
 ##### _Author_
-```Bharani Palani - barani.potshot@gmail.com```
+```Bharani Palani - tp.bharani@gmail.com```
