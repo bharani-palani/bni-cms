@@ -2,7 +2,9 @@
 import React, { Suspense, lazy } from 'react';
 import ErrorBoundary from './components/mainApp/ErrorBoundary';
 import logo from './images/awzyLogo/awzy-icon.png';
+import '../node_modules/font-awesome/css/font-awesome.min.css';
 const Root = lazy(() => import('./components/mainApp/Root'));
+import './index.scss';
 
 // const Root = lazy(() => {
 //   return new Promise(resolve => setTimeout(resolve, 2000)).then(() =>

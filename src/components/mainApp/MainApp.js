@@ -59,20 +59,18 @@ function MainApp(props) {
         userContext.userData.menu.length > 0 && (
           <Router history={history}>
             <div
-              className={`application-wrapper ${appData.webLayoutType} ${
-                userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'
-              }`}
+              className={`application-wrapper ${appData.webLayoutType} ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
+                }`}
             >
               <div className="" />
               <div className={`application-content ${appData.webMenuType}`}>
                 <div
-                  className={`menu-wrapper d-print-none p-0 ${
-                    ['sideMenuRight', 'sideMenuLeft'].includes(
-                      appData.webMenuType
-                    )
+                  className={`menu-wrapper d-print-none p-0 ${['sideMenuRight', 'sideMenuLeft'].includes(
+                    appData.webMenuType
+                  )
                       ? 'col-sm-2'
                       : ''
-                  }`}
+                    }`}
                 >
                   <div className="fixed-content d-none d-sm-block">
                     <DesktopApp appData={appData} />
@@ -86,17 +84,15 @@ function MainApp(props) {
                 </div>
                 <div
                   style={{ opacity: userContext.userData.videoShown ? 0.9 : 1 }}
-                  className={`wrapper ${appData.webLayoutType} ${
-                    userContext.userData.theme === 'dark'
-                      ? 'bg-dark text-light'
-                      : 'bg-light text-dark'
-                  } p-0 ${appData.webMenuType} ${
-                    ['sideMenuRight', 'sideMenuLeft'].includes(
+                  className={`wrapper ${appData.webLayoutType} ${userContext.userData.theme === 'dark'
+                      ? 'bg-dark text-white'
+                      : 'bg-white text-dark'
+                    } p-0 ${appData.webMenuType} ${['sideMenuRight', 'sideMenuLeft'].includes(
                       appData.webMenuType
                     )
                       ? 'col-sm-10 col-12'
                       : 'col-sm-12'
-                  }`}
+                    }`}
                 >
                   <Wrapper />
                 </div>

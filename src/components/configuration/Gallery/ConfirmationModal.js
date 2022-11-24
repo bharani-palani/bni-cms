@@ -11,7 +11,7 @@ function ConfirmationModal(props) {
       <Modal.Header
         className={`${
           userContext.userData.theme === 'dark'
-            ? 'bg-dark text-light'
+            ? 'bg-dark text-white'
             : 'bg-white text-dark'
         }`}
       >
@@ -20,7 +20,7 @@ function ConfirmationModal(props) {
       <Modal.Body
         className={`rounded-bottom border-0 ${
           userContext.userData.theme === 'dark'
-            ? 'bg-dark text-light'
+            ? 'bg-dark text-white'
             : 'bg-white text-dark'
         }`}
       >

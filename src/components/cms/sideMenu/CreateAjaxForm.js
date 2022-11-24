@@ -460,11 +460,10 @@ function CreateAjaxForm(props) {
                   {selectedComponents.map((sel, i) => (
                     <React.Fragment key={i}>
                       <li
-                        className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                          userContext.userData.theme === 'dark'
-                            ? 'bg-dark text-light'
-                            : 'bg-light text-dark'
-                        }`}
+                        className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${userContext.userData.theme === 'dark'
+                            ? 'bg-dark text-white'
+                            : 'bg-white text-dark'
+                          }`}
                       >
                         <span
                           className="cursor-pointer user-select-none"
@@ -479,11 +478,10 @@ function CreateAjaxForm(props) {
                       </li>
                       {sel.show && (
                         <li
-                          className={`list-group-item p-1 small ${
-                            userContext.userData.theme === 'dark'
-                              ? 'bg-dark text-light'
-                              : 'bg-light text-dark'
-                          }`}
+                          className={`list-group-item p-1 small ${userContext.userData.theme === 'dark'
+                              ? 'bg-dark text-white'
+                              : 'bg-white text-dark'
+                            }`}
                         >
                           <div className="list-group">
                             {Object.entries(sel.props)

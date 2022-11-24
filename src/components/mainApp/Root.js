@@ -5,7 +5,6 @@ import UserContextProvider from '../../contexts/UserContext';
 import apiInstance from '../../services/apiServices';
 import GlobalHeader from '../GlobalHeader';
 import AwsFactory from '../configuration/Gallery/AwsFactory';
-import '../../index.scss';
 
 function Root(props) {
   const [master, setMaster] = useState({});

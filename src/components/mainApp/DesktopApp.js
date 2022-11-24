@@ -14,9 +14,8 @@ const DesktopApp = props => {
     <header className={`vertical-header ${appData.webLayoutType}`}>
       <div className={`vertical-header-wrapper ${appData.webMenuType}`}>
         <nav
-          className={`nav-menu ${appData.webMenuType} ${
-            appData.webLayoutType
-          } ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-light'}`}
+          className={`nav-menu ${appData.webMenuType} ${appData.webLayoutType
+            } ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'}`}
         >
           <div className="nav-header">
             <span className="">

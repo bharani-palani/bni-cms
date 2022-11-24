@@ -265,11 +265,11 @@ function CreateAjaxFetch(props) {
     const changed = bb.map(obj => {
       return obj.options.id === id
         ? Object.assign(obj, {
-            options: {
-              ...obj.options,
-              value,
-            },
-          })
+          options: {
+            ...obj.options,
+            value,
+          },
+        })
         : obj;
     });
     setSelectedFields(prevState => ({
@@ -415,16 +415,16 @@ function CreateAjaxFetch(props) {
     const selectRows =
       configArray.length > 0
         ? configArray.filter(con => con.component === 'SelectListField')[0]
-            .options.value.length
+          .options.value.length
         : false;
 
     const table =
       configArray.length > 0
         ? configArray.filter(
-            con =>
-              con.component === 'DropDownField' &&
-              con.options.id === 'fetchTable'
-          )[0].options.value
+          con =>
+            con.component === 'DropDownField' &&
+            con.options.id === 'fetchTable'
+        )[0].options.value
         : '';
 
     return selectRows && table;
@@ -637,11 +637,10 @@ function CreateAjaxFetch(props) {
                             {c.options.value.map((v, j) => (
                               <li
                                 key={j}
-                                className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                  userContext.userData.theme === 'dark'
-                                    ? 'bg-dark text-light'
-                                    : 'bg-light text-dark'
-                                }`}
+                                className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${userContext.userData.theme === 'dark'
+                                    ? 'bg-dark text-white'
+                                    : 'bg-white text-dark'
+                                  }`}
                               >
                                 <div className="user-select-none overflow-auto">
                                   {v}
@@ -733,11 +732,10 @@ function CreateAjaxFetch(props) {
                                 {c.options.value.map((v, j) => (
                                   <li
                                     key={j}
-                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                      userContext.userData.theme === 'dark'
-                                        ? 'bg-dark text-light'
-                                        : 'bg-light text-dark'
-                                    }`}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-white'
+                                        : 'bg-white text-dark'
+                                      }`}
                                   >
                                     <div className="user-select-none overflow-auto">
                                       <div className="small">{v.column}</div>
@@ -860,11 +858,10 @@ function CreateAjaxFetch(props) {
                                 {c.options.value.map((v, j) => (
                                   <li
                                     key={j}
-                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                      userContext.userData.theme === 'dark'
-                                        ? 'bg-dark text-light'
-                                        : 'bg-light text-dark'
-                                    }`}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-white'
+                                        : 'bg-white text-dark'
+                                      }`}
                                   >
                                     <div className="user-select-none overflow-auto">
                                       <div className="small">
@@ -927,11 +924,10 @@ function CreateAjaxFetch(props) {
                                 {c.options.value.map((v, k) => (
                                   <li
                                     key={k}
-                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${
-                                      userContext.userData.theme === 'dark'
-                                        ? 'bg-dark text-light'
-                                        : 'bg-light text-dark'
-                                    }`}
+                                    className={`list-group-item p-1 small d-flex justify-content-between align-items-center ${userContext.userData.theme === 'dark'
+                                        ? 'bg-dark text-white'
+                                        : 'bg-white text-dark'
+                                      }`}
                                   >
                                     <div className="user-select-none overflow-auto">
                                       <div className="small">

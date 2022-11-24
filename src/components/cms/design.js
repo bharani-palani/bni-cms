@@ -8,19 +8,18 @@ function Design(props) {
 
   const getHighlightClass = () => {
     return userContext.userData.theme === 'light'
-      ? 'bg-dark text-light'
-      : 'bg-light text-dark';
+      ? 'bg-dark text-white'
+      : 'bg-white text-dark';
   };
 
   const recursiveComponent = str => {
     return React.createElement(
       'div',
       {
-        className: `border rounded p-2 my-1 ${
-          layoutContext.state.selectedNodeId === str.key
+        className: `border rounded p-2 my-1 ${layoutContext.state.selectedNodeId === str.key
             ? `${getHighlightClass()}`
             : ''
-        } ${userContext.userData.theme === 'light' ? '' : 'border-secondary'}`,
+          } ${userContext.userData.theme === 'light' ? '' : 'border-secondary'}`,
         style: {},
         onClick: e => {
           e.stopPropagation();
@@ -44,7 +43,7 @@ function Design(props) {
           {Object.keys(str.props).length > 0 &&
             layoutContext.state.selectedNodeId === str.key && (
               <div className="">
-                <div className="small bg-danger p-1 rounded text-light">
+                <div className="small bg-danger p-1 rounded text-white">
                   {JSON.stringify(str.props)}
                 </div>
               </div>

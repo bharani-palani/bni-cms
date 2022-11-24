@@ -88,7 +88,7 @@ function TableInfo(props) {
               setTableName('');
             }}
             className={
-              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-light'
+              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-white'
             }
             style={{
               zIndex: 9999,
@@ -96,22 +96,20 @@ function TableInfo(props) {
           >
             <Modal.Header
               closeButton
-              className={`rounded-0 ${
-                userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-light'
+              className={`rounded-0 ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white'
                   : 'bg-white text-dark'
-              }`}
+                }`}
             >
               <Modal.Title as="div">
                 Table &quot;{infoList.table}&quot;
               </Modal.Title>
             </Modal.Header>
             <Modal.Body
-              className={`rounded-0 ${
-                userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-light'
+              className={`rounded-0 ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white'
                   : 'bg-white text-dark'
-              }`}
+                }`}
             >
               <p>Edit column</p>
               <InlineForm mode="edit" />
@@ -130,7 +128,7 @@ function TableInfo(props) {
               setTableName('');
             }}
             className={
-              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-light'
+              userContext.userData.theme === 'dark' ? 'bg-black' : 'bg-white'
             }
             style={{
               zIndex: 9999,
@@ -138,22 +136,20 @@ function TableInfo(props) {
           >
             <Modal.Header
               closeButton
-              className={`rounded-0 ${
-                userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-light'
+              className={`rounded-0 ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white'
                   : 'bg-white text-dark'
-              }`}
+                }`}
             >
               <Modal.Title as="div">
                 Table &quot;{infoList.table}&quot;
               </Modal.Title>
             </Modal.Header>
             <Modal.Body
-              className={`rounded-0 ${
-                userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-light'
+              className={`rounded-0 ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white'
                   : 'bg-white text-dark'
-              }`}
+                }`}
             >
               <p>Add column</p>
               <InlineForm mode="add" />
@@ -167,11 +163,10 @@ function TableInfo(props) {
           </div>
           <div className="table-responsive">
             <table
-              className={`table table-sm table-striped ${
-                userContext.userData.theme === 'dark'
+              className={`table table-sm table-striped ${userContext.userData.theme === 'dark'
                   ? 'table-dark'
                   : 'table-light'
-              }`}
+                }`}
               style={{ minWidth: '768px' }}
             >
               <thead>

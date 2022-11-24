@@ -174,9 +174,8 @@ function BuiltInList(props) {
     return (
       <button
         type="button"
-        className={`btn-sm text-start btn ${
-          userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-        }`}
+        className={`btn-sm text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+          }`}
         onClick={decoratedOnClick}
       >
         {children}
@@ -192,11 +191,10 @@ function BuiltInList(props) {
             segregatedList.map((s, i) => (
               <Card
                 key={s.id}
-                className={`mb-1 ${
-                  userContext.userData.theme === 'dark'
-                    ? 'bg-dark text-light'
-                    : 'bg-light text-dark'
-                }`}
+                className={`mb-1 ${userContext.userData.theme === 'dark'
+                    ? 'bg-dark text-white'
+                    : 'bg-white text-dark'
+                  }`}
               >
                 <Card.Header className="row m-0 p-0">
                   <CustomToggle eventKey={s.id} object={s}>

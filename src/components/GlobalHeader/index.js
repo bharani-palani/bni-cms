@@ -116,9 +116,8 @@ function GlobalHeader(props) {
         unsignedUrl={appData.bgVideo}
       />
       <div
-        className={`globalHeader d-print-none d-flex justify-content-between ${
-          userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
-        } fixed-top`}
+        className={`globalHeader d-print-none d-flex justify-content-between ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
+          } fixed-top`}
       >
         <div>
           {userContext.userData.type === 'public' && (
@@ -148,7 +147,7 @@ function GlobalHeader(props) {
               className={
                 userContext.userData.theme === 'dark'
                   ? 'bg-dark text-white-50'
-                  : 'bg-light text-black'
+                  : 'bg-white text-black'
               }
             >
               <Dropdown.Item as="div">

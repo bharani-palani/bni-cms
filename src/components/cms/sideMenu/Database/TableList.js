@@ -145,7 +145,7 @@ function TableList(props) {
                     key={i}
                     className={`p-1 ${
                       userContext.userData.theme === 'dark'
-                        ? 'bg-dark text-light'
+                        ? 'bg-dark text-white'
                         : 'bg-white text-dark'
                     }`}
                   >
@@ -227,7 +227,7 @@ function TableList(props) {
                 <ListGroup.Item
                   className={`py-2 text-center ${
                     userContext.userData.theme === 'dark'
-                      ? 'bg-dark text-light'
+                      ? 'bg-dark text-white'
                       : 'bg-white text-dark'
                   }`}
                 >

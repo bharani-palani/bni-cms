@@ -70,9 +70,8 @@ const Settings = props => {
     return (
       <button
         type="button"
-        className={`col-11 text-start btn ${
-          userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-        }`}
+        className={`col-11 text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+          }`}
         onClick={decoratedOnClick}
       >
         {children}
@@ -90,34 +89,31 @@ const Settings = props => {
           <p className="">Configure your application settings</p>
         </div>
       </div>
-      <div className="settings">
+      <div className="px-1">
         <div className="">
           <Accordion bsPrefix="util" defaultActiveKey={-1} className="">
             {compList.map((t, i) => (
               <Card
                 key={t.id}
-                className={`my-2 ${
-                  userContext.userData.theme === 'dark'
-                    ? 'bg-dark text-light'
-                    : 'bg-light text-dark'
-                }`}
+                className={`my-2 ${userContext.userData.theme === 'dark'
+                  ? 'bg-dark text-white'
+                  : 'bg-white text-dark'
+                  }`}
               >
                 <Card.Header className="row m-0">
                   <CustomToggle eventLabel={t.label} eventKey={t.id}>
                     {t.label}
                   </CustomToggle>
                   <OffCanvas
-                    className={`text-center ${
-                      userContext.userData.theme === 'dark'
-                        ? 'bg-dark text-white-50'
-                        : 'bg-light text-black'
-                    }`}
+                    className={`text-center ${userContext.userData.theme === 'dark'
+                      ? 'bg-dark text-white-50'
+                      : 'bg-white text-black'
+                      }`}
                     btnValue="<i class='fa fa-question-circle' />"
-                    btnClassName={`col-1 btn btn-sm ${
-                      userContext.userData.theme === 'dark'
-                        ? 'text-light'
-                        : 'text-dark'
-                    }`}
+                    btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark'
+                      ? 'text-white'
+                      : 'text-dark'
+                      }`}
                     placement="end"
                     key={t.id}
                     label={t.help.heading}
@@ -127,11 +123,10 @@ const Settings = props => {
                         {t.help.points.map((point, j) => (
                           <li
                             key={j}
-                            className={`list-group-item ${
-                              userContext.userData.theme === 'dark'
-                                ? 'bg-dark text-white-50'
-                                : 'bg-light text-black'
-                            }`}
+                            className={`list-group-item ${userContext.userData.theme === 'dark'
+                              ? 'bg-dark text-white-50'
+                              : 'bg-white text-black'
+                              }`}
                             dangerouslySetInnerHTML={{ __html: point }}
                           ></li>
                         ))}

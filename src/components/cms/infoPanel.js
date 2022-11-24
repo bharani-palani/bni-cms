@@ -109,10 +109,10 @@ function InfoPanel(props) {
         <OffCanvas
           className={`text-center ${userContext.userData.theme === 'dark'
             ? 'bg-dark text-white-50'
-            : 'bg-light text-black'
+            : 'bg-white text-black'
             }`}
           btnValue="<i class='fa fa-question-circle' />"
-          btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark' ? 'text-light' : 'text-dark'
+          btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark' ? 'text-white' : 'text-dark'
             }`}
           placement="end"
           key={1}
@@ -124,7 +124,7 @@ function InfoPanel(props) {
                 key={i}
                 className={`list-group-item ${userContext.userData.theme === 'dark'
                   ? 'bg-dark text-white-50'
-                  : 'bg-light text-black'
+                  : 'bg-white text-black'
                   }`}
                 dangerouslySetInnerHTML={{ __html: help }}
               />
@@ -169,8 +169,8 @@ function InfoPanel(props) {
             <Card
               key={1}
               className={`mb-1 ${userContext.userData.theme === 'dark'
-                ? 'bg-dark text-light'
-                : 'bg-light text-dark'
+                ? 'bg-dark text-white'
+                : 'bg-white text-dark'
                 }`}
             >
               <Card.Header className="row m-0 p-0">
@@ -236,7 +236,7 @@ function InfoPanel(props) {
                                   isMulti
                                   onChange={d => onAccessSelection(d)}
                                   options={accessorList}
-                                  className="text-dark bg-light rounded mb-1"
+                                  className="text-dark bg-white rounded mb-1"
                                   isClearable={false}
                                   backspaceRemovesValue={false}
                                   styles={{

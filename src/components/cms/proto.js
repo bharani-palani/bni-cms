@@ -20,16 +20,14 @@ function Proto(props) {
               <div className={`d-xl-grid`}>
                 <div
                   style={{ zIndex: 0 }}
-                  className={`btn-group btn-group-sm ${
-                    userContext.userData.theme === 'dark'
-                      ? 'bg-dark text-light'
-                      : 'bg-light text-dark'
-                  }`}
+                  className={`btn-group btn-group-sm ${userContext.userData.theme === 'dark'
+                      ? 'bg-dark text-white'
+                      : 'bg-white text-dark'
+                    }`}
                 >
                   <button
-                    className={`btn btn-primary ${
-                      layoutDetails.state.viewMode === 'tree' ? 'active' : ''
-                    }`}
+                    className={`btn btn-primary ${layoutDetails.state.viewMode === 'tree' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -40,9 +38,8 @@ function Proto(props) {
                     Tree
                   </button>
                   <button
-                    className={`btn btn-primary ${
-                      layoutDetails.state.viewMode === 'design' ? 'active' : ''
-                    }`}
+                    className={`btn btn-primary ${layoutDetails.state.viewMode === 'design' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -53,9 +50,8 @@ function Proto(props) {
                     Structure
                   </button>
                   <button
-                    className={`btn btn-primary ${
-                      layoutDetails.state.viewMode === 'preview' ? 'active' : ''
-                    }`}
+                    className={`btn btn-primary ${layoutDetails.state.viewMode === 'preview' ? 'active' : ''
+                      }`}
                     onClick={() =>
                       layoutContext.setState(prevState => ({
                         ...prevState,
@@ -73,7 +69,7 @@ function Proto(props) {
                     <i
                       style={{ zIndex: 2 }}
                       onClick={() => setFullScreen(true)}
-                      className="fa fa-arrows-alt position-absolute top-0 end-0 p-1 cursor-pointer bg-dark text-light"
+                      className="fa fa-arrows-alt position-absolute top-0 end-0 p-1 cursor-pointer bg-dark text-white"
                     />
                     <Modal
                       show={fullScreen}
@@ -81,11 +77,10 @@ function Proto(props) {
                       onHide={() => setFullScreen(false)}
                     >
                       <Modal.Body
-                        className={`rounded-0 position-relative btn-group btn-group-sm ${
-                          userContext.userData.theme === 'dark'
-                            ? 'bg-dark text-light'
-                            : 'bg-light text-dark'
-                        }`}
+                        className={`rounded-0 position-relative btn-group btn-group-sm ${userContext.userData.theme === 'dark'
+                            ? 'bg-dark text-white'
+                            : 'bg-white text-dark'
+                          }`}
                       >
                         <i
                           style={{ zIndex: 2 }}

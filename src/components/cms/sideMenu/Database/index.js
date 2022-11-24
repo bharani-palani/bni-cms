@@ -28,7 +28,7 @@ function Database(props) {
         <Modal.Header
           closeButton
           className={`rounded-0 ${userContext.userData.theme === 'dark'
-            ? 'bg-dark text-light'
+            ? 'bg-dark text-white'
             : 'bg-white text-dark'
             }`}
         >
@@ -36,7 +36,7 @@ function Database(props) {
         </Modal.Header>
         <Modal.Body
           className={`pt-0 pb-0 ${userContext.userData.theme === 'dark'
-            ? 'bg-dark text-light'
+            ? 'bg-dark text-white'
             : 'bg-white text-dark'
             }`}
         >

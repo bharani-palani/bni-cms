@@ -258,11 +258,11 @@ function SideMenu(props) {
       <OffCanvas
         className={`text-center ${userContext.userData.theme === 'dark'
           ? 'bg-dark text-white-50'
-          : 'bg-light text-black'
+          : 'bg-white text-black'
           }`}
         btnValue="<i class='fa fa-question-circle' />"
         btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark'
-          ? 'text-light'
+          ? 'text-white'
           : 'text-dark'
           }`}
         placement="end"
@@ -276,7 +276,7 @@ function SideMenu(props) {
                 key={j}
                 className={`list-group-item ${userContext.userData.theme === 'dark'
                   ? 'bg-dark text-white-50'
-                  : 'bg-light text-black'
+                  : 'bg-white text-black'
                   }`}
                 dangerouslySetInnerHTML={{ __html: point }}
               ></li>
@@ -292,7 +292,7 @@ function SideMenu(props) {
       {layoutContext.state.pageDetails &&
         Object.keys(layoutContext.state.pageDetails).length > 0 && (
           <div
-            className={`pt-2 pb-5 ${userContext.userData.theme === 'light' ? 'bg-light' : 'bg-dark'
+            className={`pt-2 pb-5 ${userContext.userData.theme === 'light' ? 'bg-white' : 'bg-dark'
               }`}
             style={{
               ...(scrollPosition > 100 &&
@@ -320,8 +320,8 @@ function SideMenu(props) {
                   <Card
                     key={side.id}
                     className={`mb-1 ${userContext.userData.theme === 'dark'
-                      ? 'bg-dark text-light'
-                      : 'bg-light text-dark'
+                      ? 'bg-dark text-white'
+                      : 'bg-white text-dark'
                       }`}
                   >
                     <Card.Header className="row m-0 p-0">
@@ -346,8 +346,8 @@ function SideMenu(props) {
                               <Card
                                 key={ch.id}
                                 className={`mb-1 ${userContext.userData.theme === 'dark'
-                                  ? 'bg-dark text-light'
-                                  : 'bg-light text-dark'
+                                  ? 'bg-dark text-white'
+                                  : 'bg-white text-dark'
                                   }`}
                               >
                                 <Card.Header className="row m-0 p-0">
