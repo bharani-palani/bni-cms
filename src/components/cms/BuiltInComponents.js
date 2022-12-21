@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
 import helpers from '../../helpers';
+import PDFViewer from 'pdf-viewer-reactjs';
 
 const Div = ({ children, ...rest }) => {
   return <div {...rest}>{children}</div>;
@@ -359,7 +360,7 @@ const GoogleMaps = ({ children, ...rest }) => {
 };
 
 const SignedPdfView = ({ ...rest }) => {
-  const { width, height, src } = rest;
+  const { src } = rest;
   const [appData] = useContext(AppContext);
   const [url, setUrl] = useState("");
 
@@ -369,7 +370,11 @@ const SignedPdfView = ({ ...rest }) => {
       .catch(err => setUrl(false))
   }, []);
 
-  return (url && <object width={width || "100%"} height={height || "500px"} data={url} />)
+  return (url && <PDFViewer
+    document={{
+      url,
+    }}
+  />)
 }
 
 export {
