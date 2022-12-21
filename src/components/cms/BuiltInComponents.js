@@ -369,7 +369,7 @@ const SignedPdfView = ({ ...rest }) => {
       .catch(err => setUrl(false))
   }, []);
 
-  return (url && <iframe width={width || "100%"} height={height || "500px"} src={url} />)
+  return (url && <embed width={width || "100%"} height={height || "500px"} src={url} />)
 }
 
 export {
