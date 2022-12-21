@@ -130,7 +130,7 @@ function BuiltInList(props) {
       id: 5,
       label: 'AWS | Google',
       list: builtInList.filter(f =>
-        ['AwsMedia', 'GoogleMaps', 'GoogleMapsMarker'].includes(f)
+        ['AwsMedia', 'GoogleMaps', 'GoogleMapsMarker', 'SignedPdfView'].includes(f)
       ),
     },
   ];
@@ -192,8 +192,8 @@ function BuiltInList(props) {
               <Card
                 key={s.id}
                 className={`mb-1 ${userContext.userData.theme === 'dark'
-                    ? 'bg-dark text-white'
-                    : 'bg-white text-dark'
+                  ? 'bg-dark text-white'
+                  : 'bg-white text-dark'
                   }`}
               >
                 <Card.Header className="row m-0 p-0">

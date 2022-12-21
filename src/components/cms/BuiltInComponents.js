@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
 import SignedUrl from '../configuration/Gallery/SignedUrl';
 import {
@@ -10,6 +10,7 @@ import {
 import { Link } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
+import helpers from '../../helpers';
 
 const Div = ({ children, ...rest }) => {
   return <div {...rest}>{children}</div>;
@@ -357,6 +358,20 @@ const GoogleMaps = ({ children, ...rest }) => {
   );
 };
 
+const SignedPdfView = ({ ...rest }) => {
+  const { width, height, src } = rest;
+  const [appData] = useContext(AppContext);
+  const [url, setUrl] = useState("");
+
+  useEffect(() => {
+    helpers.getSignedUrl(appData, src, 600)
+      .then(data => setUrl(data))
+      .catch(err => setUrl(false))
+  }, []);
+
+  return (url && <iframe width={width || "100%"} height={height || "500px"} src={url} />)
+}
+
 export {
   Div,
   Section,
@@ -435,4 +450,5 @@ export {
   GoogleMaps,
   GoogleMapsMarker,
   Link,
+  SignedPdfView
 };

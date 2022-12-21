@@ -1,6 +1,15 @@
+import AwsFactory from '../components/configuration/Gallery/AwsFactory';
+
 const helpers = {
   // eslint-disable-next-line no-invalid-this
   self: this,
+  getSignedUrl: (a, unsignedUrl, expiry) => {
+    const pieces = unsignedUrl ? unsignedUrl.split('/') : ['/'];
+    const bucket = pieces[0];
+    const path = pieces.slice(1, pieces.length).join('/');
+
+    return new AwsFactory(a).getSignedUrl(path, expiry, bucket)
+  },
   sageHeaderAndList: (response, sortKey) => {
     const list = response.filter(e => Number(e[sortKey]) > 1);
     const heading = response.filter(e => Number(e[sortKey]) === 1)[0];
@@ -138,9 +147,8 @@ const helpers = {
   dateToMonthYear: date => {
     // usage: 2020-03-18 | Output: Mar-2020
     const myDate = new Date(date);
-    return `${
-      helpers.threeDigitMonthNames[myDate.getMonth()]
-    }-${myDate.getFullYear()}`;
+    return `${helpers.threeDigitMonthNames[myDate.getMonth()]
+      }-${myDate.getFullYear()}`;
   },
   addMonths: (date, count) => {
     if (date && count) {
