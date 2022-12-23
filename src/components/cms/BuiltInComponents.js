@@ -377,6 +377,7 @@ const SignedPdfView = ({ ...rest }) => {
     hideNavbar={true}
     scale={.5}
     externalInput={true}
+    canvasCss={true}
   />)
 }
 
