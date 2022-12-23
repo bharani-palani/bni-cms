@@ -20,7 +20,7 @@ function LayoutDesign(props) {
       <div className="">
         <div className="text-center">
           <h5 className="p-3">
-            <i className="fa fa-paint-brush" /> layout Design
+            <i className="fa fa-paint-brush" /> Layout Design
           </h5>
           <hr className="my-2" />
         </div>

@@ -375,7 +375,7 @@ const SignedPdfView = ({ ...rest }) => {
       url,
     }}
     hideNavbar={true}
-    scale={scale || 1}
+    scale={window.innerWidth < 500 ? .2 : (scale || 1)}
     externalInput={true}
     canvasCss={true}
   />)
