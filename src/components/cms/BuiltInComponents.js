@@ -360,7 +360,7 @@ const GoogleMaps = ({ children, ...rest }) => {
 };
 
 const SignedPdfView = ({ ...rest }) => {
-  const { src } = rest;
+  const { src, scale } = rest;
   const [appData] = useContext(AppContext);
   const [url, setUrl] = useState("");
 
@@ -375,7 +375,7 @@ const SignedPdfView = ({ ...rest }) => {
       url,
     }}
     hideNavbar={true}
-    scale={.5}
+    scale={scale || 1}
     externalInput={true}
     canvasCss={true}
   />)
