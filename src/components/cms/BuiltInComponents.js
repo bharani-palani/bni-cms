@@ -12,6 +12,8 @@ import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
 import helpers from '../../helpers';
 import PDFViewer from 'pdf-viewer-reactjs';
+import Boogle from '../Boogle';
+import Apps from '../apps/Apps';
 
 const Div = ({ children, ...rest }) => {
   return <div {...rest}>{children}</div>;
@@ -362,26 +364,33 @@ const GoogleMaps = ({ children, ...rest }) => {
 const SignedPdfView = ({ ...rest }) => {
   const { src, scale } = rest;
   const [appData] = useContext(AppContext);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
 
   useEffect(() => {
-    helpers.getSignedUrl(appData, src, 600)
+    helpers
+      .getSignedUrl(appData, src, 600)
       .then(data => setUrl(data))
-      .catch(err => setUrl(false))
+      .catch(err => setUrl(false));
   }, []);
 
-  return (url && <PDFViewer
-    document={{
-      url,
-    }}
-    hideNavbar={true}
-    scale={window.innerWidth < 500 ? .2 : (scale || 1)}
-    externalInput={true}
-    canvasCss={true}
-  />)
-}
+  return (
+    url && (
+      <PDFViewer
+        document={{
+          url,
+        }}
+        hideNavbar={true}
+        scale={window.innerWidth < 500 ? 0.2 : scale || 1}
+        externalInput={true}
+        canvasCss={true}
+      />
+    )
+  );
+};
 
 export {
+  Apps,
+  Boogle,
   Div,
   Section,
   P,
@@ -459,5 +468,5 @@ export {
   GoogleMaps,
   GoogleMapsMarker,
   Link,
-  SignedPdfView
+  SignedPdfView,
 };

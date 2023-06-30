@@ -15,6 +15,8 @@ function BuiltInList(props) {
       label: 'Block Elements',
       list: builtInList.filter(f =>
         [
+          'Apps',
+          'Boogle',
           'Div',
           'P',
           'H1',
@@ -130,7 +132,12 @@ function BuiltInList(props) {
       id: 5,
       label: 'AWS | Google',
       list: builtInList.filter(f =>
-        ['AwsMedia', 'GoogleMaps', 'GoogleMapsMarker', 'SignedPdfView'].includes(f)
+        [
+          'AwsMedia',
+          'GoogleMaps',
+          'GoogleMapsMarker',
+          'SignedPdfView',
+        ].includes(f)
       ),
     },
   ];
@@ -174,8 +181,9 @@ function BuiltInList(props) {
     return (
       <button
         type="button"
-        className={`btn-sm text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-          }`}
+        className={`btn-sm text-start btn ${
+          userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+        }`}
         onClick={decoratedOnClick}
       >
         {children}
@@ -191,10 +199,11 @@ function BuiltInList(props) {
             segregatedList.map((s, i) => (
               <Card
                 key={s.id}
-                className={`mb-1 ${userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-white'
-                  : 'bg-white text-dark'
-                  }`}
+                className={`mb-1 ${
+                  userContext.userData.theme === 'dark'
+                    ? 'bg-dark text-white'
+                    : 'bg-white text-dark'
+                }`}
               >
                 <Card.Header className="row m-0 p-0">
                   <CustomToggle eventKey={s.id} object={s}>

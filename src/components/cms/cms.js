@@ -41,7 +41,7 @@ function Cms(props) {
     ),
   };
 
-  const renderInterpolations = (title) => {
+  const renderInterpolations = title => {
     let enhanced = title;
     const matches = matchAll(title, /\{{([^}}]+)\}}/g);
     if (matches !== undefined) {
@@ -49,13 +49,12 @@ function Cms(props) {
       if (check && check.length > 0) {
         check.forEach(ch => {
           const mom = moment().format(ch[1]);
-          enhanced = enhanced.replace(ch[0], mom)
-        })
+          enhanced = enhanced.replace(ch[0], mom);
+        });
       }
     }
     return enhanced;
-  }
-
+  };
 
   const recursiveComponent = str => {
     if (str && str.component) {
@@ -68,10 +67,10 @@ function Cms(props) {
               str.props && Object.keys(str.props).length > 0 ? str.props : {},
               str.children && str.children.length > 0
                 ? str.children.map((c, i) => (
-                  <React.Fragment key={c.key}>
-                    {recursiveComponent(c)}
-                  </React.Fragment>
-                ))
+                    <React.Fragment key={c.key}>
+                      {recursiveComponent(c)}
+                    </React.Fragment>
+                  ))
                 : renderInterpolations(str.title)
             )}
           </React.Fragment>
