@@ -116,8 +116,7 @@ function GlobalHeader(props) {
         unsignedUrl={appData.bgVideo}
       />
       <div
-        className={`globalHeader d-print-none d-flex justify-content-between ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
-          } fixed-top`}
+        className={`globalHeader globalHeader-${userContext.userData.theme} d-print-none d-flex justify-content-between fixed-top`}
       >
         <div>
           {userContext.userData.type === 'public' && (
@@ -130,11 +129,7 @@ function GlobalHeader(props) {
             />
           )}
           {userContext.userData.type !== 'public' && (
-            <img
-              className="brand img-fluid"
-              alt="logoImage"
-              src={awzyBanner}
-            />
+            <img className="brand img-fluid" alt="logoImage" src={awzyBanner} />
           )}
         </div>
         <div className="text-end">

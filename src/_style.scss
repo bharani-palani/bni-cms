@@ -116,9 +116,13 @@ a:focus {
       overflow: hidden;
       display: block;
       min-height: 100vh;
+      @media print {
+        width: 100%;
+      }
 
       &.topMenu {
         margin-top: 100px;
+        min-height: calc(100vh - 104px);
 
         @media (max-width: 768px) {
           margin-top: 50px;
@@ -128,6 +132,7 @@ a:focus {
       &.sideMenuLeft,
       &.sideMenuRight {
         margin-top: 50px;
+        min-height: calc(100vh - 49px);
       }
     }
 
@@ -220,7 +225,7 @@ a:focus {
 
   // mobile
   @media (max-width: 768px) {
-    margin-top: 50px;
+    margin-top: 45px;
   }
 
   //landscape
@@ -230,7 +235,7 @@ a:focus {
 
   // portrait
   @media (min-width: 768px) and (max-width: 991px) {
-    margin-top: 50px;
+    margin-top: 45px;
   }
 
   //print
@@ -240,8 +245,6 @@ a:focus {
 }
 
 .vertical-header {
-  padding-top: 45px;
-
   li {
     list-style: none;
   }
@@ -256,7 +259,6 @@ a:focus {
 
   .vertical-header-wrapper {
     z-index: 10;
-
     // scroll impacts topmenu
     // overflow: scroll;
     &.sideMenu {
@@ -281,6 +283,10 @@ a:focus {
       &.topMenu {
         flex-direction: row;
         align-items: center;
+        padding-top: 45px;
+        @include view-tablet-potrait {
+          padding-top: 0;
+        }
 
         .nav-header {
           padding: 5px 10px;
@@ -426,8 +432,14 @@ a:focus {
 }
 
 .globalHeader {
-  padding: 5px 15px 5px 5px;
+  padding: 5px 15px 0px 5px;
   user-select: none;
+  &-dark {
+    background-color: rgba(var(--bs-dark-rgb), 0.9);
+  }
+  &-light {
+    background-color: rgba(var(--bs-white-rgb), 0.9);
+  }
 
   .gIcon {
     font-size: 40px;
@@ -806,7 +818,8 @@ a:focus {
 }
 
 .reactive-form {
-  textarea {}
+  textarea {
+  }
 
   .password {
     position: relative;
@@ -833,7 +846,6 @@ a:focus {
 
 // print options
 @media print {
-
   .col-lg-1,
   .col-md-1,
   .col-sm-1,
@@ -1041,7 +1053,9 @@ a:focus {
 }
 
 .modal-header .btn-close {
-  background: #eeeeee url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e") center/1em auto no-repeat;
+  background: #eeeeee
+    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
+    center/1em auto no-repeat;
 }
 
 .facebook-container {
