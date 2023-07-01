@@ -8,7 +8,7 @@ class cms extends CI_Controller
         $this->load->dbforge();
         $this->load->model('cms_model');
         $this->load->library('../controllers/auth');
-        $this->check = $this->auth->validateToken();
+        @$this->check = $this->auth->validateToken();
     }
     public function getPages()
     {
