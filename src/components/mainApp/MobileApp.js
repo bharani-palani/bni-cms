@@ -12,11 +12,12 @@ const MobileApp = props => {
   const menu = userContext.userData.menu;
 
   return (
-    <div className="mobile-menu">
+    <div className={`mobile-menu`}>
       <Navbar
-        style={{ top: '50px' }}
-        className={`py-0 ps-2 pe-3 ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
-          }`}
+        style={{ top: '45px' }}
+        className={`py-0 ps-2 pe-3 ${
+          userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
+        }`}
         fixed={'top'}
         onToggle={onNavBarToggle}
         expanded={navBarExpanded}

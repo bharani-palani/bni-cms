@@ -146,7 +146,6 @@ a:focus {
         background: $black-color;
         width: 100%;
         z-index: 9999;
-
         .header-menu {
           list-style: none;
           padding-left: 5px;
@@ -274,6 +273,7 @@ a:focus {
         flex-direction: column;
         padding: 0 15px;
         height: 100vh;
+        margin-top: 45px;
       }
 
       &.sideMenuRight {
