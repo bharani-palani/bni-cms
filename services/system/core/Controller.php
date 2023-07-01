@@ -47,7 +47,7 @@ class CI_Controller {
 			@$this->$var =& load_class($class);
 		}
 
-		$this->load =& load_class('Loader', 'core');
+		@$this->load =& load_class('Loader', 'core');
 
 		$this->load->initialize();
 		
