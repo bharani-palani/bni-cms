@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import SignedUrl from '../configuration/Gallery/SignedUrl';
+import { SignedUrl } from '../configuration/Gallery/SignedUrl';
 import { UserContext } from '../../contexts/UserContext';
 import awzyIcon from '../../images/awzyLogo/awzy-icon.png';
 
@@ -14,8 +14,9 @@ const DesktopApp = props => {
     <header className={`vertical-header ${appData.webLayoutType}`}>
       <div className={`vertical-header-wrapper ${appData.webMenuType}`}>
         <nav
-          className={`nav-menu ${appData.webMenuType} ${appData.webLayoutType
-            } ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'}`}
+          className={`nav-menu ${appData.webMenuType} ${
+            appData.webLayoutType
+          } ${userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'}`}
         >
           <div className="nav-header">
             <span className="">

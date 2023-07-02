@@ -99,4 +99,34 @@ class auth extends CI_Controller
         $ci->output->set_status_header(401);
         $ci->output->set_output(json_encode($exc));
     }
+    public function renderFile($fileURL)
+    {
+        $ci = &get_instance();
+        if (!file_exists($fileURL)) {
+            exit('File not found!');
+        }
+        $ci->load->helper('file');
+        $ci->output
+            ->set_header('Content-Disposition: inline; filename="'.basename($fileURL).'"')
+            ->set_content_type(get_mime_by_extension($fileURL))
+            ->set_output(file_get_contents($fileURL));
+    }
+    public function renderPartial($fileURL)
+    {
+        $ci = &get_instance();
+        if (!file_exists($fileURL)) {
+            exit('File not found!');
+        }
+        $filesize = filesize($fileURL);
+        $begin  = 0;
+        $end  = $filesize - 1;
+
+        header("Content-Range: bytes $begin-$end/$filesize");
+        header('HTTP/1.1 206 Partial Content');
+        header('Content-Length: ' . $filesize);
+        header('Content-Type: '.get_mime_by_extension(APPPATH."upload/".$fileURL));
+        header('Accept-Ranges: bytes');
+        readfile($fileURL);
+    }
+
 }

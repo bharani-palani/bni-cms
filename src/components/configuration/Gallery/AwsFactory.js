@@ -10,6 +10,7 @@ export default class AwsFactory {
   constructor(contextData) {
     // this.Bucket = CryptoJS.AES.decrypt(contextData.aws_s3_bucket, contextData.user_mail).toString(CryptoJS.enc.Utf8);
     this.Bucket = contextData.aws_s3_bucket;
+    this.expiresIn = 24 * 60 * 60;
     this.config = {
       region: CryptoJS.AES.decrypt(
         contextData.aws_s3_region,
@@ -42,7 +43,6 @@ export default class AwsFactory {
     return promise;
   }
 
-  // no using this func as on time
   uploadFile = target => {
     const instance = new Upload({
       client: new S3Client(this.config),
@@ -149,25 +149,47 @@ export default class AwsFactory {
       console.error(err); // error handling
     }
   };
+  isUrlInternal = unsignedUrl => {
+    const pieces = unsignedUrl ? unsignedUrl.split('/') : ['/'];
+    const serviceProvider = pieces[0];
+    return serviceProvider !== 'https:';
+  };
 
-  getSignedUrl = async (Key, expiresIn = 24 * 60 * 60, bucket) => {
-    const params = {
-      Bucket: bucket,
-      Key,
-      expiresIn,
-    };
-    const client = new S3Client(this.config);
-    const command = new GetObjectCommand(params);
-    const url = await getSignedUrl(client, command, { expiresIn });
-    return url;
+  getSignedUrl = async Key => {
+    if (this.isUrlInternal(Key)) {
+      const path = Key.split('/').slice(1, Key.length).join('/');
+      const pieces = Key ? Key.split('/') : ['/'];
+      const extension = pieces[pieces.length - 1].split('.').pop();
+
+      const params = {
+        Bucket: this.Bucket,
+        Key: path,
+        expiresIn: this.expiresIn,
+      };
+      const client = new S3Client(this.config);
+      const command = new GetObjectCommand(params);
+      const url = await getSignedUrl(client, command, {
+        expiresIn: this.expiresIn,
+      });
+      return {
+        url,
+        path,
+        extension,
+      };
+    } else {
+      return {
+        url: Key,
+        path: '',
+        extension: '',
+      };
+    }
   };
 
   downloadToBrowser = route => {
     const pieces = route.split('/');
     const file = pieces[pieces.length - 1];
-    const bucket = pieces[0];
     const path = route.split('/').slice(1, route.split('/').length).join('/');
-    this.getSignedUrl(path, 24 * 60 * 60, bucket).then(url => {
+    this.getSignedUrl(path, this.expiresIn, this.Bucket).then(url => {
       const link = document.createElement('a');
       link.setAttribute('target', '_blank');
       link.setAttribute('href', url);
@@ -178,13 +200,29 @@ export default class AwsFactory {
     });
   };
 
-  isValidImage = url => {
-    const pieces = url.split('/');
-    const bucket = pieces[0];
-    const path = url.split('/').slice(1, url.split('/').length).join('/');
-    return this.getSignedUrl(path, 24 * 60 * 60, bucket).then(url => {
-      const p = fetch(url, { method: 'PUT' });
-      return p;
-    });
+  fetchStream = async Key => {
+    const client = new S3Client(this.config);
+    const response = await client
+      .send(
+        new GetObjectCommand({
+          Bucket: this.Bucket,
+          Key,
+        })
+      )
+      .then(async res => {
+        const reader = res.Body.pipeThrough(
+          new TextDecoderStream('utf-8')
+        ).getReader();
+        const array = [];
+        while (true) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          array.push(value);
+        }
+        const ele = array.join('');
+        return ele;
+      });
+
+    return response;
   };
 }

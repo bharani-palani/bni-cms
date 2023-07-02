@@ -5,7 +5,7 @@ import AppContext from '../../contexts/AppContext';
 import { UserContext } from '../../contexts/UserContext';
 import ConfirmationModal from '../configuration/Gallery/ConfirmationModal';
 import AdminLogin from './adminLogin';
-import SignedUrl from '../configuration/Gallery/SignedUrl';
+import { SignedUrl } from '../configuration/Gallery/SignedUrl';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
 import FacebookLogin from 'react-facebook-login';
@@ -32,20 +32,30 @@ const LoginUser = props => {
     setAnimateType('slideInRight');
   };
 
-  const saveLog = (response) => {
+  const saveLog = response => {
     let spread = {};
-    fetch('https://geolocation-db.com/json/').then(response => {
-      return response.json();
-    }).then((res) => {
-      spread = { ...response, ...{ time: new Date().toString(), ip: res.IPv4 } }
-    }).catch(() => {
-      spread = { ...response, ...{ time: new Date().toString(), ip: '127.0.0.1' } }
-    }).finally(() => {
-      const formdata = new FormData();
-      formdata.append('log', JSON.stringify(spread));
-      apiInstance.post('/saveLog', formdata, axiosOptions)
-    })
-  }
+    fetch('https://geolocation-db.com/json/')
+      .then(response => {
+        return response.json();
+      })
+      .then(res => {
+        spread = {
+          ...response,
+          ...{ time: new Date().toString(), ip: res.IPv4 },
+        };
+      })
+      .catch(() => {
+        spread = {
+          ...response,
+          ...{ time: new Date().toString(), ip: '127.0.0.1' },
+        };
+      })
+      .finally(() => {
+        const formdata = new FormData();
+        formdata.append('log', JSON.stringify(spread));
+        apiInstance.post('/saveLog', formdata, axiosOptions);
+      });
+  };
 
   const onLogout = () => {
     userContext.removeUserData([
@@ -181,7 +191,7 @@ const LoginUser = props => {
             fields="name,email,picture"
             isMobile={false}
             redirectUri={appData.web}
-            callback={(data) => {
+            callback={data => {
               const res = {
                 userId: data.id,
                 type: 'public',
@@ -194,7 +204,12 @@ const LoginUser = props => {
               handleLoginResponse(res);
             }}
             cssClass="facebook-container"
-            icon={<i className="fa fa-facebook text-secondary cursor-pointer fs-5" title="Sign in with Facebook" />}
+            icon={
+              <i
+                className="fa fa-facebook text-secondary cursor-pointer fs-5"
+                title="Sign in with Facebook"
+              />
+            }
             textButton=""
           />
           <div>

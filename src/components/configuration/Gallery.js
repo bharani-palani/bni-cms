@@ -1,8 +1,8 @@
+/* eslint-disable new-cap */
 import React, { useState, useEffect, useContext } from 'react';
 import UploadDropZone from './Gallery/UploadDropZone';
 import BreadCrumbs from './Gallery/BreadCrumbs';
 import GridData from './Gallery/GridData';
-import AwsFactory from './Gallery/AwsFactory';
 import ConfirmationModal from './Gallery/ConfirmationModal';
 import AppContext from '../../contexts/AppContext';
 import Tree from 'rc-tree';
@@ -12,6 +12,7 @@ import { UserContext } from '../../contexts/UserContext';
 import { v4 as uuidv4 } from 'uuid';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
+import { FactoryMap } from './Gallery/FactoryMap';
 
 function Gallery(props) {
   const [appData] = useContext(AppContext);
@@ -27,9 +28,10 @@ function Gallery(props) {
   const [progress, setProgress] = useState({});
   const [bucketResponse, setBucketResponse] = useState(false);
   const [loader, setLoader] = useState(true);
+  const galleryFactory = FactoryMap(appData.fileStorageType, appData).library;
 
   useEffect(() => {
-    initS3();
+    initMedia();
   }, []);
 
   const loaderComp = () => {
@@ -38,7 +40,7 @@ function Gallery(props) {
         <Loader
           type={helpers.loadRandomSpinnerIcon()}
           color={document.documentElement.style.getPropertyValue(
-            '--az-theme-bg-color'
+            '--app-theme-bg-color'
           )}
           height={100}
           width={100}
@@ -47,16 +49,15 @@ function Gallery(props) {
     );
   };
 
-  const initS3 = () => {
-    new AwsFactory(appData)
+  const initMedia = () => {
+    galleryFactory
       .fetchFileFolder({ Prefix: '' })
       .then(res => {
         setLoader(true);
-        if (res.Contents) {
+        if (res.Contents && res.Contents.length > 0) {
           const data = res.Contents.filter(f => f.Key.slice(-1) !== '/');
           const result = tree(data);
           setFileFolders(result);
-          // setFileFolders(mockFileData);
         } else {
           const uuid = uuidv4();
           const sampleArray = [
@@ -83,8 +84,8 @@ function Gallery(props) {
   };
 
   useEffect(() => {
-    const breads = [...breadCrumbs.map(b => b.title)];
-    if (breads.length > 0) {
+    if (breadCrumbs && breadCrumbs.length > 0) {
+      const breads = [...breadCrumbs.map(b => b.title)];
       const link = isFile(breads.join('/'))
         ? breads.join('/')
         : `${breads.join('/')}/`;
@@ -92,7 +93,7 @@ function Gallery(props) {
       const IsDirectory = !isFile(breads.join('/'));
       setIsDirectory(IsDirectory);
       setGridData([]);
-      new AwsFactory(appData)
+      galleryFactory
         .fetchFileFolder({ Prefix: link })
         .then(res => {
           const list =
@@ -111,7 +112,7 @@ function Gallery(props) {
           userContext.renderToast({
             type: 'error',
             icon: 'fa fa-times-circle',
-            message: 'Unable to fetch file folders',
+            message: 'Unable to reach server',
           });
         });
     }
@@ -228,16 +229,18 @@ function Gallery(props) {
   };
 
   const deleteFolderAction = () => {
-    new AwsFactory(appData).deleteFolder(directory, res => {
+    galleryFactory.deleteFolder(directory, res => {
       if (res.status === 'success') {
         userContext.renderToast({
-          message: `${isDirectory ? 'Folder' : 'File'} successfully deleted`,
+          message: isDirectory
+            ? 'Folder successfully deleted'
+            : 'File successfully deleted',
         });
       } else {
         userContext.renderToast({
           type: 'error',
           icon: 'fa fa-times-circle',
-          message: 'Unable to delete folder',
+          message: 'Unable to delete file or folder',
         });
       }
     });
@@ -249,21 +252,24 @@ function Gallery(props) {
   };
 
   const onRename = (object, selId, isDir) => {
-    const fileOrFolder = isDirectory ? 'Folder' : 'File';
     const promise = isDir
-      ? new AwsFactory(appData).renameFolder(object)
-      : new AwsFactory(appData).renameFile(object);
+      ? galleryFactory.renameFolder(object)
+      : galleryFactory.renameFile(object);
     promise
       .then(() => {
         userContext.renderToast({
-          message: `${fileOrFolder} renamed successfully..`,
+          message: isDirectory
+            ? 'Folder renamed successfully'
+            : 'File renamed successfully',
         });
       })
       .catch(() => {
         userContext.renderToast({
           type: 'error',
           icon: 'fa fa-times-circle',
-          message: `Unable to rename ${fileOrFolder}. Please try again..`,
+          message: isDirectory
+            ? 'Unable to rename folder'
+            : 'Unable to rename file',
         });
       })
       .finally(() =>
@@ -283,27 +289,22 @@ function Gallery(props) {
   const handleupload = files => {
     try {
       files.forEach(file => {
+        const fileName = file.name.replaceAll(' ', '_');
         const target = {
-          Key: `${directory}${file.name}`,
+          Key: `${directory}${fileName}`,
           Body: file,
           ContentType: file.type,
         };
-        const instance = new AwsFactory(appData).uploadFile(target);
-        instance.on('httpUploadProgress', progress => {
-          setProgress(progress);
-          if (progress.loaded === progress.total) {
-            onCreateFileOrFolder(
-              selectedId,
-              progress.Key.split('/').slice(-1),
-              'file'
-            );
-          }
-        });
+        const instance = galleryFactory.uploadFile(target);
         instance
+          .on('httpUploadProgress', progress => {
+            setProgress(progress);
+          })
           .done()
           .then(d => {
+            onCreateFileOrFolder(selectedId, fileName, 'file');
             userContext.renderToast({
-              message: `${file.name} uploaded successfully..`,
+              message: fileName + ' uploaded successfully',
             });
           })
           .catch(e => {
@@ -311,21 +312,22 @@ function Gallery(props) {
             userContext.renderToast({
               type: 'error',
               icon: 'fa fa-times-circle',
-              message: `Unable to upload ${file.name}. Please try again..`,
+              message: `unable to upload file ${fileName}. Please try again`,
             });
           });
       });
     } catch (err) {
+      console.error('bbb', err);
       userContext.renderToast({
         type: 'error',
         icon: 'fa fa-times-circle',
-        message: `Unable to start upload. Please try again..`,
+        message: 'Unable to start upload please try again',
       });
     }
   };
 
   const onDownload = route => {
-    new AwsFactory(appData).downloadToBrowser(route);
+    galleryFactory.downloadToBrowser(route);
   };
 
   const onBreadClick = object => {
@@ -341,16 +343,16 @@ function Gallery(props) {
     setIsDirectory(false);
   };
 
-  const getBucketName = () => new AwsFactory(appData).getBuckeName();
-
   return !loader ? (
     <div className="galleryContainer">
       {openModal && (
         <ConfirmationModal
           show={openModal}
-          confirmationstring={`Are you sure to delete ${
-            isDirectory ? 'folder' : 'file'
-          } ?`}
+          confirmationstring={
+            isDirectory
+              ? 'Are you sure to delete folder?'
+              : 'Are you sure to delete file?'
+          }
           handleHide={() => {
             setOpenModal(false);
             setDeleteFolderId('');
@@ -363,7 +365,15 @@ function Gallery(props) {
       {bucketResponse ? (
         <div className="row ms-0 me-0">
           <div className="col-lg-3 col-md-4 leftPane">
-            <div className="bucketName btn-az m-2">{getBucketName()}</div>
+            <div
+              className={`${
+                userContext.userData.theme === 'dark' ? 'bg-dark' : 'bg-white'
+              }`}
+            >
+              <h6 className="icon-bni text-center animate__animated animate__bounceInLeft p-2">
+                {appData['fileStorageType']}
+              </h6>
+            </div>
             <div className="listContainer">
               {fileFolders.length > 0 && (
                 <Tree
@@ -380,7 +390,7 @@ function Gallery(props) {
               )}
             </div>
           </div>
-          <div className="col-lg-9 col-md-8 rightPane">
+          <div className="col-lg-9 col-md-8 rightPane pt-0 ps-2 pe-2 pb-2">
             <BreadCrumbs
               breadCrumbs={breadCrumbs}
               onBreadClick={onBreadClick}
@@ -392,7 +402,6 @@ function Gallery(props) {
             />
             <GridData
               key={1}
-              bucket={getBucketName()}
               data={gridData}
               directory={directory}
               selectedId={selectedId}
@@ -409,10 +418,8 @@ function Gallery(props) {
       ) : (
         <div className="mt-5 p-5 text-center rounded-3">
           <i className="fa fa-times-circle fa-3x text-danger" />
-          <h4>AWS S3 configuration is invalid</h4>
-          <h5>
-            Please check you have correctly configured connection parameters!
-          </h5>
+          <h4>Configuration is invalid</h4>
+          <h5>Please check connection parameters</h5>
         </div>
       )}
     </div>

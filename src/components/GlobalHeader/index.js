@@ -1,11 +1,17 @@
+/* eslint-disable new-cap */
 import React, { useState, useContext, useEffect } from 'react';
 import AppContext from '../../contexts/AppContext';
-import SignedUrl from '../configuration/Gallery/SignedUrl';
+import {
+  SignedUrl,
+  getServiceProvider,
+} from '../configuration/Gallery/SignedUrl';
 import { Dropdown } from 'react-bootstrap';
 import Switch from 'react-switch';
 import LoginUser from './loginUser';
 import { UserContext } from '../../contexts/UserContext';
 import awzyBanner from '../../images/awzyLogo/awzy-banner.png';
+import ReactPlayer from 'react-player';
+import { FactoryMap } from '../configuration/Gallery/FactoryMap';
 
 const socialMedias = [
   {
@@ -32,47 +38,55 @@ const socialMedias = [
 
 function GlobalHeader(props) {
   const { onLogAction } = props;
-  const myAudio = React.createRef();
   const [appData] = useContext(AppContext);
   const userContext = useContext(UserContext);
   const [dropDownShown, setdropDown] = useState(false);
   const [audioShown, setAudioShown] = useState(false);
   const [videoShown, setVideoShown] = useState(false);
-  const [downloadStatus, setDownloadStatus] = useState(false);
   const [social, setSocial] = useState([]);
   const [theme, setTheme] = useState(userContext.userData.theme);
+  const [audioUrl, setAudioUrl] = useState('');
+  const [videoUrl, setVideoUrl] = useState('');
 
   const onToggleHandler = (isOpen, e) => {
     if (e.source !== 'select') {
       setdropDown(isOpen);
     }
-    setDownloadStatus(true);
   };
-
-  useEffect(() => {
-    if (myAudio.current !== null) {
-      if (audioShown) {
-        myAudio.current.play();
-      } else {
-        myAudio.current.pause();
-      }
-    }
-  }, [audioShown]);
 
   useEffect(() => {
     userContext.updateUserData('theme', theme);
     userContext.updateUserData('videoShown', videoShown);
-  }, [theme, videoShown]);
+    userContext.updateUserData('audioShown', audioShown);
+  }, [theme, videoShown, audioShown]);
 
   useEffect(() => {
     if (Object.keys(appData).length > 0) {
-      if (appData.bgSongDefaultPlay === '1') {
-        setDownloadStatus(true);
-        setTimeout(() => {
-          setAudioShown(true);
-        }, 5000);
-      }
+      const audioSp = getServiceProvider(appData.bgSong);
+      const a =
+        FactoryMap(audioSp, appData)?.library?.getSignedUrl(appData.bgSong) ||
+        Promise.resolve({
+          url: appData.bgSong,
+          path: '',
+          extension: '',
+        });
+
+      const videoSp = getServiceProvider(appData.bgVideo);
+      const b =
+        FactoryMap(videoSp, appData)?.library?.getSignedUrl(appData.bgVideo) ||
+        Promise.resolve({
+          url: appData.bgVideo,
+          path: '',
+          extension: '',
+        });
+
+      Promise.all([a, b]).then(r => {
+        setAudioUrl(r[0].url);
+        setVideoUrl(r[1].url);
+      });
+      setAudioShown(appData.bgSongDefaultPlay === '1');
       setVideoShown(appData.bgVideoDefaultPlay === '1');
+
       const appKeys = Object.keys(appData);
       const soc = [...socialMedias].map(s => {
         if (appKeys.includes(s.id)) {
@@ -91,29 +105,27 @@ function GlobalHeader(props) {
 
   return (
     <div>
-      {downloadStatus && (
-        <SignedUrl
-          customRef={myAudio}
-          className="audio"
-          optionalAttr={{
-            autoPlay: appData.bgSongDefaultPlay === '1',
-            loop: true,
-            preload: 'auto',
-            width: '100',
-            height: '50',
-          }}
-          type="audio"
-          appData={appData}
-          unsignedUrl={appData.bgSong}
-        />
-      )}
-      <SignedUrl
+      <ReactPlayer
+        controls={false}
+        loop={true}
+        playing={audioShown}
+        width="0px"
+        height="0px"
+        url={audioUrl}
+        config={{
+          forceAudio: true,
+        }}
+      />
+      <ReactPlayer
         className="videoTag d-print-none"
-        optionalAttr={{ autoPlay: true, loop: true, muted: true }}
         style={{ display: videoShown ? 'block' : 'none' }}
-        type="video"
-        appData={appData}
-        unsignedUrl={appData.bgVideo}
+        playing={videoShown}
+        loop={true}
+        muted={true}
+        controls={false}
+        width="100%"
+        height="100vh"
+        url={videoUrl}
       />
       <div
         className={`globalHeader globalHeader-${userContext.userData.theme} d-print-none d-flex justify-content-between fixed-top`}

@@ -78,5 +78,13 @@ $route['getBackend'] = 'home/getBackend';
 $route['sendUserInfo'] = 'home/sendUserInfo';
 $route['saveLog'] = 'home/saveLog';
 
+// Media
+$route['api/media/upload'] = 'media/media/upload';
+$route['api/media/render'] = 'media/media/render';
+$route['api/media/getList'] = 'media/media/getList';
+$route['api/media/deleteFile'] = 'media/media/deleteFile';
+$route['api/media/renameFile'] = 'media/media/renameFile';
+$route['api/dummy'] = 'media/media/dummy';
+
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

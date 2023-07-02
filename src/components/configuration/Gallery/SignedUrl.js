@@ -1,108 +1,138 @@
+/* eslint-disable new-cap */
 import React, { useState, useEffect } from 'react';
-import AwsFactory from './AwsFactory';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import Ban from '../../../images/ban.svg';
 import Spinner from '../../../images/spinner-1.svg';
+import { FactoryMap } from './FactoryMap';
+import SvgRender from './SvgRender';
+import VideoRender from './VideoRender';
 
-const Video = props => {
-  const { videoRoot, style, className, optionalAttr } = props;
-
-  return (
-    <video style={style} className={className} {...optionalAttr}>
-      <source src={videoRoot} type="video/mp4" />
-      <source src={videoRoot} type={`video/mov`}></source>
-      <source src={videoRoot} type={`video/webm`}></source>
-    </video>
-  );
+const getServiceProvider = us => {
+  const pieces = us ? us.split('/') : ['/'];
+  const sp = pieces[0];
+  return sp;
 };
 
-function SignedUrl(props) {
+const SignedUrl = props => {
   const {
+    mykey,
     className,
     style,
-    appData,
     unsignedUrl,
     type,
-    expiry,
+    appData,
     optionalAttr,
-    customRef,
+    alt,
+    view,
+    ...rest
   } = props;
   const [url, setUrl] = useState('');
+  const [ext, setExt] = useState('');
+  const [, setFileName] = useState('');
 
   useEffect(() => {
     return () => {
       setUrl('');
+      setFileName('');
+      setExt('');
     };
   }, []);
 
   useEffect(() => {
-    if (Object.keys(appData).length > 0) {
+    if (appData && Object.keys(appData).length > 0) {
       setUrl('');
-      const getSignedUrl = a => {
-        const pieces = unsignedUrl ? unsignedUrl.split('/') : ['/'];
-        const bucket = pieces[0];
-        const path = pieces.slice(1, pieces.length).join('/');
-
-        new AwsFactory(a)
-          .getSignedUrl(path, expiry, bucket)
-          .then(link => {
-            if (type === 'image') {
-              const myImage = new Image();
-              myImage.src = link;
-              myImage.onerror = e => {
-                setUrl(Ban);
-              };
-              myImage.onload = e => {
-                setUrl(link);
-              };
-            }
-            setUrl(link);
-          })
-          .catch(() => setUrl(Ban));
+      const getSignedUrl = () => {
+        const sp = getServiceProvider(unsignedUrl);
+        const getUrl = FactoryMap(sp, appData)?.library?.getSignedUrl;
+        if (getUrl) {
+          getUrl(unsignedUrl)
+            .then(link => {
+              if (type === 'image' && link.extension !== 'svg') {
+                const myImage = new Image();
+                myImage.src = link.url;
+                myImage.onerror = e => {
+                  setUrl(Ban);
+                };
+                myImage.onload = e => {
+                  setUrl(link.url);
+                };
+              }
+              setUrl(link.url);
+              setExt(link.extension);
+              setFileName(link.path);
+            })
+            .catch(() => {
+              setUrl(Ban);
+            });
+        } else {
+          setUrl(Ban);
+          setExt('');
+          setFileName('');
+        }
       };
-      getSignedUrl(appData);
+      getSignedUrl();
     }
-  }, [appData, expiry, type, unsignedUrl]);
+  }, [appData, type, unsignedUrl]);
 
   const renderTag = () => {
     switch (type) {
       case 'image':
-        return (
+        // eslint-disable-next-line no-unused-vars
+        const { children, ...balance } = rest;
+        return ext !== 'svg' ? (
           <LazyLoadImage
-            {...optionalAttr}
-            className={className}
+            {...balance}
             placeholderSrc={Spinner}
-            src={url}
-            alt={url}
-            key={1}
-            style={style}
+            {...(url && { src: url })}
+            {...(mykey && { key: mykey })}
+            {...(optionalAttr && { optionalAttr })}
+            {...(className && { className })}
+            {...(alt && { alt })}
+            {...(style && { style })}
+          />
+        ) : (
+          <SvgRender
+            key={mykey}
+            unsignedUrl={unsignedUrl}
+            className="mediaIcon"
+            {...rest}
           />
         );
       case 'video':
         return (
-          url && (
-            <Video
-              ref={customRef}
-              optionalAttr={optionalAttr}
-              style={style}
-              {...(className && { className })}
-              videoRoot={url}
-            />
-          )
+          <VideoRender
+            key={mykey}
+            optionalAttr={optionalAttr}
+            style={style}
+            {...(className && { className })}
+            url={url}
+            view={view}
+            type={type}
+            {...rest}
+          />
         );
       case 'audio':
         return (
-          <audio
-            className={className}
-            ref={customRef}
-            src={url}
+          <VideoRender
+            key={mykey}
+            optionalAttr={optionalAttr}
             style={style}
-            {...optionalAttr}
+            {...(className && { className })}
+            url={url}
+            view={view}
+            type={type}
+            {...rest}
+            config={{
+              forceAudio: true,
+            }}
           />
         );
       default:
         return (
-          <a target="_blank" rel="noopener noreferrer" href={url}>
+          <a
+            target="_blank"
+            {...(type ? { rel: 'noopener noreferrer', href: url } : {})}
+          >
             {props.children}
           </a>
         );
@@ -110,6 +140,6 @@ function SignedUrl(props) {
   };
 
   return renderTag();
-}
+};
 
-export default SignedUrl;
+export { getServiceProvider, SignedUrl };

@@ -39,7 +39,7 @@ function UploadDropZone(props) {
   // },[progFiles]);
 
   return (
-    <div className="dropZone text-center m-5">
+    <div className="dropZone text-center mt-1 mb-3">
       <Dropzone
         accept="image/*,application/*,video/*,audio/*"
         maxSize={5 * 1024 * 1024 * 1024} // 5gb
@@ -48,12 +48,12 @@ function UploadDropZone(props) {
         // onDragEnter={onDragEnter}
       >
         {({ getRootProps, getInputProps, isDragAccept, isDragReject }) => {
-          let classes = 'dropZoneWrapper btn-az rounded-3';
+          let classes = 'dropZoneWrapper btn-bni rounded-3';
           let placeholder = <div>Drag files here</div>;
           if (isDragAccept) {
             classes = `${classes} bg-success rounded-3`;
             placeholder = (
-              <div className="upload-success">Drop file(s) now</div>
+              <div className="upload-success">Drop file(s) here</div>
             );
           }
           if (isDragReject) {
@@ -82,7 +82,7 @@ function UploadDropZone(props) {
                   {progFiles.map((prog, i) => (
                     <div key={i}>
                       <div className="text-center title gridLabels pb-2">
-                        <div className="text-left pl-5">
+                        <div className="text-left pl-5 pt-2">
                           {prog.Key.split('/').slice(-1)}
                         </div>
                         <div className="text-end pr-5">

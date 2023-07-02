@@ -1,10 +1,12 @@
+/* eslint-disable new-cap */
 import React, { useState, useEffect } from 'react';
 import MainApp from '../mainApp/MainApp';
 import AppContext from '../../contexts/AppContext';
 import UserContextProvider from '../../contexts/UserContext';
 import apiInstance from '../../services/apiServices';
 import GlobalHeader from '../GlobalHeader';
-import AwsFactory from '../configuration/Gallery/AwsFactory';
+import { FactoryMap } from '../configuration/Gallery/FactoryMap';
+import { getServiceProvider } from '../configuration/Gallery/SignedUrl';
 
 function Root(props) {
   const [master, setMaster] = useState({});
@@ -38,15 +40,12 @@ function Root(props) {
 
   const favIconSetter = data => {
     const ele = document.querySelector('#favIcon');
-    const pieces = data.favIconImg.split('/');
-    const bucket = pieces[0];
-    const path = data.favIconImg
-      .split('/')
-      .slice(1, data.favIconImg.split('/').length)
-      .join('/');
-    new AwsFactory(data).getSignedUrl(path, 24 * 60 * 60, bucket).then(data => {
-      ele.href = data || '';
-    });
+    const sp = getServiceProvider(data.favIconImg);
+    FactoryMap(sp, data)
+      .library.getSignedUrl(data.favIconImg)
+      .then(data => {
+        ele.href = data.url || '';
+      });
   };
 
   useEffect(() => {
