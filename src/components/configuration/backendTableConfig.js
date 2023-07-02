@@ -456,6 +456,26 @@ const masterConfig = [
     },
   },
   {
+    id: 'fileStorageType',
+    index: 'fileStorageType',
+    label: 'File storage',
+    elementType: 'dropDown',
+    sort: 0,
+    value: '',
+    placeHolder: 'Select',
+    className: 'col-md-4 col-sm-6',
+    list: [
+      { label: 'Self', value: 'SELF' },
+      { label: 'AWSS3', value: 'AWSS3' },
+    ],
+    options: {
+      required: true,
+      validation: /([^\s])/,
+      errorMsg: 'This field is required',
+      help: ['Where you want to store and bring your files'],
+    },
+  },
+  {
     id: 'aws_s3_access_key_id',
     index: 'aws_s3_access_key_id',
     label: 'AWS S3 Access Key ID',
@@ -581,6 +601,25 @@ const masterConfig = [
     },
   },
   {
+    id: 'fileStorageAccessKey',
+    index: 'fileStorageAccessKey',
+    label: 'File storage access key',
+    elementType: 'text',
+    sort: 4,
+    value: '',
+    placeHolder: 'ABCXYZ0123',
+    className: 'col-md-4 col-sm-6',
+    options: {
+      required: true,
+      validation: /([^\s])/,
+      errorMsg: 'This field is required',
+      help: [
+        'Set your own custom key',
+        'Change this often to avoid others using your images',
+      ],
+    },
+  },
+  {
     id: 'social_media_facebook',
     index: 'social_media_facebook',
     label: 'Facebook',
@@ -670,7 +709,11 @@ const wizardData = [
     id: 0,
     label: 'Credentials',
     icon: 'fa fa-key',
-    filterArray: ['google_map_api_key', 'google_login_auth_token', 'facebook_app_id'],
+    filterArray: [
+      'google_map_api_key',
+      'google_login_auth_token',
+      'facebook_app_id',
+    ],
   },
   {
     id: 1,
@@ -698,13 +741,15 @@ const wizardData = [
   },
   {
     id: 2,
-    label: 'AWS',
-    icon: 'fa fa-amazon',
+    label: 'File storage',
+    icon: 'fa fa-database',
     filterArray: [
+      'fileStorageType',
       'aws_s3_access_key_id',
       'aws_s3_secret_access_key',
       'aws_s3_bucket',
       'aws_s3_region',
+      'fileStorageAccessKey',
     ],
   },
   {
@@ -798,7 +843,8 @@ const userCreateForm = [
     className: '',
     options: {
       required: true,
-      validation: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_])(?=.{8,})/,
+      validation:
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_])(?=.{8,})/,
       errorMsg: 'Password does not meet criteria',
       help: [
         `Min 8 letters long`,

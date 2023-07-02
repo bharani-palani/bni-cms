@@ -7,13 +7,15 @@ import AppContext from '../../contexts/AppContext';
 import { masterConfig, wizardData } from '../configuration/backendTableConfig';
 import Wizard from '../configuration/Wizard';
 import CryptoJS from 'crypto-js';
-import { encryptKeys, encryptSaltKey } from './crypt';
+import Encryption from '../../helpers/clientServerEncrypt';
+import { encryptKeys, encryptSaltKey, clientServerEncryptKeys } from './crypt';
 
 function Config(props) {
   const userContext = useContext(UserContext);
   const [appData, setMaster] = useContext(AppContext);
   const [formStructure, setFormStructure] = useState(masterConfig);
   const [loader, setLoader] = useState(true);
+  const encryption = new Encryption();
   const axiosOptions = {
     headers: { 'Awzy-Authorization': appData.token },
   };
@@ -41,6 +43,11 @@ function Config(props) {
                   responseObject[backup.index],
                   appData[encryptSaltKey]
                 ).toString(CryptoJS.enc.Utf8)
+              : clientServerEncryptKeys.includes(backup.index)
+              ? encryption.decrypt(
+                  responseObject[backup.index],
+                  appData[encryptSaltKey]
+                )
               : responseObject[backup.index];
           }
           return backup;
@@ -71,8 +78,13 @@ function Config(props) {
     const salt = [...formStructure].filter(f => f.id === encryptSaltKey)[0]
       .value;
     let payload = [...formStructure].map(f => ({
+      // [f.id]: encryptKeys.includes(f.id)
+      //   ? CryptoJS.AES.encrypt(f.value, salt).toString()
+      //   : f.value,
       [f.id]: encryptKeys.includes(f.id)
         ? CryptoJS.AES.encrypt(f.value, salt).toString()
+        : clientServerEncryptKeys.includes(f.id)
+        ? encryption.encrypt(f.value, salt)
         : f.value,
     }));
     payload = Object.assign({}, ...payload);
