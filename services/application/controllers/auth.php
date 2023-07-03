@@ -87,6 +87,7 @@ class auth extends CI_Controller
         $ci = &get_instance();
         $ci->output->set_content_type('application/json');
         $ci->output->set_status_header(200);
+        header('Access-Control-Allow-Origin: *');
 
         $output = array_merge($this->info($passed), $response);
         $ci->output->set_output(json_encode($output));

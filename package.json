@@ -51,6 +51,7 @@
     "react-switch": "^5.0.1",
     "react-toastify": "^5.5.0",
     "sass": "^1.49.9",
+    "serve": "^14.2.0",
     "string.prototype.matchall": "^4.0.7"
   },
   "scripts": {
@@ -63,7 +64,8 @@
     "develop": "NODE_ENV=development PORT=5001 node server/server.js & react-scripts start",
     "install-awzy": "node awzy-cli/installAwzy.js",
     "removeNodeModules": "node awzy-cli/removeNodeModules.js",
-    "prestart": "node awzy-cli/preStart.js"
+    "prestart": "node awzy-cli/preStart.js",
+    "prod": "react-scripts build && serve build"
   },
   "proxy": "http://localhost:5001",
   "resolutions": {
