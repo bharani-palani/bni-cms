@@ -62,7 +62,7 @@ function Root(props) {
                 setLogger(b);
               }}
             >
-              <MainApp appData={master} />
+              <MainApp />
             </GlobalHeader>
           </UserContextProvider>
         </AppContext.Provider>
