@@ -57,12 +57,12 @@ function Root(props) {
       {fetchStatus && (
         <AppContext.Provider value={[master, setMaster]}>
           <UserContextProvider config={master}>
+            <h1>Hello world</h1>
             <GlobalHeader
               onLogAction={b => {
                 setLogger(b);
               }}
             >
-              <h1>Hello world</h1>
               <MainApp />
             </GlobalHeader>
           </UserContextProvider>
