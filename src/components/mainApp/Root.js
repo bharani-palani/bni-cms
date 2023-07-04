@@ -1,23 +1,27 @@
 /* eslint-disable new-cap */
 import React, { useState, useEffect } from 'react';
+import MainApp from '../mainApp/MainApp';
 import AppContext from '../../contexts/AppContext';
+import UserContextProvider from '../../contexts/UserContext';
 import apiInstance from '../../services/apiServices';
+import GlobalHeader from '../GlobalHeader';
 import { FactoryMap } from '../configuration/Gallery/FactoryMap';
 import { getServiceProvider } from '../configuration/Gallery/SignedUrl';
 
 function Root(props) {
   const [master, setMaster] = useState({});
   const [fetchStatus, setFetchStatus] = useState(true);
+  const [, setLogger] = useState(
+    JSON.parse(localStorage.getItem('userData')) || {}
+  );
 
   const getData = async () => {
     setFetchStatus(false);
-    // Note: Token validation shud`nt be set here
     await apiInstance
       .get('/')
       .then(response => {
         const data = response.data.response[0];
         setMaster(data);
-        setFetchStatus(true);
         favIconSetter(data);
         document.documentElement.style.setProperty(
           '--az-theme-color',
@@ -28,8 +32,8 @@ function Root(props) {
           data.webThemeBackground
         );
       })
-      .catch(error => setFetchStatus(false))
-      .finally(error => false);
+      .catch(error => false)
+      .finally(() => setFetchStatus(true));
   };
 
   const favIconSetter = data => {
@@ -50,8 +54,7 @@ function Root(props) {
     <>
       {fetchStatus && (
         <AppContext.Provider value={[master, setMaster]}>
-          <h1>Hello world</h1>
-          {/* <UserContextProvider config={master}>
+          <UserContextProvider config={master}>
             <GlobalHeader
               onLogAction={b => {
                 setLogger(b);
@@ -59,7 +62,7 @@ function Root(props) {
             >
               <MainApp />
             </GlobalHeader>
-          </UserContextProvider> */}
+          </UserContextProvider>
         </AppContext.Provider>
       )}
     </>
