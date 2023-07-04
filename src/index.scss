@@ -1,7 +1,7 @@
-@import './variable';
-@import './mixins';
 @import '../node_modules/animate.css/animate.min.css';
-@import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-// @import '../node_modules/font-awesome/css/font-awesome.min.css';
+// @import '../node_modules/bootstrap/dist/css/bootstrap.css';
+@import '../node_modules/bootstrap/scss/bootstrap.scss';
+@import './variable.scss';
+@import './mixins.scss';
 @import './style.scss';
 @import './custom.scss';

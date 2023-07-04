@@ -1,6 +1,10 @@
+/* eslint-disable new-cap */
 import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../../contexts/AppContext';
-import { SignedUrl } from '../configuration/Gallery/SignedUrl';
+import {
+  SignedUrl,
+  getServiceProvider,
+} from '../configuration/Gallery/SignedUrl';
 import {
   withScriptjs,
   withGoogleMap,
@@ -10,10 +14,10 @@ import {
 import { Link } from 'react-router-dom';
 import CryptoJS from 'crypto-js';
 import { encryptSaltKey } from '../configuration/crypt';
-import helpers from '../../helpers';
 import PDFViewer from 'pdf-viewer-reactjs';
 import Boogle from '../Boogle';
 import Apps from '../apps/Apps';
+import { FactoryMap } from '../configuration/Gallery/FactoryMap';
 
 const Div = ({ children, ...rest }) => {
   return <div {...rest}>{children}</div>;
@@ -367,9 +371,11 @@ const SignedPdfView = ({ ...rest }) => {
   const [url, setUrl] = useState('');
 
   useEffect(() => {
-    helpers
-      .getSignedUrl(appData, src, 600)
-      .then(data => setUrl(data))
+    const sp = getServiceProvider(src);
+    FactoryMap(sp, appData)
+      ?.library?.getSignedUrl(src) // helpers
+      //   .getSignedUrl(appData, src, 600)
+      .then(data => setUrl(data.url))
       .catch(err => setUrl(false));
   }, []);
 
@@ -380,9 +386,7 @@ const SignedPdfView = ({ ...rest }) => {
           url,
         }}
         hideNavbar={true}
-        scale={window.innerWidth < 500 ? 0.2 : scale || 1}
-        externalInput={true}
-        canvasCss={true}
+        scale={window.innerWidth < 500 ? 0.2 : Number(scale) || 1}
       />
     )
   );

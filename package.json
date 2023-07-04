@@ -9,11 +9,9 @@
     "@aws-sdk/client-s3": "^3.58.0",
     "@aws-sdk/lib-storage": "^3.58.0",
     "@aws-sdk/s3-request-presigner": "^3.58.0",
-    "@babel/core": "^7.17.8",
-    "@babel/eslint-parser": "^7.5.4",
     "animate.css": "^4.1.1",
     "axios": "^0.21.1",
-    "bootstrap": "^5.1.3",
+    "bootstrap": "^5.3.0",
     "crypto-js": "^4.1.1",
     "font-awesome": "^4.7.0",
     "lodash": "^4.17.21",
@@ -26,7 +24,7 @@
     "popper.js": "^1.16.1",
     "prop-types": "^15.8.1",
     "rc-tree": "^5.5.0",
-    "react": "^17.0.2",
+    "react": "^18.0.0",
     "react-bootstrap": "^2.3.1",
     "react-csv-downloader": "^2.9.1",
     "react-donut-chart": "^1.3.3",
@@ -69,7 +67,8 @@
   },
   "proxy": "http://localhost:5001",
   "resolutions": {
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "react-scripts/postcss-preset-env/postcss-custom-properties": "^10.0.0"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -84,15 +83,17 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@babel/preset-react": "^7.16.7",
+    "@babel/eslint-parser": "^7.22.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "copyfiles": "^2.4.1",
     "eslint": "^8.12.0",
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.4.0",
+    "postcss-custom-properties": "^13.2.1",
     "prettier": "^2.6.1",
-    "react-dom": "^17.0.2",
+    "react-dom": "^18.0.0",
     "react-error-overlay": "^6.0.9"
   }
 }
