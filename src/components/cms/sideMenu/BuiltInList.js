@@ -15,8 +15,6 @@ function BuiltInList(props) {
       label: 'Block Elements',
       list: builtInList.filter(f =>
         [
-          'Apps',
-          'Boogle',
           'Div',
           'P',
           'H1',
@@ -130,15 +128,20 @@ function BuiltInList(props) {
     },
     {
       id: 5,
-      label: 'AWS | Google',
+      label: 'Google',
       list: builtInList.filter(f =>
-        [
-          'AwsMedia',
-          'GoogleMaps',
-          'GoogleMapsMarker',
-          'SignedPdfView',
-        ].includes(f)
+        ['GoogleMaps', 'GoogleMapsMarker'].includes(f)
       ),
+    },
+    {
+      id: 6,
+      label: 'Media',
+      list: builtInList.filter(f => ['Media', 'SignedPdfView'].includes(f)),
+    },
+    {
+      id: 7,
+      label: 'Custom',
+      list: builtInList.filter(f => ['Apps', 'Boogle'].includes(f)),
     },
   ];
 

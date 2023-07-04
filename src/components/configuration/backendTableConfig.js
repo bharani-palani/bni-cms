@@ -472,7 +472,13 @@ const masterConfig = [
       required: true,
       validation: /([^\s])/,
       errorMsg: 'This field is required',
-      help: ['Where you want to store and bring your files'],
+      help: [
+        'Where you want to store and bring your files',
+        'There are 2 types - AWSS3 and Self',
+        'Select your appropriate choice',
+        'Note: If AWSS3 is selected, be ready with access key id and secret access key. For more details, visit',
+        '<a class="btn btn-primary btn-sm" target="_blank" href="https://aws.amazon.com/s3/">https://aws.amazon.com/s3/</a>',
+      ],
     },
   },
   {

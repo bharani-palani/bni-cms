@@ -23,10 +23,10 @@ function SideMenu(props) {
   const [sideMenu] = useState([
     {
       id: 0,
-      label: 'Meta',
+      label: 'Metadata',
       body: <MetaList />,
       help: {
-        heading: 'Meta help',
+        heading: 'Metadata help',
         points: [
           'Configure meta data for your pages for SEO (Search engine optimization)',
           'Usually web crawlers identify your title, description and keywords information to index your pages',
@@ -51,7 +51,7 @@ function SideMenu(props) {
           'Built in - consists list of HTML components. Hope you ve configured google maps key and AWS keys to integrate them.',
           'Googlemaps -  requires defaultZoom(num)(1 to 20), lat(float), lng(float), height(int)(pixels) as props.',
           'GoogleMapsMarker - This should be a child of Googlemaps. It requires lat, lng as props. If directly added as a parent, an exception will be thrown.',
-          'awsmedia - requires type, className, unsignedUrl as props. type - can be image, video & audio | className - for styling | unsignedUrl - Ex: bucketName/fileNameWithLocation which you can copy them from AWS module in config.',
+          'Media - requires type, className, unsignedUrl as props. type - can be image, video & audio | className - for styling | unsignedUrl - Ex: bucketName/fileNameWithLocation which you can copy them from AWS module in config.',
           'Bootstrap - consists list of reusable components.',
           'You need some basic knowledge on <a target="_blank" href="https://www.w3schools.com/html/" class="btn-link">HTML</a>, <a target="_blank" href="https://getbootstrap.com/docs/5.1/getting-started/introduction/" class="btn-link">Bootsrap 5</a> & <a target="_blank" href="https://react-bootstrap.github.io/getting-started/introduction/" class="btn-link">React-Bootsrap</a> before starting.',
           'You can construct your layout with the above, which can be altered or updated on runtime, without changing your code base.',
@@ -74,7 +74,10 @@ function SideMenu(props) {
       label: 'Arguments',
       children: [
         {
-          id: 2.1, label: 'Props', body: <PropsList />, help: {
+          id: 2.1,
+          label: 'Props',
+          body: <PropsList />,
+          help: {
             heading: 'Props help',
             points: [
               'Add className or other valid props',
@@ -83,12 +86,15 @@ function SideMenu(props) {
               'Some build in classNames are available from the below,',
               '<a class="link-primary" target="_blank" href="https://github.com/animate-css/animate.css/tree/a8d92e585b1b302f7749809c3308d5e381f9cb17#animations">Animate.css</a>',
               '<a class="link-primary" target="_blank" href="https://getbootstrap.com/docs/5.0/getting-started/introduction/">Bootstrap</a>',
-              '<a class="link-primary" target="_blank" href="https://fontawesome.com/v4/icons/">Font Awesome</a>'
-            ]
-          }
+              '<a class="link-primary" target="_blank" href="https://fontawesome.com/v4/icons/">Font Awesome</a>',
+            ],
+          },
         },
         {
-          id: 2.2, label: 'Style', body: <StyleList />, help: {
+          id: 2.2,
+          label: 'Style',
+          body: <StyleList />,
+          help: {
             heading: 'Style help',
             points: [
               'You can use camel case key values to style component in line.',
@@ -96,11 +102,14 @@ function SideMenu(props) {
               'Explore more on,',
               '<a class="link-primary" target="_blank" href="https://reactjs.org/docs/dom-elements.html#style">React Camel case</a>',
               '<a class="link-primary" target="_blank" href="https://www.w3schools.com/jsref/dom_obj_style.asp">W3Schools Camel case</a>',
-            ]
-          }
+            ],
+          },
         },
         {
-          id: 2.3, label: 'Title', body: <Title />, help: {
+          id: 2.3,
+          label: 'Title',
+          body: <Title />,
+          help: {
             heading: 'Title help',
             points: [
               'Set an innerHTML title for your component',
@@ -108,9 +117,9 @@ function SideMenu(props) {
               'You can also use interpolations enclosed in double curly braces.',
               'Ex: Add "{{YYYY-MM-DD}}" in title to render current date.',
               'Refer <a class="link-primary" target="_blank" href="https://momentjs.com/">https://momentjs.com</a> for documentaion.',
-              'Interpolation works only on date format.'
-            ]
-          }
+              'Interpolation works only on date format.',
+            ],
+          },
         },
       ],
       help: {
@@ -244,8 +253,9 @@ function SideMenu(props) {
     return (
       <button
         type="button"
-        className={`col-11 btn-sm text-start btn ${userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
-          }`}
+        className={`col-11 btn-sm text-start btn ${
+          userContext.userData.theme === 'dark' ? 'btn-dark' : 'btn-white'
+        }`}
         onClick={decoratedOnClick}
       >
         {children}
@@ -256,15 +266,15 @@ function SideMenu(props) {
   const CustomOffCanvas = ({ side }) => {
     return (
       <OffCanvas
-        className={`text-center ${userContext.userData.theme === 'dark'
-          ? 'bg-dark text-white-50'
-          : 'bg-white text-black'
-          }`}
+        className={`text-center ${
+          userContext.userData.theme === 'dark'
+            ? 'bg-dark text-white-50'
+            : 'bg-white text-black'
+        }`}
         btnValue="<i class='fa fa-question-circle' />"
-        btnClassName={`col-1 btn btn-sm ${userContext.userData.theme === 'dark'
-          ? 'text-white'
-          : 'text-dark'
-          }`}
+        btnClassName={`col-1 btn btn-sm ${
+          userContext.userData.theme === 'dark' ? 'text-white' : 'text-dark'
+        }`}
         placement="end"
         key={side.id}
         label={side.help && side.help.heading}
@@ -274,10 +284,11 @@ function SideMenu(props) {
             {side.help.points.map((point, j) => (
               <li
                 key={j}
-                className={`list-group-item ${userContext.userData.theme === 'dark'
-                  ? 'bg-dark text-white-50'
-                  : 'bg-white text-black'
-                  }`}
+                className={`list-group-item ${
+                  userContext.userData.theme === 'dark'
+                    ? 'bg-dark text-white-50'
+                    : 'bg-white text-black'
+                }`}
                 dangerouslySetInnerHTML={{ __html: point }}
               ></li>
             ))}
@@ -285,44 +296,46 @@ function SideMenu(props) {
         )}
       </OffCanvas>
     );
-  }
+  };
 
   return (
     <div ref={ref}>
       {layoutContext.state.pageDetails &&
         Object.keys(layoutContext.state.pageDetails).length > 0 && (
           <div
-            className={`pt-2 pb-5 ${userContext.userData.theme === 'light' ? 'bg-white' : 'bg-dark'
-              }`}
+            className={`pt-2 pb-5 ${
+              userContext.userData.theme === 'light' ? 'bg-white' : 'bg-dark'
+            }`}
             style={{
               ...(scrollPosition > 100 &&
                 window.innerWidth > 820 && {
-                position: 'fixed',
-                top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
-                width: `${ref.current.offsetWidth}px`,
-              }),
+                  position: 'fixed',
+                  top: appData.webMenuType === 'topMenu' ? '100px' : '50px',
+                  width: `${ref.current.offsetWidth}px`,
+                }),
             }}
           >
             <div
               style={{
                 ...(scrollPosition > 100 &&
                   window.innerWidth > 768 && {
-                  overflowY: 'auto',
-                  height:
-                    appData.webMenuType === 'topMenu'
-                      ? 'calc(100vh - 150px)'
-                      : 'calc(100vh - 100px)',
-                }),
+                    overflowY: 'auto',
+                    height:
+                      appData.webMenuType === 'topMenu'
+                        ? 'calc(100vh - 150px)'
+                        : 'calc(100vh - 100px)',
+                  }),
               }}
             >
               <Accordion defaultActiveKey={-1} alwaysOpen>
                 {sideMenu.map((side, i) => (
                   <Card
                     key={side.id}
-                    className={`mb-1 ${userContext.userData.theme === 'dark'
-                      ? 'bg-dark text-white'
-                      : 'bg-white text-dark'
-                      }`}
+                    className={`mb-1 ${
+                      userContext.userData.theme === 'dark'
+                        ? 'bg-dark text-white'
+                        : 'bg-white text-dark'
+                    }`}
                   >
                     <Card.Header className="row m-0 p-0">
                       <CustomToggle eventKey={side.id} object={side}>
@@ -345,10 +358,11 @@ function SideMenu(props) {
                               {/* defaultActiveKey={[0.2]} alwaysOpen */}
                               <Card
                                 key={ch.id}
-                                className={`mb-1 ${userContext.userData.theme === 'dark'
-                                  ? 'bg-dark text-white'
-                                  : 'bg-white text-dark'
-                                  }`}
+                                className={`mb-1 ${
+                                  userContext.userData.theme === 'dark'
+                                    ? 'bg-dark text-white'
+                                    : 'bg-white text-dark'
+                                }`}
                               >
                                 <Card.Header className="row m-0 p-0">
                                   <CustomToggle eventKey={ch.id} object={ch}>

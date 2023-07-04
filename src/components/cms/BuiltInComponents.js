@@ -308,7 +308,7 @@ const Video = ({ children, ...rest }) => {
   return <video {...rest}>{children}</video>;
 };
 
-const AwsMedia = ({ ...rest }) => {
+const Media = ({ ...rest }) => {
   const [appData] = useContext(AppContext);
   return <SignedUrl appData={appData} {...rest} />;
 };
@@ -468,7 +468,7 @@ export {
   Track,
   U,
   Video,
-  AwsMedia,
+  Media,
   GoogleMaps,
   GoogleMapsMarker,
   Link,

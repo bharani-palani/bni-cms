@@ -264,7 +264,7 @@ function GridData(props) {
                               )
                             }
                             title={'Copy to Clipboard'}
-                            className="fa fa-copy btn btn-sm btn-secondary rounded-circle p-2"
+                            className="fa fa-copy cursor-pointer rounded-circle p-2"
                           />
                           <i
                             onClick={() =>
@@ -272,7 +272,7 @@ function GridData(props) {
                                 `${appData.fileStorageType}/${d.label}`
                               )
                             }
-                            className="fa fa-download btn btn-sm btn-secondary ms-2 rounded-circle p-2"
+                            className="fa fa-download cursor-pointer ms-2 rounded-circle p-2"
                           />
                         </span>
                         <span
