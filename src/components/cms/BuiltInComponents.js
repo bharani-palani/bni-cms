@@ -12,8 +12,6 @@ import {
   Marker,
 } from 'react-google-maps';
 import { Link } from 'react-router-dom';
-import CryptoJS from 'crypto-js';
-import { encryptSaltKey } from '../configuration/crypt';
 import PDFViewer from 'pdf-viewer-reactjs';
 import Boogle from '../Boogle';
 import Apps from '../apps/Apps';
@@ -344,15 +342,10 @@ const GoogleMapMain = withScriptjs(
   })
 );
 
-const GoogleMaps = ({ children, ...rest }) => {
-  const [appData] = useContext(AppContext);
-  const mapKey = CryptoJS.AES.decrypt(
-    appData.google_map_api_key,
-    appData[encryptSaltKey]
-  ).toString(CryptoJS.enc.Utf8);
+const GoogleMaps = ({ children, mapAccessKey, ...rest }) => {
   return (
     <GoogleMapMain
-      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${mapKey}&v=3.exp&libraries=geometry,drawing,places`}
+      googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${mapAccessKey}&v=3.exp&libraries=geometry,drawing,places`}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={
         <div style={{ height: rest.height ? `${rest.height}px` : '400px' }} />

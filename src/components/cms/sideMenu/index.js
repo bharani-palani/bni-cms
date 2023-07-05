@@ -284,7 +284,7 @@ function SideMenu(props) {
             {side.help.points.map((point, j) => (
               <li
                 key={j}
-                className={`list-group-item ${
+                className={`list-group-item border-0 ${
                   userContext.userData.theme === 'dark'
                     ? 'bg-dark text-white-50'
                     : 'bg-white text-black'
