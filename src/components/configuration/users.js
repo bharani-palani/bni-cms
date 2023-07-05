@@ -144,7 +144,9 @@ function Users(props) {
 
   const editUser = userObject => {
     setFormStructure([]);
-    let backupStructure = [...formStructure];
+    let backupStructure = [...formStructure].filter(
+      f => f.id !== 'user_password'
+    );
     backupStructure = backupStructure.map(backup => {
       if (userObject.hasOwnProperty(backup.id)) {
         backup.value = userObject[backup.id];
@@ -204,10 +206,8 @@ function Users(props) {
       'userName',
       form.filter(f => f.id === 'user_name')[0].value
     );
-    formdata.append(
-      'password',
-      form.filter(f => f.id === 'user_password')[0].value
-    );
+    const password = form.filter(f => f.id === 'user_password');
+    password.length > 0 && formdata.append('password', password[0].value);
     return apiInstance.post('sendUserInfo', formdata, axiosOptions);
   };
 
@@ -300,7 +300,7 @@ function Users(props) {
   };
 
   const resetForm = () => {
-    let backupStructure = [...formStructure];
+    let backupStructure = [...userCreateForm];
     backupStructure = backupStructure.map(backup => {
       backup.value = '';
       return backup;
@@ -435,11 +435,13 @@ function Users(props) {
                 </button>
               )}
             </div>
-            <div className="d-grid">
-              <Button onClick={generateRandomPassword} size="sm">
-                <i className="fa fa-key" /> Generate Password
-              </Button>
-            </div>
+            {formStructure.filter(f => f.id === 'user_password').length > 0 && (
+              <div className="d-grid">
+                <Button onClick={generateRandomPassword} size="sm">
+                  <i className="fa fa-key" /> Generate Password
+                </Button>
+              </div>
+            )}
             <div className="position-relative">
               {formStructure.length && (
                 <ReactiveForm
