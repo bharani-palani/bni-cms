@@ -1,6 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { LayoutContext } from '../layoutDesign';
 import { InputGroup, FormControl, Button } from 'react-bootstrap';
+import { Typeahead } from 'react-bootstrap-typeahead';
+import { propsMap } from './PropsMap';
+import '../../../../node_modules/react-bootstrap-typeahead/css/Typeahead.css';
 
 function PropsList() {
   const layoutContext = useContext(LayoutContext);
@@ -165,7 +168,7 @@ function PropsList() {
         layoutDetails.state.selectedNodeId ? (
           <div>
             <InputGroup size="sm">
-              <FormControl
+              {/* <FormControl
                 placeholder="Key"
                 value={newProps.key}
                 onChange={e =>
@@ -174,6 +177,27 @@ function PropsList() {
                     key: e.target.value,
                   }))
                 }
+              /> */}
+              <Typeahead
+                id="props-type-ahead"
+                className="propsTypeAhead"
+                size="sm"
+                clearButton
+                defaultSelected={newProps.key}
+                onInputChange={e => {
+                  setNewProps(prevState => ({
+                    ...prevState,
+                    key: e,
+                  }));
+                }}
+                onChange={e => {
+                  setNewProps(prevState => ({
+                    ...prevState,
+                    key: e[0],
+                  }));
+                }}
+                options={propsMap[layoutContext?.state?.selectedComponent]}
+                placeholder="Key"
               />
               <FormControl
                 placeholder="Value"

@@ -342,7 +342,7 @@ const GoogleMapMain = withScriptjs(
   })
 );
 
-const GoogleMaps = ({ children, mapAccessKey, ...rest }) => {
+const GoogleMaps = ({ children, defaultZoom, mapAccessKey, ...rest }) => {
   return (
     <GoogleMapMain
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${mapAccessKey}&v=3.exp&libraries=geometry,drawing,places`}
@@ -351,6 +351,7 @@ const GoogleMaps = ({ children, mapAccessKey, ...rest }) => {
         <div style={{ height: rest.height ? `${rest.height}px` : '400px' }} />
       }
       mapElement={<div style={{ height: `100%` }} />}
+      defaultZoom={defaultZoom}
       {...rest}
     >
       {children}
@@ -366,8 +367,7 @@ const SignedPdfView = ({ ...rest }) => {
   useEffect(() => {
     const sp = getServiceProvider(src);
     FactoryMap(sp, appData)
-      ?.library?.getSignedUrl(src) // helpers
-      //   .getSignedUrl(appData, src, 600)
+      ?.library?.getSignedUrl(src)
       .then(data => setUrl(data.url))
       .catch(err => setUrl(false));
   }, []);

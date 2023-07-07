@@ -25,7 +25,6 @@ function Cms(props) {
     userData: userContext.userData,
     api: apiInstance,
   });
-
   const componentMap = {
     'az-settings': Settings,
     'az-layoutDesign': LayoutDesign,

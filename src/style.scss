@@ -1109,16 +1109,50 @@ a:focus {
   }
 }
 
-.modal {
-  .modal-content {
-    border: 0;
-  }
-}
+.modal-content {
+  border: 0;
+  // background-color: transparent;
+  .modal-header {
+    display: flex;
+    background: var(--app-theme-bg-color);
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+    border-bottom: none;
 
-.modal-header .btn-close {
-  background: #eeeeee
-    url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 011.414 0L8 6.586 14.293.293a1 1 0 111.414 1.414L9.414 8l6.293 6.293a1 1 0 01-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 01-1.414-1.414L6.586 8 .293 1.707a1 1 0 010-1.414z'/%3e%3c/svg%3e")
-    center/1em auto no-repeat;
+    .modal-title {
+      font-size: 1rem;
+    }
+
+    .close {
+      border: 0;
+      color: var(--app-theme-color);
+      width: 28px;
+      height: 28px;
+      border-radius: 100%;
+    }
+  }
+
+  .modal-body {
+    .card {
+      .card-header {
+        .btn {
+          padding: 13px 15px;
+        }
+      }
+
+      &:last-child {
+        .card-header {
+          border-bottom-left-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
+      }
+    }
+    .modalVideo {
+      video {
+        border-radius: 10px;
+      }
+    }
+  }
 }
 
 .facebook-container {
@@ -1139,6 +1173,19 @@ a:focus {
       background: transparent
         url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23000'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e")
         center/1em auto no-repeat;
+    }
+  }
+}
+.propsTypeAhead {
+  .rbt-close {
+    border: 0;
+    background: none;
+    margin-top: -0.55rem !important;
+  }
+  .rbt-menu {
+    .dropdown-item {
+      padding: 0 5px 0 5px;
+      font-size: 14px;
     }
   }
 }

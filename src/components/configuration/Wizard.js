@@ -70,26 +70,6 @@ function Wizard(props) {
           </ul>
         </div>
         <div className="tab-content">
-          <div className="row pb-2">
-            <div className="col-6">
-              <button
-                disabled={id === 0}
-                onClick={() => onPrev()}
-                className="btn btn-az pull-left"
-              >
-                <i className="fa fa-angle-double-left" />
-              </button>
-            </div>
-            <div className="col-6">
-              <button
-                disabled={id === menu.length - 1}
-                onClick={() => onNext()}
-                className="btn btn-az pull-right"
-              >
-                <i className="fa fa-angle-double-right" />
-              </button>
-            </div>
-          </div>
           {formData.length > 0 && (
             <ReactiveForm
               parentClassName="reactive-form text-dark"
@@ -100,6 +80,28 @@ function Wizard(props) {
             />
           )}
           <div className="clearfix" />
+          <div className="row pb-2">
+            <div className="col-6">
+              <button
+                disabled={id === 0}
+                onClick={() => onPrev()}
+                className="btn btn-az pull-left rounded-pill"
+              >
+                <i className="fa fa-angle-double-left pe-1" />
+                Prev
+              </button>
+            </div>
+            <div className="col-6">
+              <button
+                disabled={id === menu.length - 1}
+                onClick={() => onNext()}
+                className="btn btn-az pull-right rounded-pill"
+              >
+                Next
+                <i className="fa fa-angle-double-right ps-1" />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </section>
