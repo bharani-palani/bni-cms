@@ -85,7 +85,7 @@ const SignedUrl = props => {
             placeholderSrc={Spinner}
             {...(url && { src: url })}
             {...(mykey && { key: mykey })}
-            {...(optionalAttr && { optionalAttr })}
+            {...(optionalAttr && { ...optionalAttr })}
             {...(className && { className })}
             {...(alt && { alt })}
             {...(style && { style })}
