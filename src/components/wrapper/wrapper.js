@@ -9,6 +9,7 @@ import Cms from '../cms/cms';
 import apiInstance from '../../services/apiServices';
 import Loader from 'react-loader-spinner';
 import helpers from '../../helpers';
+import { Modal } from 'react-bootstrap';
 
 const Wrapper = props => {
   const [appData] = useContext(AppContext);
@@ -17,6 +18,7 @@ const Wrapper = props => {
   const [structure, setStructure] = useState({});
   const [meta, setMeta] = useState({});
   const [loader, setLoader] = useState(false);
+  const [sessionModal, setSessionModal] = useState(false);
   const { location } = props;
   const axiosOptions = {
     headers: { 'Awzy-Authorization': appData.token },
@@ -40,11 +42,7 @@ const Wrapper = props => {
         })
         .catch(() => {
           setStructure({});
-          userContext.renderToast({
-            type: 'error',
-            icon: 'fa fa-times-circle',
-            message: 'Oops.. Unable to fetch page data. Please try again.',
-          });
+          setSessionModal(true);
         })
         .finally(() => setLoader(false));
     }
@@ -52,6 +50,30 @@ const Wrapper = props => {
 
   return (
     <>
+      <Modal
+        {...props}
+        show={sessionModal}
+        style={{ zIndex: 9999 }}
+        backdrop="static"
+        centered
+        keyboard={false}
+      >
+        <Modal.Dialog className="m-0">
+          <Modal.Header className={`d-block`}>
+            <Modal.Title as="div">
+              <div className="d-flex align-items-center justify-content-center">
+                <i className="fa fa-warning fa-2x text-warning pe-2" />
+                <div className="fs-3">Session expired</div>
+              </div>
+            </Modal.Title>
+          </Modal.Header>
+          <Modal.Body className={`text-center`}>
+            <a href="/" className="btn btn-danger w-100">
+              Reload
+            </a>
+          </Modal.Body>
+        </Modal.Dialog>
+      </Modal>
       <Switch>
         {menu.map((menu, i) => {
           return (
