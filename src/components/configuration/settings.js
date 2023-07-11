@@ -93,59 +93,62 @@ const Settings = props => {
       <div className="px-1">
         <div className="">
           <Accordion bsPrefix="util" defaultActiveKey={-1} className="">
-            {compList.map((t, i) => (
-              <Card
-                key={t.id}
-                className={`my-2 ${
-                  userContext.userData.theme === 'dark'
-                    ? 'bg-dark text-white'
-                    : 'bg-white text-dark'
-                }`}
-              >
-                <Card.Header className="row m-0">
-                  <CustomToggle eventLabel={t.label} eventKey={t.id}>
-                    {t.label}
-                  </CustomToggle>
-                  <OffCanvas
-                    className={`text-center ${
-                      userContext.userData.theme === 'dark'
-                        ? 'bg-dark text-white-50'
-                        : 'bg-white text-black'
-                    }`}
-                    btnValue="<i class='fa fa-question-circle' />"
-                    btnClassName={`col-1 btn btn-sm ${
-                      userContext.userData.theme === 'dark'
-                        ? 'text-white'
-                        : 'text-dark'
-                    }`}
-                    placement="end"
-                    key={t.id}
-                    label={t.help.heading}
-                  >
-                    {t.help.points.length > 0 && (
-                      <ul className={`list-group list-group-flush`}>
-                        {t.help.points.map((point, j) => (
-                          <li
-                            key={j}
-                            className={`list-group-item border-0 ${
-                              userContext.userData.theme === 'dark'
-                                ? 'bg-dark text-white-50'
-                                : 'bg-white text-black'
-                            }`}
-                            dangerouslySetInnerHTML={{ __html: point }}
-                          ></li>
-                        ))}
-                      </ul>
-                    )}
-                  </OffCanvas>
-                </Card.Header>
-                <Accordion.Collapse eventKey={t.id}>
-                  <Card.Body className="p-2">
-                    {t.label === collapse && React.createElement(t.component)}
-                  </Card.Body>
-                </Accordion.Collapse>
-              </Card>
-            ))}
+            {compList.map((t, i) => {
+              const Element = t.component;
+              return (
+                <Card
+                  key={t.id}
+                  className={`my-2 ${
+                    userContext.userData.theme === 'dark'
+                      ? 'bg-dark text-white'
+                      : 'bg-white text-dark'
+                  }`}
+                >
+                  <Card.Header className="row m-0">
+                    <CustomToggle eventLabel={t.label} eventKey={t.id}>
+                      {t.label}
+                    </CustomToggle>
+                    <OffCanvas
+                      className={`text-center ${
+                        userContext.userData.theme === 'dark'
+                          ? 'bg-dark text-white-50'
+                          : 'bg-white text-black'
+                      }`}
+                      btnValue="<i class='fa fa-question-circle' />"
+                      btnClassName={`col-1 btn btn-sm ${
+                        userContext.userData.theme === 'dark'
+                          ? 'text-white'
+                          : 'text-dark'
+                      }`}
+                      placement="end"
+                      key={t.id}
+                      label={t.help.heading}
+                    >
+                      {t.help.points.length > 0 && (
+                        <ul className={`list-group list-group-flush`}>
+                          {t.help.points.map((point, j) => (
+                            <li
+                              key={j}
+                              className={`list-group-item border-0 ${
+                                userContext.userData.theme === 'dark'
+                                  ? 'bg-dark text-white-50'
+                                  : 'bg-white text-black'
+                              }`}
+                              dangerouslySetInnerHTML={{ __html: point }}
+                            ></li>
+                          ))}
+                        </ul>
+                      )}
+                    </OffCanvas>
+                  </Card.Header>
+                  <Accordion.Collapse eventKey={t.id}>
+                    <Card.Body className="p-2">
+                      {t.label === collapse && <Element />}
+                    </Card.Body>
+                  </Accordion.Collapse>
+                </Card>
+              );
+            })}
           </Accordion>
         </div>
       </div>

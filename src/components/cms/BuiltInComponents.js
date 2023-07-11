@@ -343,12 +343,13 @@ const GoogleMapMain = withScriptjs(
 );
 
 const GoogleMaps = ({ children, defaultZoom, mapAccessKey, ...rest }) => {
+  const { height } = rest;
   return (
     <GoogleMapMain
       googleMapURL={`https://maps.googleapis.com/maps/api/js?key=${mapAccessKey}&v=3.exp&libraries=geometry,drawing,places`}
       loadingElement={<div style={{ height: `100%` }} />}
       containerElement={
-        <div style={{ height: rest.height ? `${rest.height}px` : '400px' }} />
+        <div style={{ height: height ? `${height}px` : '400px' }} />
       }
       mapElement={<div style={{ height: `100%` }} />}
       defaultZoom={defaultZoom}

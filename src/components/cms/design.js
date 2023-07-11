@@ -13,43 +13,48 @@ function Design(props) {
   };
 
   const recursiveComponent = str => {
-    return React.createElement(
-      'div',
-      {
-        className: `border rounded p-2 my-1 ${layoutContext.state.selectedNodeId === str.key
-            ? `${getHighlightClass()}`
-            : ''
-          } ${userContext.userData.theme === 'light' ? '' : 'border-secondary'}`,
-        style: {},
-        onClick: e => {
-          e.stopPropagation();
-          layoutContext.setState(prevState => ({
-            ...prevState,
-            selectedNodeId: str.key,
-            selectedComponent: str.component,
-          }));
-        },
-      },
-      str.children && str.children.length > 0 ? (
-        str.children.map((c, i) => (
-          <React.Fragment key={c.key}>{recursiveComponent(c)}</React.Fragment>
-        ))
-      ) : (
-        <div>
-          <h6>{str.title}</h6>
-          <div className="mb-1">
-            <small className="badge bg-success">{str.component}</small>
-          </div>
-          {Object.keys(str.props).length > 0 &&
-            layoutContext.state.selectedNodeId === str.key && (
-              <div className="">
-                <div className="small bg-danger p-1 rounded text-white">
-                  {JSON.stringify(str.props)}
+    return (
+      <div
+        {...{
+          className: `border rounded p-2 my-1 ${
+            layoutContext.state.selectedNodeId === str.key
+              ? `${getHighlightClass()}`
+              : ''
+          } ${
+            userContext.userData.theme === 'light' ? '' : 'border-secondary'
+          }`,
+          style: {},
+          onClick: e => {
+            e.stopPropagation();
+            layoutContext.setState(prevState => ({
+              ...prevState,
+              selectedNodeId: str.key,
+              selectedComponent: str.component,
+            }));
+          },
+        }}
+      >
+        {str.children && str.children.length > 0 ? (
+          str.children.map((c, i) => (
+            <React.Fragment key={c.key}>{recursiveComponent(c)}</React.Fragment>
+          ))
+        ) : (
+          <div>
+            <h6>{str.title}</h6>
+            <div className="mb-1">
+              <small className="badge bg-success">{str.component}</small>
+            </div>
+            {Object.keys(str.props).length > 0 &&
+              layoutContext.state.selectedNodeId === str.key && (
+                <div className="">
+                  <div className="small bg-danger p-1 rounded text-white">
+                    {JSON.stringify(str.props)}
+                  </div>
                 </div>
-              </div>
-            )}
-        </div>
-      )
+              )}
+          </div>
+        )}
+      </div>
     );
   };
 
