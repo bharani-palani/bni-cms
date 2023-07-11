@@ -167,40 +167,38 @@ function PropsList() {
       {layoutDetails =>
         layoutDetails.state.selectedNodeId ? (
           <div>
+            <Typeahead
+              id="props-type-ahead"
+              className="propsTypeAhead mb-1"
+              size="sm"
+              clearButton
+              defaultSelected={newProps.key}
+              onInputChange={e => {
+                setNewProps(prevState => ({
+                  ...prevState,
+                  key: e,
+                }));
+              }}
+              onChange={e => {
+                setNewProps(prevState => ({
+                  ...prevState,
+                  key: e[0],
+                }));
+              }}
+              options={propsMap[layoutContext?.state?.selectedComponent].map(
+                m => m.key
+              )}
+              placeholder="Type or select"
+            />
             <InputGroup size="sm">
-              {/* <FormControl
-                placeholder="Key"
-                value={newProps.key}
-                onChange={e =>
-                  setNewProps(prevState => ({
-                    ...prevState,
-                    key: e.target.value,
-                  }))
-                }
-              /> */}
-              <Typeahead
-                id="props-type-ahead"
-                className="propsTypeAhead"
-                size="sm"
-                clearButton
-                defaultSelected={newProps.key}
-                onInputChange={e => {
-                  setNewProps(prevState => ({
-                    ...prevState,
-                    key: e,
-                  }));
-                }}
-                onChange={e => {
-                  setNewProps(prevState => ({
-                    ...prevState,
-                    key: e[0],
-                  }));
-                }}
-                options={propsMap[layoutContext?.state?.selectedComponent]}
-                placeholder="Key"
-              />
               <FormControl
-                placeholder="Value"
+                {...(newProps.key && {
+                  placeholder: `Ex: ${
+                    propsMap[layoutContext?.state?.selectedComponent].filter(
+                      f => f.key === newProps.key
+                    )[0]?.value || 'Not found'
+                  }`,
+                })}
                 value={newProps.value}
                 onChange={e =>
                   setNewProps(prevState => ({
