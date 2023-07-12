@@ -55,6 +55,39 @@ function Cms(props) {
     return enhanced;
   };
 
+  const isJsonString = str => {
+    try {
+      const json = JSON.parse(str);
+      return typeof json === 'object';
+    } catch (e) {
+      return false;
+    }
+  };
+
+  const returnValueType = value => {
+    if (typeof value === 'string' && value === 'true') {
+      return true;
+    } else if (typeof value === 'string' && value === 'false') {
+      return false;
+    } else if (typeof value === 'object') {
+      return JSON.parse(JSON.stringify(value));
+    } else if (isJsonString(value)) {
+      return JSON.parse(value);
+    } else {
+      return value;
+    }
+  };
+
+  const serializeProps = object => {
+    const keys = Object.keys(object);
+    const array = keys.map((key, index) => {
+      return {
+        [key]: returnValueType(object[key]),
+      };
+    });
+    return Object.assign({}, ...array);
+  };
+
   const recursiveComponent = str => {
     if (str && str.component) {
       const Element = componentMap[str.component];
@@ -63,15 +96,11 @@ function Cms(props) {
           <Element
             key={str.key}
             {...(str.props && Object.keys(str.props).length > 0
-              ? str.props
+              ? serializeProps(str.props)
               : {})}
           >
             {str.children && str.children.length > 0
-              ? str.children.map((c, i) => (
-                  <React.Fragment key={c.key}>
-                    {recursiveComponent(c)}
-                  </React.Fragment>
-                ))
+              ? str.children.map((c, i) => recursiveComponent(c))
               : renderInterpolations(str.title)}
           </Element>
         );

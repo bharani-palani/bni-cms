@@ -230,7 +230,7 @@ function BuiltInList(props) {
                             )
                           }
                         >
-                          {list.toLowerCase()}
+                          {list}
                         </Button>
                       ))}
                   </Card.Body>
