@@ -172,7 +172,7 @@ function PropsList() {
               className="propsTypeAhead mb-1"
               size="sm"
               clearButton
-              defaultSelected={newProps.key}
+              defaultSelected={[newProps.key]}
               onInputChange={e => {
                 setNewProps(prevState => ({
                   ...prevState,
@@ -227,12 +227,14 @@ function PropsList() {
                   <FormControl
                     placeholder="Add props key"
                     defaultValue={l[0]}
+                    title={l[0]}
                     onChange={e => onChangeProps(l[0], e.target.value, 'key')}
                   />
                   <InputGroup.Text>{':'}</InputGroup.Text>
                   <FormControl
                     placeholder="Add props value"
                     defaultValue={l[1]}
+                    title={l[1]}
                     onChange={e => onChangeProps(l[0], e.target.value, 'value')}
                   />
                   <InputGroup.Text>{'}'}</InputGroup.Text>

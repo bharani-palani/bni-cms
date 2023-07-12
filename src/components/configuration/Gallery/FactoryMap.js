@@ -2,22 +2,27 @@ import AwsFactory from './AwsFactory';
 import MediaFactory from './MediaFactory';
 
 const FactoryMap = (storageType, appData) => {
-    switch(storageType) {
+  switch (storageType) {
     case 'AWSS3':
-        return {
-            library: new AwsFactory(appData),
-         };
-        break;
+      return {
+        library: new AwsFactory(appData),
+      };
+      break;
     case 'SELF':
-        return {
-            library: new MediaFactory(appData),
-        };
-        break;
+      return {
+        library: new MediaFactory(appData),
+      };
+      break;
+    case 'https:':
+      return {
+        library: new MediaFactory(appData),
+      };
+      break;
     default:
-        return {
-            library: null
-        };
-    }
-}
+      return {
+        library: null,
+      };
+  }
+};
 
 export { FactoryMap };
