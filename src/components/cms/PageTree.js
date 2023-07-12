@@ -84,7 +84,11 @@ function PageTree(props) {
       ).test(id);
     };
     const onKeyDown = ({ key }) => {
-      if (key === 'Delete' && pageFocus && layoutContext.state.selectedNodeId) {
+      if (
+        ['Delete', 'Backspace'].includes(key) &&
+        pageFocus &&
+        layoutContext.state.selectedNodeId
+      ) {
         const details = [{ ...layoutContext.state.pageDetails.pageObject }];
         const id = layoutContext.state.selectedNodeId;
         if (id !== details[0].key) {
